@@ -85,7 +85,7 @@ ynh_app_setting_set $app final_path $final_path
 # Download, check integrity, uncompress and patch the source from app.src
 ynh_setup_source "$final_path"
 
-init_composer $final_path
+
 
 #=================================================
 # NGINX CONFIGURATION
@@ -118,6 +118,17 @@ email=$(ynh_user_get_info $admin 'mail')
 
 # setup application config
 sudo  cp ../conf/.env $final_path/.env
+#=================================================
+# MODIFY A CONFIG FILE
+#=================================================
+
+ynh_replace_string "yunouser"   "$db_name"  "$final_path/.env"
+ynh_replace_string "yunopass"   "$db_pwd"   "$final_path/.env"
+ynh_replace_string "yunobase"   "$db_name"  "$final_path/.env"
+ynh_replace_string "yunomail"   "$email"    "$final_path/.env"
+ynh_replace_string "yunodomain" "$domain"   "$final_path/.env"
+
+init_composer $final_path
 cd $final_path && sudo /usr/bin/php7.1 artisan -n key:generate --force
 cd $final_path && sudo /usr/bin/php7.1 artisan config:clear
 

@@ -3,10 +3,9 @@
 [![Integration level](https://dash.yunohost.org/integration/firefly3.svg)](https://ci-apps.yunohost.org/jenkins/job/firefly3%20%28Community%29/lastBuild/consoleFull)  
 
 [![Install firefly3 with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=firefly3)<br><br>
-
+=======
 **Caution:** This app will install **PHP 7.1**.
 
-=======
 
 **Shipped Version: 4.7.4**
 

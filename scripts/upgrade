@@ -77,8 +77,8 @@ mkdir -p "$tmpdir/storage/export"
 mkdir -p "$final_path/storage/upload/"
 mkdir -p "$final_path/storage/export/"
 cp -a "$final_path/.env" "$tmpdir/.env"
-cp -a "$final_path/storage/upload/*" "$tmpdir/storage/upload/"
-cp -a "$final_path/storage/export/*" "$tmpdir/storage/export/"
+cp -a "$final_path/storage/upload/*" "$tmpdir/storage/upload/*"
+cp -a "$final_path/storage/export/*" "$tmpdir/storage/export/*"
 
 # Remove the app directory securely
 ynh_secure_remove "$final_path"

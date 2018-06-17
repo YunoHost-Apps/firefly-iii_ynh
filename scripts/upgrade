@@ -132,6 +132,7 @@ ynh_add_fpm7.1_config
 #=================================================
 # SPECIFIC UPGRADE
 #=================================================
+init_composer $final_path
 cd $final_path && sudo /usr/bin/php7.1 artisan migrate --env=production --force
 cd $final_path && sudo /usr/bin/php7.1 artisan cache:clear
 cd $final_path && sudo /usr/bin/php7.1 artisan firefly:upgrade-database

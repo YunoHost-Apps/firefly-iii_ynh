@@ -51,17 +51,7 @@ ynh_remove_fpm7.1_config
 #=================================================
 # SPECIFIC REMOVE
 #=================================================
-# REMOVE THE CRON FILE
-#=================================================
 
-# Remove a cron file
-ynh_secure_remove "/etc/cron.d/$app"
-
-# Remove a directory securely
-ynh_secure_remove "/etc/$app/"
-
-# Remove the log files
-ynh_secure_remove "/var/log/$app/"
 
 #=================================================
 # GENERIC FINALIZATION

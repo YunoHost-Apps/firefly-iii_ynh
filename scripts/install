@@ -134,22 +134,9 @@ cd $final_path && sudo /usr/bin/php7.1 artisan config:clear
 
 db_name=$(ynh_sanitize_dbid $app)
 
-#=================================================
-# MODIFY A CONFIG FILE
-#=================================================
-
-ynh_replace_string "yunouser"   "$db_name"  "$final_path/.env"
-ynh_replace_string "yunopass"   "$db_pwd"   "$final_path/.env"
-ynh_replace_string "yunobase"   "$db_name"  "$final_path/.env"
-ynh_replace_string "yunomail"   "$email"    "$final_path/.env"
-ynh_replace_string "yunodomain" "$domain"   "$final_path/.env"
-
-
 # setup application config
 cd $final_path && sudo /usr/bin/php7.1 artisan -q :refresh --seed --force
 cd $final_path && sudo /usr/bin/php7.1 passport:install  --force
-cd $final_path && sudo /usr/bin/php7.1 artisan -q setup:production --force
-
 
 
 #=================================================

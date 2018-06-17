@@ -96,7 +96,7 @@ init_composer() {
     || ynh_die "Unable to install Composer"
 
   # update dependencies to create composer.lock
-  exec_composer "$DESTDIR" create-project  --no-dev --prefer-dist firefly-iii 4.7.4 \
+  exec_composer "$DESTDIR" install  --no-dev --prefer-dist --no-scripts \
     || ynh_die "Unable to update firefly-iii core dependencies"
 }
 

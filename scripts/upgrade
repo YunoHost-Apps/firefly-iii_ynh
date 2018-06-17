@@ -103,9 +103,6 @@ cp -a "$tmpdir/storage/export/*"  "$final_path/storage/export/"
 #remove tmp dir
 sudo rm -Rf "$tmpdir"
 
-exec_composer "$final_path" update --quiet --no-scripts --no-dev
-exec_composer "$final_path" update --quiet --no-dev
-
 #=================================================
 # NGINX CONFIGURATION
 #=================================================

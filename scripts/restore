@@ -102,6 +102,7 @@ ynh_restore_file "/etc/php/7.1/conf.d/20-$app.ini"
 #=================================================
 # SPECIFIC UPGRADE
 #=================================================
+init_composer $final_path
 cd $final_path && sudo /usr/bin/php7.1 artisan migrate --env=production --force
 cd $final_path && sudo /usr/bin/php7.1 artisan cache:clear
 cd $final_path && sudo /usr/bin/php7.1 artisan firefly:upgrade-database

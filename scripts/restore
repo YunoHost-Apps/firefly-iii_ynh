@@ -74,10 +74,6 @@ ynh_mysql_connect_as $db_name $db_pwd $db_name < ./db.sql
 
 ynh_restore_file "$final_path"
 
-exec_composer "$final_path" update --quiet --no-scripts --no-dev
-exec_composer "$final_path" update --quiet --no-dev
-
-
 #=================================================
 # RECREATE THE DEDICATED USER
 #=================================================

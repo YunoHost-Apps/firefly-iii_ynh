@@ -93,7 +93,7 @@ chown -R $app: $final_path
 #=================================================
 
 ynh_restore_file "/etc/php/7.1/fpm/pool.d/$app.conf"
-ynh_restore_file "/etc/php/7.1/fpm/pool.d/$app.conf"
+ynh_restore_file "/etc/php/7.1/fpm/conf.d/20-$app.ini"
 
 #=================================================
 # SPECIFIC UPGRADE

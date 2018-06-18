@@ -1,9 +1,9 @@
 {
-    "name": "Firefly3",
-    "id": "firefly3",
+    "name": "Firefly III",
+    "id": "firefly-iii",
     "packaging_format": 1,
     "description": {
-        "en": "Firefly3 package for YunoHost."
+        "en": "Firefly III package for YunoHost."
     },
     "version": "4.7.4",
     "url": "https://firefly-iii.org/",
@@ -28,8 +28,8 @@
                 "name": "domain",
                 "type": "domain",
                 "ask": {
-                    "en": "Choose a domain name for Firefly3",
-                    "fr": "Choisissez un nom de domaine pour Firefly3"
+                    "en": "Choose a domain name for Firefly III",
+                    "fr": "Choisissez un nom de domaine pour Firefly III"
                 },
                 "example": "example.com"
             },
@@ -37,8 +37,8 @@
                 "name": "admin",
                 "type": "user",
                 "ask": {
-                    "en": "Choose an admin user(Should be a YunoHost registered user)",
-                    "fr": "Choisissez l’administrateur(Should be a YunoHost registered user)"
+                    "en": "Choose an admin user (should be a YunoHost registered user)",
+                    "fr": "Choisissez l’administrateur (should be a YunoHost registered user)"
                 },
                 "example": "johndoe"
             },

@@ -1,30 +1,33 @@
-# Firefly III for YunoHost
+<p align="center"><img src="https://firefly-iii.org/static/img/logo-small-new.png"></p>
+
+# Firefly III v4.7.4 for YunoHost
 
 [![Integration level](https://dash.yunohost.org/integration/firefly-iii.svg)](https://ci-apps.yunohost.org/jenkins/job/firefly-iii%20%28Community%29/lastBuild/consoleFull)  
 
 [![Install Firefly III with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=firefly-iii)<br><br>
+
 =======
-**Caution:** This app will install **PHP 7.1**.
 
-
-**Shipped Version: 4.7.4**
-
-
-- [Yunohost project](https://yunohost.org)
-- [Firefly III website](https://firefly-iii.org/)
-- [Firefly III code on GitHub](https://github.com/firefly-iii/firefly-iii)
-- [Demo 1](https://demo.firefly-iii.org/login), [Demo 2](http://www.softaculous.com/softaculous/demos/Firefly_III)
-
-<p align="center"><img src="https://firefly-iii.org/static/img/logo-small-new.png"></p>
+*Please note that this app will install PHP 7.1*
 
 ## Introduction
-"Firefly III" is a (self-hosted) manager for your personal finances. It can help you keep track of your expenses and income, so you can spend less and save more. Firefly III supports the use of budgets, categories and tags. It can import data from external sources and it has many neat financial reports available. Here are some screenshots:
+"Firefly III" is a (self-hosted) manager for your personal finances. It can help you keep track of your expenses and income, so you can spend less and save more. Firefly III supports the use of budgets, categories and tags. It can import data from external sources and it has many neat financial reports available. You can [read all about it in the main repository](https://github.com/firefly-iii/firefly-iii) and in the [official documentation](https://firefly-iii.readthedocs.io/en/latest/).
+
+### Interesting links
+
+- [YunoHost project](https://yunohost.org)
+- [Firefly III website](https://firefly-iii.org/)
+- [Firefly III on GitHub](https://github.com/firefly-iii/firefly-iii)
+- [Demo 1](https://demo.firefly-iii.org/login), [Demo 2](http://www.softaculous.com/softaculous/demos/Firefly_III)
+
+### Screenshots
 
 [![The index of Firefly III](https://firefly-iii.org/static/screenshots/4.7.4/tiny/index.png)](https://firefly-iii.org/static/screenshots/4.7.4/index.png) [![The account overview of Firefly III](https://firefly-iii.org/static/screenshots/4.7.4/tiny/account.png)](https://firefly-iii.org/static/screenshots/4.7.4/account.png)
 
 [![Overview of all budgets](https://firefly-iii.org/static/screenshots/4.7.4/tiny/budget.png)](https://firefly-iii.org/static/screenshots/4.7.4/budget.png) [![Overview of a category](https://firefly-iii.org/static/screenshots/4.7.4/tiny/category.png)](https://firefly-iii.org/static/screenshots/4.7.4/category.png)
 
 ### Features
+
 Most importantly...
 
 * Firefly III runs on your own server, so you are fully in control of your data. It will not contact other sites or servers.
@@ -32,7 +35,6 @@ Most importantly...
 * You can import from [bunq](https://www.bunq.com/).
 * You can import CSV files from practically any bank.
 * Firefly III features an JSON REST API.
-* If you feel you’re missing something you can just ask me and I’ll add it!
 
 But actually, it features:
 
@@ -66,12 +68,13 @@ Everything is organised:
 * Financial reporting showing you how well you are doing
 * Lots of math because we all like math!
 
-### Installation
+### Installation on YunoHost
 
 - Firefly III requires a **dedicated (sub)domain** (must install under web root like **https://firefly.example.com/** not **https://example.com/firefly/** )
 
 #### Register a new domain and add it to YunoHost
- Firefly III requires a dedicated (sub)domain, so obtain one and add it using the YunoHost admin panel. **Domains -> Add domain**. As Firefly III uses the full domain and is installed on the root, you can create a subdomain such as firefly.domain.tld. Don't forget to update your DNS if you manage them manually.
+
+Firefly III requires a dedicated (sub)domain, so obtain one and add it using the YunoHost admin panel. **Domains -> Add domain**. As Firefly III uses the full domain and is installed on the root, you can create a subdomain such as firefly.domain.tld. Don't forget to update your DNS if you manage them manually.
  
 #### Install the Firefly III application
 
@@ -80,12 +83,12 @@ Use the YunoHost admin panel to install Firefly III by entering the GitHub repo 
 ```
 https://github.com/YunoHost-Apps/firefly3_ynh
 ```
-**Or**  
-Use the command line to install the Firefly III app:
+
+Or use the command line to install the Firefly III app:
 
 ```    
 $ yunohost app install --verbose https://github.com/YunoHost-Apps/firefly3_ynh
 ```
 
-- The Admin user should be a **registered YunoHost user**.
-- **Important:** When the installation is complete, you will have to visit the domain on which the app is installed and register the first account with the **primary email address of the Admin user given at the time of installayion** (otherwise you will not get admin rights). The registration will lock itself after the first registration.
+- The admin user should be a registered YunoHost user.
+- Important: when the installation is complete, you will have to visit the domain on which the app is installed and register the first account with the **primary email address of the Admin user given at the time of installayion** (otherwise you will not get admin rights). The registration will lock itself after the first registration.

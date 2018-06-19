@@ -21,6 +21,7 @@ admin=$(ynh_app_setting_get $app admin)
 is_public=$(ynh_app_setting_get $app is_public)
 final_path=$(ynh_app_setting_get $app final_path)
 db_name=$(ynh_app_setting_get $app db_name)
+random_key=$(ynh_app_setting_get $app random_key)
 
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
@@ -40,8 +41,6 @@ if [ -z $db_name ]; then
 	db_name=$(ynh_sanitize_dbid $app)
 	ynh_app_setting_set $app db_name $db_name
 fi
-
-
 
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
@@ -76,7 +75,6 @@ mkdir -p "$tmpdir/storage/upload"
 mkdir -p "$tmpdir/storage/export"
 mkdir -p "$final_path/storage/upload/"
 mkdir -p "$final_path/storage/export/"
-cp -a "$final_path/.env" "$tmpdir/.env"
 cp -a "$final_path/storage/upload/" "$tmpdir/storage/upload/"
 cp -a "$final_path/storage/export/" "$tmpdir/storage/export/"
 
@@ -97,8 +95,7 @@ fi
 ynh_setup_source "$final_path"
 
 
-rm -rf "$final_path/bootstrap/cache/*"
-cp -a "$tmpdir/.env" "$final_path/.env" 
+rm -rf "$final_path/bootstrap/cache/*" 
 cp -a "$tmpdir/storage/upload/" "$final_path/storage/upload/" 
 cp -a "$tmpdir/storage/export/"  "$final_path/storage/export/" 
 
@@ -119,8 +116,6 @@ ynh_add_nginx_config
 # Create a system user
 ynh_system_user_create $app
 
-
-
 #=================================================
 # PHP-FPM 7.1 CONFIGURATION
 #=================================================
@@ -131,6 +126,22 @@ ynh_add_fpm7.1_config
 #=================================================
 # SPECIFIC UPGRADE
 #=================================================
+# Get the admin email
+email=$(ynh_user_get_info $admin 'mail')
+
+# setup application config
+sudo  cp ../conf/.env $final_path/.env
+#=================================================
+# MODIFY A CONFIG FILE
+#=================================================
+ynh_replace_string "random_key" "$random_key" "$final_path/.env"
+ynh_replace_string "yunouser"   "$db_name"    "$final_path/.env"
+ynh_replace_string "yunopass"   "$db_pwd"     "$final_path/.env"
+ynh_replace_string "yunobase"   "$db_name"    "$final_path/.env"
+ynh_replace_string "yunomail"   "$email"      "$final_path/.env"
+ynh_replace_string "yunodomain" "$domain"     "$final_path/.env"
+
+
 init_composer $final_path
 cd $final_path && sudo /usr/bin/php7.1 artisan migrate --env=production --force
 cd $final_path && sudo /usr/bin/php7.1 artisan cache:clear

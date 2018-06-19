@@ -24,6 +24,7 @@ domain=$YNH_APP_ARG_DOMAIN
 path_url="/"
 admin=$YNH_APP_ARG_ADMIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
+random_key=$(ynh_string_random 32)
 
 # This is a multi-instance app, meaning it can be installed several times independently
 # The id of the app as stated in the manifest is available as $YNH_APP_ID
@@ -60,6 +61,7 @@ ynh_app_setting_set $app domain $domain
 ynh_app_setting_set $app path $path_url
 ynh_app_setting_set $app admin $admin
 ynh_app_setting_set $app is_public $is_public
+ynh_app_setting_set $app random_key $random_key
 
 #=================================================
 # INSTALL DEPENDENCIES
@@ -85,8 +87,6 @@ ynh_app_setting_set $app final_path $final_path
 # Download, check integrity, uncompress and patch the source from app.src
 ynh_setup_source "$final_path"
 
-
-
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
@@ -108,7 +108,6 @@ ynh_system_user_create $app
 # Create a dedicated php-fpm7.1 config
 ynh_add_fpm7.1_config
 
-
 #=================================================
 # SPECIFIC SETUP
 #=================================================
@@ -121,15 +120,14 @@ sudo  cp ../conf/.env $final_path/.env
 #=================================================
 # MODIFY A CONFIG FILE
 #=================================================
-
-ynh_replace_string "yunouser"   "$db_name"  "$final_path/.env"
-ynh_replace_string "yunopass"   "$db_pwd"   "$final_path/.env"
-ynh_replace_string "yunobase"   "$db_name"  "$final_path/.env"
-ynh_replace_string "yunomail"   "$email"    "$final_path/.env"
-ynh_replace_string "yunodomain" "$domain"   "$final_path/.env"
+ynh_replace_string "random_key" "$random_key" "$final_path/.env"
+ynh_replace_string "yunouser"   "$db_name"    "$final_path/.env"
+ynh_replace_string "yunopass"   "$db_pwd"     "$final_path/.env"
+ynh_replace_string "yunobase"   "$db_name"    "$final_path/.env"
+ynh_replace_string "yunomail"   "$email"      "$final_path/.env"
+ynh_replace_string "yunodomain" "$domain"     "$final_path/.env"
 
 init_composer $final_path
-cd $final_path && sudo /usr/bin/php7.1 artisan -n key:generate --force
 cd $final_path && sudo /usr/bin/php7.1 artisan config:clear
 
 db_name=$(ynh_sanitize_dbid $app)
@@ -137,7 +135,6 @@ db_name=$(ynh_sanitize_dbid $app)
 # setup application config
 cd $final_path && sudo /usr/bin/php7.1 artisan -q :refresh --seed --force
 cd $final_path && sudo /usr/bin/php7.1 artisan passport:install  --force
-
 
 #=================================================
 # SETUP APPLICATION PERMISSIONS

@@ -6,7 +6,6 @@
 
 [![Install Firefly III with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=firefly-iii)<br><br>
 
-=======
 
 *Please note that this app will install PHP 7.1*
 
@@ -81,13 +80,13 @@ Firefly III requires a dedicated (sub)domain, so obtain one and add it using the
 Use the YunoHost admin panel to install Firefly III by entering the GitHub repo address in the custom app URL:
 
 ```
-https://github.com/YunoHost-Apps/firefly3_ynh
+https://github.com/YunoHost-Apps/firefly-iii_ynh
 ```
 
 Or use the command line to install the Firefly III app:
 
 ```    
-$ yunohost app install --verbose https://github.com/YunoHost-Apps/firefly3_ynh
+$ yunohost app install --verbose https://github.com/YunoHost-Apps/firefly-iii_ynh
 ```
 
 - The admin user should be a registered YunoHost user.

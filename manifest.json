@@ -3,8 +3,8 @@
     "id": "firefly-iii",
     "packaging_format": 1,
     "description": {
-        "en": "Firefly III is a self-hosted financial manager"
-        "fr": "Firefly III est un gestionnaire de finances personnelles"
+        "en": "Firefly III is a self-hosted financial manager.",
+        "fr": "Firefly III est un gestionnaire de finances personnelles."
     },
     "version": "4.7.4",
     "url": "https://firefly-iii.org/",

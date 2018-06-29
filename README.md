@@ -86,7 +86,7 @@ https://github.com/YunoHost-Apps/firefly-iii_ynh
 Or use the command line to install the Firefly III app:
 
 ```    
-$ yunohost app install --verbose https://github.com/YunoHost-Apps/firefly-iii_ynh
+$ yunohost app install https://github.com/YunoHost-Apps/firefly-iii_ynh
 ```
 
 - The admin user should be a registered YunoHost user.

@@ -1,6 +1,6 @@
 <p align="center"><img src="https://firefly-iii.org/static/img/logo-small-new.png"></p>
 
-# Firefly III v4.7.4 for YunoHost
+# Firefly III v4.7.5.1 for YunoHost
 
 [![Integration level](https://dash.yunohost.org/integration/firefly-iii.svg)](https://ci-apps.yunohost.org/jenkins/job/firefly-iii%20%28Community%29/lastBuild/consoleFull)  
 

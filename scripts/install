@@ -102,11 +102,11 @@ ynh_add_nginx_config
 ynh_system_user_create $app
 
 #=================================================
-# PHP-FPM 7.1 CONFIGURATION
+# PHP-FPM 7.2 CONFIGURATION
 #=================================================
 
 # Create a dedicated php-fpm7.1 config
-ynh_add_fpm7.1_config
+ynh_add_fpm7.2_config
 
 #=================================================
 # SPECIFIC SETUP
@@ -128,13 +128,13 @@ ynh_replace_string "yunomail"   "$email"      "$final_path/.env"
 ynh_replace_string "yunodomain" "$domain"     "$final_path/.env"
 
 init_composer $final_path
-cd $final_path && sudo /usr/bin/php7.1 artisan config:clear
+cd $final_path && sudo /usr/bin/php7.2 artisan config:clear
 
 db_name=$(ynh_sanitize_dbid $app)
 
 # setup application config
-cd $final_path && sudo /usr/bin/php7.1 artisan -q :refresh --seed --force
-cd $final_path && sudo /usr/bin/php7.1 artisan passport:install  --force
+cd $final_path && sudo /usr/bin/php7.2 artisan -q :refresh --seed --force
+cd $final_path && sudo /usr/bin/php7.2 artisan passport:install  --force
 
 #=================================================
 # SETUP APPLICATION PERMISSIONS
@@ -168,7 +168,7 @@ fi
 #=================================================
 # RELOAD NGINX
 #=================================================
-systemctl reload php7.1-fpm
+systemctl reload php7.2-fpm
 systemctl reload nginx
 # Set default php to php5 or php7.0
 if [ "$(lsb_release --codename --short)" == "jessie" ]; then

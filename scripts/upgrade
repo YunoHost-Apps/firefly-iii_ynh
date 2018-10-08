@@ -118,11 +118,11 @@ ynh_add_nginx_config
 ynh_system_user_create $app
 
 #=================================================
-# PHP-FPM 7.1 CONFIGURATION
+# PHP-FPM 7.2 CONFIGURATION
 #=================================================
 
 # Create a dedicated php-fpm7.1 config
-ynh_add_fpm7.1_config
+ynh_add_fpm7.2_config
 
 #=================================================
 # SPECIFIC UPGRADE
@@ -144,11 +144,11 @@ ynh_replace_string "yunodomain" "$domain"     "$final_path/.env"
 
 
 init_composer $final_path
-cd $final_path && sudo /usr/bin/php7.1 artisan migrate --env=production --force
-cd $final_path && sudo /usr/bin/php7.1 artisan cache:clear
-cd $final_path && sudo /usr/bin/php7.1 artisan firefly:upgrade-database
-cd $final_path && sudo /usr/bin/php7.1 artisan firefly:verify
-cd $final_path && sudo /usr/bin/php7.1 artisan passport:install
+cd $final_path && sudo /usr/bin/php7.2 artisan migrate --env=production --force
+cd $final_path && sudo /usr/bin/php7.2 artisan cache:clear
+cd $final_path && sudo /usr/bin/php7.2 artisan firefly:upgrade-database
+cd $final_path && sudo /usr/bin/php7.2 artisan firefly:verify
+cd $final_path && sudo /usr/bin/php7.2 artisan passport:install
 
 # Verify the checksum and backup the file if it's different
 ynh_backup_if_checksum_is_different "$final_path/.env"
@@ -183,9 +183,9 @@ fi
 #=================================================
 # RELOAD NGINX
 #=================================================
-systemctl reload php7.1-fpm
+systemctl reload php7.2-fpm
 systemctl reload nginx
-# Set default php to php5 or php7.0
+# Set default php to php5 or php7.2
 if [ "$(lsb_release --codename --short)" == "jessie" ]; then
 	update-alternatives --set php /usr/bin/php5
 else

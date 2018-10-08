@@ -92,17 +92,17 @@ chown -R $app: $final_path
 # RESTORE THE PHP-FPM CONFIGURATION
 #=================================================
 
-ynh_restore_file "/etc/php/7.1/fpm/pool.d/$app.conf"
+ynh_restore_file "/etc/php/7.2/fpm/pool.d/$app.conf"
 
 #=================================================
 # SPECIFIC UPGRADE
 #=================================================
 init_composer $final_path
-cd $final_path && sudo /usr/bin/php7.1 artisan migrate --env=production --force
-cd $final_path && sudo /usr/bin/php7.1 artisan cache:clear
-cd $final_path && sudo /usr/bin/php7.1 artisan firefly:upgrade-database
-cd $final_path && sudo /usr/bin/php7.1 artisan firefly:verify
-cd $final_path && sudo /usr/bin/php7.1 artisan passport:install
+cd $final_path && sudo /usr/bin/php7.2 artisan migrate --env=production --force
+cd $final_path && sudo /usr/bin/php7.2 artisan cache:clear
+cd $final_path && sudo /usr/bin/php7.2 artisan firefly:upgrade-database
+cd $final_path && sudo /usr/bin/php7.2 artisan firefly:verify
+cd $final_path && sudo /usr/bin/php7.2 artisan passport:install
 
 #=================================================
 # GENERIC FINALIZATION
@@ -110,7 +110,7 @@ cd $final_path && sudo /usr/bin/php7.1 artisan passport:install
 # RELOAD NGINX AND PHP-FPM
 #=================================================
 
-systemctl reload php7.1-fpm
+systemctl reload php7.2-fpm
 systemctl reload nginx
 # Set default php to php5 or php7.0
 if [ "$(lsb_release --codename --short)" == "jessie" ]; then

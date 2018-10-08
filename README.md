@@ -1,13 +1,13 @@
 <p align="center"><img src="https://firefly-iii.org/static/img/logo-small-new.png"></p>
 
-# Firefly III v4.7.6.2 for YunoHost
+# Firefly III v4.7.7 for YunoHost
 
 [![Integration level](https://dash.yunohost.org/integration/Firefly-III.svg)](https://ci-apps.yunohost.org/jenkins/job/firefly-iii%20%28Community%29/lastBuild/consoleFull)  
 
 [![Install Firefly III with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=firefly-iii)<br><br>
 
 
-*Please note that this app will install PHP 7.1*
+*Please note that this app will install PHP 7.2*
 
 ## Introduction
 "Firefly III" is a (self-hosted) manager for your personal finances. It can help you keep track of your expenses and income, so you can spend less and save more. Firefly III supports the use of budgets, categories and tags. It can import data from external sources and it has many neat financial reports available. You can [read all about it in the main repository](https://github.com/firefly-iii/firefly-iii) and in the [official documentation](https://firefly-iii.readthedocs.io/en/latest/).

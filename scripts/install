@@ -135,7 +135,6 @@ db_name=$(ynh_sanitize_dbid $app)
 # setup application config
 (
 cd $final_path && sudo /usr/bin/php7.2 artisan -q :refresh --seed --force
-cd $final_path && sudo /usr/bin/php7.2 artisan firefly:upgrade-database --force
 cd $final_path && sudo /usr/bin/php7.2 artisan passport:install  --force
 )
 #=================================================

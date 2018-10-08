@@ -17,6 +17,8 @@ ynh_delete_file_checksum () {
 # usage: ynh_add_fpm_config
 ynh_add_fpm7.2_config () {
 	# Configure PHP-FPM 7.1 by default
+	ynh_secure_remove "/etc/php/7.1/fpm/pool.d/$app.conf"   2>&1
+	ynh_secure_remove "/etc/php/7.1/fpm/conf.d/20-$app.ini" 2>&1
 	local fpm_config_dir="/etc/php/7.2/fpm"
 	local fpm_service="php7.2-fpm"
 	ynh_app_setting_set $app fpm_config_dir "$fpm_config_dir"

@@ -94,7 +94,7 @@ init_composer() {
   # install composer
   curl -sS https://getcomposer.org/installer \
     | COMPOSER_HOME="${DESTDIR}/.composer" \
-        sudo /usr/bin/php7.2 -- --quiet --install-dir="$DESTDIR" \
+        sudo /usr/bin/php7.2 -- --install-dir="$DESTDIR" \
     || ynh_die "Unable to install Composer"
 
   # update dependencies to create composer.lock

@@ -82,7 +82,7 @@ exec_composer() {
 
   COMPOSER_HOME="${WORKDIR}/.composer" \
     sudo /usr/bin/php7.2 "${WORKDIR}/composer.phar" $@ \
-      -d "${WORKDIR}" --quiet --no-interaction
+      -d "${WORKDIR}"  --no-interaction
 }
 
 # Install and initialize Composer in the given directory
@@ -94,7 +94,7 @@ init_composer() {
   # install composer
   curl -sS https://getcomposer.org/installer \
     | COMPOSER_HOME="${DESTDIR}/.composer" \
-        sudo /usr/bin/php7.2 -- --install-dir="$DESTDIR" \
+        sudo /usr/bin/php7.2 ---- --install-dir="$DESTDIR" \
     || ynh_die "Unable to install Composer"
 
   # update dependencies to create composer.lock

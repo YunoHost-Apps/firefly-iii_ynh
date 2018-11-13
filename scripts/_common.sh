@@ -119,7 +119,7 @@ ynh_install_php7 () {
   echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php7.list
 
   ynh_package_update
-  ynh_install_app_dependencies php7.2 php7.2-zip php7.2-fpm php7.2-mysql php7.2-xml php7.2-intl php7.2-mbstring php7.2-gd php7.2-curl php7.2-bcmath php7.2-opcache
+  ynh_install_app_dependencies php7.2 php7.2-zip php7.2-fpm php7.2-mysql php7.2-xml php7.2-intl php7.2-mbstring php7.2-gd php7.2-curl php7.2-bcmath php7.2-opcache php7.2-ldap
   sudo update-alternatives --install /usr/bin/php php /usr/bin/php5 70
 }
 

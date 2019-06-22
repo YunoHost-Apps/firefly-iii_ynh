@@ -90,7 +90,8 @@ exec_composer() {
   shift 1
 
   COMPOSER_HOME="${WORKDIR}/.composer" \
-    sudo /usr/bin/php7.2 "${WORKDIR}/composer.phar" $@ \
+    # sudo /usr/bin/php7.2 "${WORKDIR}/composer.phar" $@ \
+    /usr/bin/php7.2 "${WORKDIR}/composer.phar" $@ \
       -d "${WORKDIR}"  --no-interaction
 }
 

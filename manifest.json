@@ -15,7 +15,7 @@
         "url": "https://datamol.org"
     },
     "requirements": {
-        "yunohost": ">= 2.7.2"
+        "yunohost": ">= 3.5.0"
     },
     "multi_instance": true,
     "services": [

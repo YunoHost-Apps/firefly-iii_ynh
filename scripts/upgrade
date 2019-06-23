@@ -153,16 +153,6 @@ ynh_script_progression --message="Upgrading logrotate configuration..." --time -
 ynh_use_logrotate --non-append
 
 #=================================================
-# GENERIC FINALIZATION
-#=================================================
-# UPGRADE FAIL2BAN
-#=================================================
-# ynh_script_progression --message="Reconfiguring fail2ban..." --time --weight=1
-
-# # Create a dedicated fail2ban config
-#  ynh_add_fail2ban_config --logpath="/var/log/nginx/${domain}-error.log" --failregex="^.*authentication failure. while reading response header from upstream, client: <HOST>,.*POST $path_url.*$" --max_retry=5
-
-#=================================================
 # SPECIFIC UPGRADE
 #=================================================
 # Get the admin email

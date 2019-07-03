@@ -1,8 +1,8 @@
 <p align="center"><img src="https://firefly-iii.org/static/img/logo-small-new.png"></p>
 
-# Firefly III v4.7.8 for YunoHost
+# Firefly III v4.7.17 for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/Firefly-III.svg)](https://ci-apps.yunohost.org/jenkins/job/firefly-iii%20%28Community%29/lastBuild/consoleFull)  
+[![Integration level](https://dash.yunohost.org/integration/Firefly-III.svg)](https://ci-apps.yunohost.org/jenkins/job/firefly-iii%20%28Community%29/lastBuild/consoleFull)
 
 [![Install Firefly III with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=firefly-iii)<br><br>
 
@@ -74,7 +74,7 @@ Everything is organised:
 #### Register a new domain and add it to YunoHost
 
 Firefly III requires a dedicated (sub)domain, so obtain one and add it using the YunoHost admin panel. **Domains -> Add domain**. As Firefly III uses the full domain and is installed on the root, you can create a subdomain such as firefly.domain.tld. Don't forget to update your DNS if you manage them manually.
- 
+
 #### Install the Firefly III application
 
 Use the YunoHost admin panel to install Firefly III by entering the GitHub repo address in the custom app URL:
@@ -85,7 +85,7 @@ https://github.com/YunoHost-Apps/firefly-iii_ynh
 
 Or use the command line to install the Firefly III app:
 
-```    
+```
 $ yunohost app install https://github.com/YunoHost-Apps/firefly-iii_ynh
 ```
 

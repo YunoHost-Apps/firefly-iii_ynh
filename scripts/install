@@ -41,55 +41,57 @@ app=$YNH_APP_INSTANCE_NAME
 #=================================================
 # CHECK IF THE APP CAN BE INSTALLED WITH THESE ARGS
 #=================================================
+ynh_script_progression --message="Validating installation parameters..." --time --weight=1
 
 final_path=/var/www/$app
 test ! -e "$final_path" || ynh_die "This path already contains a folder"
+test ! -e "$final_path" || ynh_die --message="This path already contains a folder"
 
-# Normalize the url path syntax
-path_url=$(ynh_normalize_url_path $path_url)
-
-# Check web path availability
-ynh_webpath_available $domain $path_url
 # Register (book) web path
-ynh_webpath_register $app $domain $path_url
+ynh_webpath_register --app=$app --domain=$domain --path_url=$path_url
 
 #=================================================
 # STORE SETTINGS FROM MANIFEST
 #=================================================
+ynh_script_progression --message="Storing installation settings..." --time --weight=1
 
-ynh_app_setting_set $app domain $domain
-ynh_app_setting_set $app path $path_url
-ynh_app_setting_set $app admin $admin
-ynh_app_setting_set $app is_public $is_public
-ynh_app_setting_set $app random_key $random_key
+ynh_app_setting_set --app=$app --key=domain --value=$domain
+ynh_app_setting_set --app=$app --key=path --value=$path_url
+ynh_app_setting_set --app=$app --key=admin --value=$admin
+ynh_app_setting_set --app=$app --key=is_public --value=$is_public
+ynh_app_setting_set --app=$app --key=random_key --value=$random_key
 
 #=================================================
 # INSTALL DEPENDENCIES
 #=================================================
+ynh_script_progression --message="Installing dependencies..." --time --weight=1
 
-ynh_install_php7
+# ynh_install_php7
+ynh_install_app_dependencies $pkg_dependencies
 
 #=================================================
 # CREATE A MYSQL DATABASE
 #=================================================
-# If your app uses a MySQL database, you can use these lines to bootstrap
-# a database, an associated user and save the password in app settings
+ynh_script_progression --message="Creating a MySQL database..." --time --weight=1
 
-db_name=$(ynh_sanitize_dbid $app)
-ynh_app_setting_set $app db_name $db_name
-ynh_mysql_setup_db $db_name $db_name
+db_name=$(ynh_sanitize_dbid --db_name=$app)
+db_user=$db_name
+ynh_app_setting_set --app=$app --key=db_name --value=$db_name
+ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
+ynh_script_progression --message="Setting up source files..." --time --weight=1
 
-ynh_app_setting_set $app final_path $final_path
+ynh_app_setting_set --app=$app --key=final_path --value=$final_path
 # Download, check integrity, uncompress and patch the source from app.src
-ynh_setup_source "$final_path"
+ynh_setup_source --dest_dir="$final_path"
 
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
+ynh_script_progression --message="Configuring nginx web server..." --time --weight=1
 
 # Create a dedicated nginx config
 ynh_add_nginx_config
@@ -97,16 +99,19 @@ ynh_add_nginx_config
 #=================================================
 # CREATE DEDICATED USER
 #=================================================
+ynh_script_progression --message="Configuring system user..." --time --weight=1
 
 # Create a system user
-ynh_system_user_create $app
+ynh_system_user_create --username=$app
 
 #=================================================
 # PHP-FPM 7.2 CONFIGURATION
 #=================================================
+ynh_script_progression --message="Configuring php-fpm..." --time --weight=1
 
 # Create a dedicated php-fpm7.1 config
-ynh_add_fpm7.2_config
+# ynh_add_fpm7.2_config
+ynh_add_fpm_config --phpversion=7.2
 
 #=================================================
 # SPECIFIC SETUP
@@ -117,6 +122,7 @@ email=$(ynh_user_get_info $admin 'mail')
 
 # setup application config
 sudo  cp ../conf/.env $final_path/.env
+
 #=================================================
 # MODIFY A CONFIG FILE
 #=================================================
@@ -127,7 +133,7 @@ ynh_replace_string "yunobase"   "$db_name"    "$final_path/.env"
 ynh_replace_string "yunomail"   "$email"      "$final_path/.env"
 ynh_replace_string "yunodomain" "$domain"     "$final_path/.env"
 
-init_composer $final_path
+init_composer $final_path $app
 ( cd $final_path && sudo /usr/bin/php7.2 artisan config:clear )
 
 db_name=$(ynh_sanitize_dbid $app)
@@ -137,11 +143,12 @@ db_name=$(ynh_sanitize_dbid $app)
 cd $final_path && sudo /usr/bin/php7.2 artisan -q :refresh --seed --force
 cd $final_path && sudo /usr/bin/php7.2 artisan passport:install  --force
 )
+
 #=================================================
 # SETUP APPLICATION PERMISSIONS
 #=================================================
 
-# Set right permissions 
+# Set right permissions
 chown -R $app: $final_path
 
 #=================================================
@@ -154,26 +161,71 @@ ynh_store_file_checksum "$final_path/.env"
 #=================================================
 # SETUP SSOWAT
 #=================================================
+ynh_script_progression --message="Configuring SSOwat..." --time --weight=1
 
 if [ $is_public -eq 0 ]
 then	# Remove the public access
-	ynh_app_setting_delete $app skipped_uris
+    ynh_app_setting_delete $app skipped_uris
 fi
 # Make app public if necessary
 if [ $is_public -eq 1 ]
 then
-	# unprotected_uris allows SSO credentials to be passed anyway.
-	ynh_app_setting_set $app unprotected_uris "/"
+    # unprotected_uris allows SSO credentials to be passed anyway.
+    ynh_app_setting_set $app unprotected_uris "/"
 fi
+
+#=================================================
+# SETUP LOGROTATE
+#=================================================
+ynh_script_progression --message="Configuring log rotation..." --time --weight=1
+
+### `ynh_use_logrotate` is used to configure a logrotate configuration for the logs of this app.
+### Use this helper only if there is effectively a log file for this app.
+### If you're not using this helper:
+###		- Remove the section "BACKUP LOGROTATE" in the backup script
+###		- Remove also the section "REMOVE LOGROTATE CONFIGURATION" in the remove script
+###		- As well as the section "RESTORE THE LOGROTATE CONFIGURATION" in the restore script
+###		- And the section "SETUP LOGROTATE" in the upgrade script
+
+# Use logrotate to manage application logfile(s)
+ynh_use_logrotate
+
+#=================================================
+# ADVERTISE SERVICE IN ADMIN PANEL
+#=================================================
+
+### `yunohost service add` is a CLI yunohost command to add a service in the admin panel.
+### You'll find the service in the 'services' section of YunoHost admin panel.
+### This CLI command would be useless if the app does not have any services (systemd or sysvinit)
+### If you're not using these lines:
+###		- You can remove these files in conf/.
+###		- Remove the section "REMOVE SERVICE FROM ADMIN PANEL" in the remove script
+###		- As well as the section "ADVERTISE SERVICE IN ADMIN PANEL" in the restore script
+
+yunohost service add $app --log "/var/log/$app/$app.log"
+# if using yunohost version 3.2 or more in the 'manifest.json', a description can be added
+#yunohost service add $app --description "$app daemon for XXX" --log "/var/log/$app/$app.log"
 
 #=================================================
 # RELOAD NGINX
 #=================================================
-systemctl reload php7.2-fpm
-systemctl reload nginx
+ynh_script_progression --message="Reloading nginx web server..." --time --weight=1
+
+# systemctl reload php7.2-fpm
+# systemctl reload nginx
+
+ynh_systemd_action --service_name=php7.2-fpm --action=reload
+ynh_systemd_action --service_name=nginx --action=reload
+
 # Set default php to php5 or php7.0
-if [ "$(lsb_release --codename --short)" == "jessie" ]; then
-	update-alternatives --set php /usr/bin/php5
-else
-    update-alternatives --set php /usr/bin/php7.0
-fi
+# if [ "$(lsb_release --codename --short)" == "jessie" ]; then
+# 	update-alternatives --set php /usr/bin/php5
+# else
+#     update-alternatives --set php /usr/bin/php7.0
+# fi
+
+#=================================================
+# END OF SCRIPT
+#=================================================
+
+ynh_script_progression --message="Installation of $app completed" --time --last

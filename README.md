@@ -1,13 +1,13 @@
 <p align="center"><img src="https://firefly-iii.org/static/img/logo-small-new.png"></p>
 
-# Firefly III v4.7.17 for YunoHost
+# Firefly III v5.0.5 for YunoHost
 
 [![Integration level](https://dash.yunohost.org/integration/Firefly-III.svg)](https://ci-apps.yunohost.org/jenkins/job/firefly-iii%20%28Community%29/lastBuild/consoleFull)
 
 [![Install Firefly III with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=firefly-iii)<br><br>
 
 
-*Please note that this app will install PHP 7.2*
+*Please note that this app will install PHP 7.3*
 
 ## Introduction
 "Firefly III" is a (self-hosted) manager for your personal finances. It can help you keep track of your expenses and income, so you can spend less and save more. Firefly III supports the use of budgets, categories and tags. It can import data from external sources and it has many neat financial reports available. You can [read all about it in the main repository](https://github.com/firefly-iii/firefly-iii) and in the [official documentation](https://firefly-iii.readthedocs.io/en/latest/).
@@ -69,24 +69,20 @@ Everything is organised:
 
 ### Installation on YunoHost
 
-- Firefly III requires a **dedicated (sub)domain** (must install under web root like **https://firefly.example.com/** not **https://example.com/firefly/** )
-
-#### Register a new domain and add it to YunoHost
-
-Firefly III requires a dedicated (sub)domain, so obtain one and add it using the YunoHost admin panel. **Domains -> Add domain**. As Firefly III uses the full domain and is installed on the root, you can create a subdomain such as firefly.domain.tld. Don't forget to update your DNS if you manage them manually.
+- Tested under a subdirectory on an existing domain
 
 #### Install the Firefly III application
 
 Use the YunoHost admin panel to install Firefly III by entering the GitHub repo address in the custom app URL:
 
 ```
-https://github.com/YunoHost-Apps/firefly-iii_ynh
+https://github.com/dr41nU/Firefly-III_ynh
 ```
 
 Or use the command line to install the Firefly III app:
 
 ```
-$ yunohost app install https://github.com/YunoHost-Apps/firefly-iii_ynh
+$ yunohost app install https://github.com/dr41nU/Firefly-III_ynh
 ```
 
 - The admin user should be a registered YunoHost user.

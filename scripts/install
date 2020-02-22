@@ -147,12 +147,6 @@ cd $final_path && php$phpversion artisan migrate:refresh --seed
 cd $final_path && php$phpversion artisan firefly-iii:upgrade-database
 cd $final_path && php$phpversion artisan passport:install
 
-#( cd $final_path && sudo /usr/bin/php7.3 artisan config:clear )
-# setup application config
-#(
-#cd $final_path && sudo /usr/bin/php7.3 artisan -q :refresh --seed --force
-#cd $final_path && sudo /usr/bin/php7.3 artisan passport:install  --force
-#)
 
 #=================================================
 # SETUP APPLICATION PERMISSIONS

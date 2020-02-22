@@ -138,6 +138,8 @@ ynh_replace_string "yunopass"   "$db_pwd"     "$final_path/.env"
 ynh_replace_string "yunobase"   "$db_name"    "$final_path/.env"
 ynh_replace_string "yunomail"   "$email"      "$final_path/.env"
 ynh_replace_string "yunodomain" "$domain"     "$final_path/.env"
+ynh_replace_string "yunoappurl" "$domain$path_url" "$final_path/.env"
+
 
 #init_composer $final_path $app
 

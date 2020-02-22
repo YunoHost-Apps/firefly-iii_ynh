@@ -76,7 +76,6 @@ ynh_script_progression --message="Removing php-fpm configuration..." --time --we
 
 # Remove the dedicated php-fpm config
 ynh_remove_fpm_config
-# ynh_remove_fpm7.2_config
 
 #=================================================
 # REMOVE DEPENDENCIES

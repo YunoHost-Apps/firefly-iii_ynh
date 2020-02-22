@@ -77,6 +77,14 @@ ynh_remove_fpm_config
 # ynh_remove_fpm7.2_config
 
 #=================================================
+# REMOVE DEPENDENCIES
+#=================================================
+ynh_script_progression --message="Removing dependencies..." --time --weight=1
+
+# Remove metapackage and its dependencies
+ynh_remove_php "$phpversion"
+
+#=================================================
 # REMOVE LOGROTATE CONFIGURATION
 #=================================================
 ynh_script_progression --message="Removing logrotate configuration..." --time --weight=1

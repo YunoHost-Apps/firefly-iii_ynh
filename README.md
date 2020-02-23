@@ -91,6 +91,6 @@ $ yunohost app install https://github.com/dr41nU/Firefly-III_ynh
 - You will probably be warned about missing locale from your system. Once you change the language to those corresponding to your system, the warning will desapear
 
 TODO
- - [] make firefly admin user dependant of the user choosen at installation
- - [] Make SSO Working
- - [] Define default language accordingly to system one
+ - [ ] make firefly admin user dependant of the user choosen at installation
+ - [ ] Make SSO Working
+ - [ ] Define default language accordingly to system one

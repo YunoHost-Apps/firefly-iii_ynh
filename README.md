@@ -70,6 +70,7 @@ Everything is organised:
 ### Installation on YunoHost
 
 - Tested under a subdirectory on an existing domain
+- Tested on amd64 and arm64 arches
 
 #### Install the Firefly III application
 
@@ -85,5 +86,11 @@ Or use the command line to install the Firefly III app:
 $ yunohost app install https://github.com/dr41nU/Firefly-III_ynh
 ```
 
-- The admin user should be a registered YunoHost user.
-- Important: when the installation is complete, you will have to visit the domain on which the app is installed and register the first account with the **primary email address of the Admin user given at the time of installayion** (otherwise you will not get admin rights). The registration will lock itself after the first registration.
+- The admin user should be the first user to log into firefly 
+- SSO is not working yet
+- You will probably be warned about missing locale from your system. Once you change the language to those corresponding to your system, the warning will desapear
+
+TODO
+ - [] make firefly admin user dependant of the user choosen at installation
+ - [] Make SSO Working
+ - [] Define default language accordingly to system one

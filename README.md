@@ -77,13 +77,13 @@ Everything is organised:
 Use the YunoHost admin panel to install Firefly III by entering the GitHub repo address in the custom app URL:
 
 ```
-https://github.com/dr41nU/Firefly-III_ynh
+https://github.com/YunoHost-Apps/firefly-iii_ynh
 ```
 
 Or use the command line to install the Firefly III app:
 
 ```
-$ yunohost app install https://github.com/dr41nU/Firefly-III_ynh
+$ yunohost app install https://github.com/YunoHost-Apps/firefly-iii_ynh
 ```
 
 - The admin user should be the first user to log into firefly 

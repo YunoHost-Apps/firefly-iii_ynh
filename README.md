@@ -19,54 +19,6 @@
 - [Firefly III on GitHub](https://github.com/firefly-iii/firefly-iii)
 - [Demo 1](https://demo.firefly-iii.org/login), [Demo 2](http://www.softaculous.com/softaculous/demos/Firefly_III)
 
-### Screenshots
-
-[![The index of Firefly III](https://firefly-iii.org/static/screenshots/4.7.4/tiny/index.png)](https://firefly-iii.org/static/screenshots/4.7.4/index.png) [![The account overview of Firefly III](https://firefly-iii.org/static/screenshots/4.7.4/tiny/account.png)](https://firefly-iii.org/static/screenshots/4.7.4/account.png)
-
-[![Overview of all budgets](https://firefly-iii.org/static/screenshots/4.7.4/tiny/budget.png)](https://firefly-iii.org/static/screenshots/4.7.4/budget.png) [![Overview of a category](https://firefly-iii.org/static/screenshots/4.7.4/tiny/category.png)](https://firefly-iii.org/static/screenshots/4.7.4/category.png)
-
-### Features
-
-Most importantly...
-
-* Firefly III runs on your own server, so you are fully in control of your data. It will not contact other sites or servers.
-* You can import from over 2500 financial providers, in 55 countries when you enable the [Spectre API](http://firefly-iii.readthedocs.io/en/latest/import/spectre.html).
-* You can import from [bunq](https://www.bunq.com/).
-* You can import CSV files from practically any bank.
-* Firefly III features an JSON REST API.
-
-But actually, it features:
-
-* [A double-entry bookkeeping system](http://firefly-iii.readthedocs.io/en/latest/concepts/transactions.html)
-* You can store, edit and remove [withdrawals, deposits and transfers](http://firefly-iii.readthedocs.io/en/latest/concepts/transactions.html). This allows you full financial management
-* You can manage different types of accounts
-  * [Asset](http://firefly-iii.readthedocs.io/en/latest/concepts/accounts.html) accounts
-  * Shared [asset accounts](http://firefly-iii.readthedocs.io/en/latest/concepts/accounts.html) ([household accounts](http://firefly-iii.readthedocs.io/en/latest/concepts/accounts.html))
-  * Saving accounts
-  * Credit cards
-* It's possible to create, change and manage money using [budgets](http://firefly-iii.readthedocs.io/en/latest/concepts/budgets.html)
-* Organize transactions using [categories](http://firefly-iii.readthedocs.io/en/latest/concepts/categories.html)
-* Save towards a goal using [piggy banks](http://firefly-iii.readthedocs.io/en/latest/advanced/piggies.html)
-* Predict and anticipate [bills](http://firefly-iii.readthedocs.io/en/latest/advanced/bills.html)
-* View income / expense [reports](http://firefly-iii.readthedocs.io/en/latest/advanced/reports.html)
-* [Rule based](http://firefly-iii.readthedocs.io/en/latest/advanced/rules.html) transaction handling with the ability to create your own rules.
-* The ability to [export data](http://firefly-iii.readthedocs.io/en/latest/import/export.html) so you can move to another system.
-* The ability to [import data](http://firefly-iii.readthedocs.io/en/latest/import/csv.html) so you can move _from_ another system.
-* Organize expenses using [tags](http://firefly-iii.readthedocs.io/en/latest/concepts/tags.html)
-* 2 factor authentication for extra security 🔒
-* Supports any currency you want, including [crypto currencies](http://firefly-iii.readthedocs.io/en/latest/concepts/currencies.html) such as ₿itcoin  and Ξthereum
-* Lots of help text in case you don’t get it
-* Translations into 10(!) languages, proudly powered by Crowdin
-
-Everything is organised:
-
-* Clear views that should show you how you're doing
-* Easy navigation through your records
-* Browse back and forth to see previous months or even years
-* Lots of charts because we all love them
-* Financial reporting showing you how well you are doing
-* Lots of math because we all like math!
-
 ### Installation on YunoHost
 
 - Tested under a subdirectory on an existing domain
@@ -86,11 +38,11 @@ Or use the command line to install the Firefly III app:
 $ yunohost app install https://github.com/YunoHost-Apps/firefly-iii_ynh
 ```
 
-- The admin user should be the first user to log into firefly 
+- The admin user should be the first user to log into Firefly III
 - SSO is not working yet
 - You will probably be warned about missing locale from your system. Once you change the language to those corresponding to your system, the warning will desapear
 
 TODO
- - [ ] make firefly admin user dependant of the user choosen at installation
- - [ ] Make SSO Working
- - [ ] Define default language accordingly to system one
+ - [ ] Make Firefly III admin user dependant of the user choosen at installation
+ - [ ] Make SSO work
+ - [ ] Define default language according to system language

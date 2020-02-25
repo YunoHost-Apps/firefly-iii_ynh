@@ -7,6 +7,8 @@
 #=================================================
 
 source _common.sh
+source ynh_add_extra_apt_repos__3
+source ynh_install_php__3
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -74,7 +76,14 @@ ynh_script_progression --message="Removing php-fpm configuration..." --time --we
 
 # Remove the dedicated php-fpm config
 ynh_remove_fpm_config
-# ynh_remove_fpm7.2_config
+
+#=================================================
+# REMOVE DEPENDENCIES
+#=================================================
+ynh_script_progression --message="Removing dependencies..." --time --weight=1
+
+# Remove metapackage and its dependencies
+ynh_remove_php 
 
 #=================================================
 # REMOVE LOGROTATE CONFIGURATION

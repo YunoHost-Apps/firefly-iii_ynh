@@ -5,7 +5,8 @@
 #=================================================
 
 # dependencies used by the app
-pkg_dependencies="php7.2 php7.2-zip php7.2-fpm php7.2-mysql php7.2-xml php7.2-intl php7.2-mbstring php7.2-gd php7.2-curl php7.2-bcmath php7.2-opcache php7.2-ldap"
+phpversion="7.3"
+pkg_dependencies="php${phpversion}-zip php${phpversion}-fpm php${phpversion}-mysql php${phpversion}-xml php${phpversion}-intl php${phpversion}-mbstring php${phpversion}-gd php${phpversion}-curl php${phpversion}-bcmath php${phpversion}-opcache php${phpversion}-ldap"
 
 # ============= FUTURE YUNOHOST HELPER =============
 # Delete a file checksum from the app settings

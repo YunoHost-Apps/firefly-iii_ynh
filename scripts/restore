@@ -117,11 +117,11 @@ ynh_restore_file --origin_path="/etc/logrotate.d/$app"
 # SPECIFIC UPGRADE
 #=================================================
 init_composer $final_path
-cd $final_path && sudo /usr/bin/php7.2 artisan migrate --env=production --force
-cd $final_path && sudo /usr/bin/php7.2 artisan cache:clear
-cd $final_path && sudo /usr/bin/php7.2 artisan firefly:upgrade-database
-cd $final_path && sudo /usr/bin/php7.2 artisan firefly:verify
-cd $final_path && sudo /usr/bin/php7.2 artisan passport:install
+cd $final_path && sudo /usr/bin/php$phpversion artisan migrate --env=production --force
+cd $final_path && sudo /usr/bin/php$phpversion artisan cache:clear
+cd $final_path && sudo /usr/bin/php$phpversion artisan firefly:upgrade-database
+cd $final_path && sudo /usr/bin/php$phpversion artisan firefly:verify
+cd $final_path && sudo /usr/bin/php$phpversion artisan passport:install
 
 #=================================================
 # GENERIC FINALIZATION

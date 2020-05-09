@@ -152,7 +152,7 @@ ynh_system_user_create --username=$app
 ynh_script_progression --message="Upgrading php-fpm configuration..." --time --weight=1
 
 # Create a dedicated php-fpm config
-ynh_add_fpm_config --phpversion=7.2
+ynh_add_fpm_config --phpversion=$phpversion
 
 #=================================================
 # STORE THE CONFIG FILE CHECKSUM
@@ -191,11 +191,11 @@ ynh_replace_string --match_string"yunomail"   --replace_string="$email"      --f
 ynh_replace_string --match_string"yunodomain" --replace_string="$domain"     --file="$final_path/.env"
 
 init_composer $final_path
-cd $final_path && sudo /usr/bin/php7.2 artisan migrate --env=production --force
-cd $final_path && sudo /usr/bin/php7.2 artisan cache:clear
-cd $final_path && sudo /usr/bin/php7.2 artisan firefly:upgrade-database
-cd $final_path && sudo /usr/bin/php7.2 artisan firefly:verify
-cd $final_path && sudo /usr/bin/php7.2 artisan passport:install
+cd $final_path && sudo /usr/bin/php$phpversion artisan migrate --env=production --force
+cd $final_path && sudo /usr/bin/php$phpversion artisan cache:clear
+cd $final_path && sudo /usr/bin/php$phpversion artisan firefly:upgrade-database
+cd $final_path && sudo /usr/bin/php$phpversion artisan firefly:verify
+cd $final_path && sudo /usr/bin/php$phpversion artisan passport:install
 
 # Verify the checksum and backup the file if it's different
 ynh_backup_if_checksum_is_different --file="$final_path/.env"
@@ -229,7 +229,7 @@ fi
 ynh_script_progression --message="Reloading nginx web server..." --time --weight=1
 
 ynh_systemd_action --service_name=nginx --action=reload
-ynh_systemd_action --service_name=php7.2-fpm --action=reload
+ynh_systemd_action --service_name=php$phpversion-fpm --action=reload
 
 #=================================================
 # END OF SCRIPT

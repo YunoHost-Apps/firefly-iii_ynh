@@ -11,8 +11,13 @@ if [ ! -e _common.sh ]; then
 	cp ../settings/scripts/_common.sh ./_common.sh
 	chmod a+rx _common.sh
 fi
+
 source _common.sh
+source ynh_add_extra_apt_repos__3
+source ynh_install_php__3
+source ynh_composer
 source /usr/share/yunohost/helpers
+
 
 #=================================================
 # MANAGE SCRIPT FAILURE

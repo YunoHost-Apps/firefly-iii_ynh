@@ -48,7 +48,6 @@ ynh_script_progression --message="Validating installation parameters..." --time 
 
 final_path=/var/www/$app
 test ! -e "$final_path" || ynh_die --message="This path already contains a folder"
-#mkdir $final_path
 
 # Register (book) web path
 ynh_webpath_register --app=$app --domain=$domain --path_url=$path_url
@@ -143,9 +142,9 @@ ynh_replace_string "yunoappurl" "$domain$path_url" "$final_path/.env"
 
 #init_composer $final_path $app
 
-cd $final_path && php$phpversion artisan migrate:refresh --seed
-cd $final_path && php$phpversion artisan firefly-iii:upgrade-database
-cd $final_path && php$phpversion artisan passport:install
+cd $final_path && php$phpversion artisan migrate:refresh --seed && cd $YNH_CWD 
+cd $final_path && php$phpversion artisan firefly-iii:upgrade-database && cd $YNH_CWD 
+cd $final_path && php$phpversion artisan passport:install && cd $YNH_CWD 
 
 
 #=================================================
@@ -215,7 +214,7 @@ ynh_use_logrotate
 #=================================================
 ynh_script_progression --message="Reloading nginx web server..." --time --weight=1
 
-ynh_systemd_action --service_name=php7.3-fpm --action=reload
+ynh_systemd_action --service_name=php${phpversion}-fpm --action=reload
 ynh_systemd_action --service_name=nginx --action=reload
 
 

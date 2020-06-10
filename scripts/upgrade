@@ -7,15 +7,13 @@
 #=================================================
 
 source _common.sh
-source ynh_add_extra_apt_repos__3
-source ynh_install_php__3
-source ynh_composer
+source ynh_composer__2
 source /usr/share/yunohost/helpers
 
 #=================================================
 # LOAD SETTINGS
 #=================================================
-ynh_script_progression --message="Loading installation settings..." --time --weight=1
+ynh_script_progression --message="Loading installation settings..." --weight=1
 
 app=$YNH_APP_INSTANCE_NAME
 
@@ -27,43 +25,45 @@ final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 db_name=$(ynh_app_setting_get --app=$app --key=db_name)
 db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
 random_key=$(ynh_app_setting_get --app=$app --key=random_key)
+email=$(ynh_user_get_info $admin 'mail')
 
 #=================================================
 # CHECK VERSION
 #=================================================
+ynh_script_progression --message="Checking version..."
 
 upgrade_type=$(ynh_check_app_version_changed)
 
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
 #=================================================
-ynh_script_progression --message="Ensuring downward compatibility..." --time --weight=1
+ynh_script_progression --message="Ensuring downward compatibility..." --weight=1
 
 # Fix is_public as a boolean value
 if [ "$is_public" = "Yes" ]; then
 	ynh_app_setting_set --app=$app --key=is_public --value=1
-    is_public=1
-    elif [ "$is_public" = "No" ]; then
+	is_public=1
+elif [ "$is_public" = "No" ]; then
 	ynh_app_setting_set --app=$app --key=is_public --value=0
     is_public=0
 fi
 
 # If db_name doesn't exist, create it
-if [ -z $db_name ]; then
+if [ -z "$db_name" ]; then
 	db_name=$(ynh_sanitize_dbid --db_name=$app)
 	ynh_app_setting_set --app=$app --key=db_name --value=$db_name
 fi
 
 # If final_path doesn't exist, create it
 if [ -z "$final_path" ]; then
-    final_path=/var/www/$app
+	final_path=/var/www/$app
 	ynh_app_setting_set --app=$app --key=final_path --value=$final_path
 fi
 
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
 #=================================================
-ynh_script_progression --message="Backing up the app before upgrading (may take a while)..." --time --weight=1
+ynh_script_progression --message="Backing up the app before upgrading (may take a while)..." --weight=1
 
 # Backup the current version of the app
 ynh_backup_before_upgrade
@@ -82,102 +82,58 @@ ynh_abort_if_errors
 path_url=$(ynh_normalize_url_path --path_url=$path_url)
 
 #=================================================
-# INSTALL DEPENDENCIES
-#=================================================
-
-ynh_script_progression --message="Installing dependencies..." --time --weight=1
-ynh_install_php --phpversion="$phpversion" --package="$pkg_dependencies"
-
+# STANDARD UPGRADE STEPS
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-ynh_script_progression --message="Upgrading source files..." --time --weight=1
 
-# Create a temporary directory
-tmpdir="$(mktemp -d)"
-# Backup the config file in the temp dir
-mkdir -p "$tmpdir/storage/upload"
-mkdir -p "$tmpdir/storage/export"
-mkdir -p "$final_path/storage/upload/"
-mkdir -p "$final_path/storage/export/"
-cp -a "$final_path/storage/upload/" "$tmpdir/storage/upload/"
-cp -a "$final_path/storage/export/" "$tmpdir/storage/export/"
-rm -Rf "$final_path"
+if [ "$upgrade_type" == "UPGRADE_APP" ]
+then
+	ynh_script_progression --message="Upgrading source files..."
 
-# Download, check integrity, uncompress and patch the source from app.src
-ynh_setup_source --dest_dir="$final_path"
+	# Create a temporary directory
+	tmpdir="$(mktemp -d)"
+	
+	# Backup the config file in the temp dir
+	mkdir -p "$tmpdir/storage/upload"
+	mkdir -p "$tmpdir/storage/export"
+	mkdir -p "$final_path/storage/upload/"
+	mkdir -p "$final_path/storage/export/"
+	cp -a "$final_path/storage/upload/" "$tmpdir/storage/upload/"
+	cp -a "$final_path/storage/export/" "$tmpdir/storage/export/"
+	rm -Rf "$final_path"
 
-#=================================================
-# SPECIFIC SETUP
-#=================================================
+	# Download, check integrity, uncompress and patch the source from app.src
+	ynh_setup_source --dest_dir="$final_path"
+	
+	# Restore the config file
+	cp -a "$tmpdir/storage/upload/" "$final_path/storage/upload/"
+	cp -a "$tmpdir/storage/export/"  "$final_path/storage/export/"
 
-# Install via composer
-ynh_install_composer --phpversion="$phpversion"
+	# Remove temporary directory
+	sudo rm -Rf "$tmpdir"
 
-# create a user
-email=$(ynh_user_get_info $admin 'mail')
-
-# setup application config
-sudo  cp ../conf/.env $final_path/.env
-
-#=================================================
-# MODIFY A CONFIG FILE
-#=================================================
-ynh_replace_string "random_key" "$random_key" "$final_path/.env"
-ynh_replace_string "yunouser"   "$db_name"    "$final_path/.env"
-ynh_replace_string "yunopass"   "$db_pwd"     "$final_path/.env"
-ynh_replace_string "yunobase"   "$db_name"    "$final_path/.env"
-ynh_replace_string "yunomail"   "$email"      "$final_path/.env"
-ynh_replace_string "yunodomain" "$domain"     "$final_path/.env"
-ynh_replace_string "yunoappurl" "$domain$path_url" "$final_path/.env"
-
-#Run artisan stuff
-
-cd $final_path && php$phpversion artisan migrate:refresh --seed && cd $YNH_CWD
-cd $final_path && php$phpversion artisan firefly-iii:upgrade-database && cd $YNH_CWD 
-cd $final_path && php$phpversion artisan passport:install && cd $YNH_CWD 
-
-#rm -rf "$final_path/bootstrap/cache/*"
-
-#cd $final_path && php$phpversion artisan cache:clear
-#cd $final_path && php$phpversion artisan migrate --seed
-#cd $final_path && php$phpversion artisan firefly-iii:upgrade-database
-#cd $final_path && php$phpversion artisan passport:install
-#cd $final_path && php$phpversion artisan cache:clear
-
-# Verify the checksum and backup the file if it's different
-ynh_backup_if_checksum_is_different --file="$final_path/.env"
-# Recalculate and store the config file checksum into the app settings
-ynh_store_file_checksum --file="$final_path/.env"
-
-cp -a "$tmpdir/storage/upload/" "$final_path/storage/upload/"
-cp -a "$tmpdir/storage/export/"  "$final_path/storage/export/"
-
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
-# SECURE FILES AND DIRECTORIES
-#=================================================
-
-# Set right permissions
-chown -R $app: $final_path
-chmod -R 775 ${final_path}/storage
-
-#remove tmp dir
-sudo rm -Rf "$tmpdir"
+fi
 
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
-ynh_script_progression --message="Upgrading nginx web server configuration..." --time --weight=1
+ynh_script_progression --message="Upgrading nginx web server configuration..." --weight=1
 
 # Create a dedicated nginx config
 ynh_add_nginx_config
 
 #=================================================
+# UPGRADE DEPENDENCIES
+#=================================================
+ynh_script_progression --message="Upgrading dependencies..."
+
+ynh_install_app_dependencies "$pkg_dependencies"
+
+#=================================================
 # CREATE DEDICATED USER
 #=================================================
-ynh_script_progression --message="Making sure dedicated system user exists..." --time --weight=1
+ynh_script_progression --message="Making sure dedicated system user exists..." --weight=1
 
 # Create a dedicated user (if not existing)
 ynh_system_user_create --username=$app
@@ -185,33 +141,85 @@ ynh_system_user_create --username=$app
 #=================================================
 # PHP-FPM CONFIGURATION
 #=================================================
-ynh_script_progression --message="Upgrading php-fpm configuration..." --time --weight=1
+ynh_script_progression --message="Upgrading php-fpm configuration..." --weight=1
 
 # Create a dedicated php-fpm config
-ynh_add_fpm_config --phpversion="$phpversion"
+ynh_add_fpm_config --usage=low --footprint=low --package="$extra_php_dependencies"
+phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 
 #=================================================
-# STORE THE CONFIG FILE CHECKSUM
+# SPECIFIC UPGRADE
 #=================================================
+# UPDATE PHP DEPENDENCIES
+#=================================================
+ynh_script_progression --message="Updating php dependencies..."
 
-### Verify the checksum of a file, stored by `ynh_store_file_checksum` in the install script.
-### And create a backup of this file if the checksum is different. So the file will be backed up if the admin had modified it.
-ynh_backup_if_checksum_is_different --file="$final_path/CONFIG_FILE"
+chown -R "$app": "$final_path"
+
+ynh_exec_warn_less ynh_composer_exec --phpversion="$phpversion" --workdir="$final_path" --commands="update"
+
+#=================================================
+# MODIFY A CONFIG FILE
+#=================================================
+ynh_script_progression --message="Modifying a config file..."
+
+config="$final_path/.env"
+ynh_backup_if_checksum_is_different --file="$config"
+cp ../conf/.env "$config"
+
+ynh_replace_string --match_string="random_key" --replace_string="$random_key" --target_file="$config"
+ynh_replace_string --match_string="yunouser" --replace_string="$db_name" --target_file="$config"
+ynh_replace_string --match_string="yunopass" --replace_string="$db_pwd" --target_file="$config"
+ynh_replace_string --match_string="yunobase" --replace_string="$db_name" --target_file="$config"
+ynh_replace_string --match_string="yunomail" --replace_string="$email" --target_file="$config"
+ynh_replace_string --match_string="yunodomain" --replace_string="$domain" --target_file="$config"
+ynh_replace_string --match_string="yunoappurl" --replace_string="$domain$path_url" --target_file="$config"
+
 # Recalculate and store the checksum of the file for the next upgrade.
-ynh_store_file_checksum --file="$final_path/CONFIG_FILE"
+ynh_store_file_checksum --file="$config"
+
+#=================================================
+# DEPLOYMENT
+#=================================================
+ynh_script_progression --message="Deploying..."
+
+pushd "$final_path"
+	php$phpversion artisan migrate:refresh --seed
+	php$phpversion artisan firefly-iii:upgrade-database
+	php$phpversion artisan passport:install
+
+	#rm -rf "$final_path/bootstrap/cache/*"
+
+	#php$phpversion artisan cache:clear
+	#php$phpversion artisan migrate --seed
+	#php$phpversion artisan firefly-iii:upgrade-database
+	#php$phpversion artisan passport:install
+	#php$phpversion artisan cache:clear
+popd
 
 #=================================================
 # SETUP LOGROTATE
 #=================================================
-ynh_script_progression --message="Upgrading logrotate configuration..." --time --weight=1
+ynh_script_progression --message="Upgrading logrotate configuration..." --weight=1
 
 # Use logrotate to manage app-specific logfile(s)
 ynh_use_logrotate --non-append
 
 #=================================================
+# GENERIC FINALIZATION
+#=================================================
+# SECURE FILES AND DIRECTORIES
+#=================================================
+ynh_script_progression --message="Securing files and directories..."
+
+# Set permissions on app files
+chown -R $app: $final_path
+chmod -R 775 ${final_path}/storage
+
+#=================================================
 # SETUP SSOWAT
 #=================================================
-ynh_script_progression --message="Upgrading SSOwat configuration..." --time --weight=1
+ynh_script_progression --message="Upgrading SSOwat configuration..." --weight=1
 
 # Make app public if necessary
 if [ $is_public -eq 1 ]
@@ -223,13 +231,12 @@ fi
 #=================================================
 # RELOAD NGINX
 #=================================================
-ynh_script_progression --message="Reloading nginx web server..." --time --weight=1
+ynh_script_progression --message="Reloading nginx web server..."
 
-ynh_systemd_action --service_name=php${phpversion}-fpm --action=reload
 ynh_systemd_action --service_name=nginx --action=reload
 
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Upgrade of $app completed" --time --last
+ynh_script_progression --message="Upgrade of $app completed" --last

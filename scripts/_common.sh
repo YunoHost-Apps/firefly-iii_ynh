@@ -5,10 +5,24 @@
 #=================================================
 
 # dependencies used by the app
-phpversion="7.3"
-pkg_dependencies="php${phpversion}-zip php${phpversion}-fpm php${phpversion}-mysql php${phpversion}-xml php${phpversion}-intl php${phpversion}-mbstring php${phpversion}-gd php${phpversion}-curl php${phpversion}-bcmath php${phpversion}-opcache php${phpversion}-ldap"
+pkg_dependencies=""
 
-# ============= FUTURE YUNOHOST HELPER =============
+YNH_PHP_VERSION="7.3"
+
+pkg_dependencies="php${YNH_PHP_VERSION}-zip php${YNH_PHP_VERSION}-fpm php${YNH_PHP_VERSION}-mysql php${YNH_PHP_VERSION}-xml php${YNH_PHP_VERSION}-intl php${YNH_PHP_VERSION}-mbstring php${YNH_PHP_VERSION}-gd php${YNH_PHP_VERSION}-curl php${YNH_PHP_VERSION}-bcmath php${YNH_PHP_VERSION}-opcache php${YNH_PHP_VERSION}-ldap"
+
+#=================================================
+# PERSONAL HELPERS
+#=================================================
+
+#=================================================
+# EXPERIMENTAL HELPERS
+#=================================================
+
+#=================================================
+# FUTURE OFFICIAL HELPERS
+#=================================================
+
 # Delete a file checksum from the app settings
 #
 # $app should be defined when calling this helper

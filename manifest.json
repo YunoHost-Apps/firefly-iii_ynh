@@ -3,8 +3,8 @@
     "id": "firefly-iii",
     "packaging_format": 1,
     "description": {
-        "en": "Firefly III is a self-hosted financial manager.",
-        "fr": "Firefly III est un gestionnaire de finances personnelles."
+        "en": "A self-hosted financial manager.",
+        "fr": "Un gestionnaire de finances personnelles."
     },
     "version": "5.2.0",
     "url": "https://firefly-iii.org/",
@@ -29,7 +29,7 @@
                 "name": "domain",
                 "type": "domain",
                 "ask": {
-                    "en": "Choose a domain name for Firefly III",
+                    "en": "Choose a domain for Firefly III",
                     "fr": "Choisissez un nom de domaine pour Firefly III"
                 },
                 "example": "example.com"

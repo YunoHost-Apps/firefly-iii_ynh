@@ -22,26 +22,3 @@ extra_php_dependencies="php${YNH_PHP_VERSION}-zip php${YNH_PHP_VERSION}-mysql ph
 #=================================================
 # FUTURE OFFICIAL HELPERS
 #=================================================
-
-# Execute a command as another user
-# usage: exec_as USER COMMAND [ARG ...]
-exec_as() {
-  local USER=$1
-  shift 1
-
-  if [[ $USER = $(whoami) ]]; then
-    eval $@
-  else
-    # use sudo twice to be root and be allowed to use another user
-    sudo sudo -u "$USER" $@
-  fi
-}
-
-#
-# Composer helpers
-#
-
-
-sudo_path () {
-	sudo env "PATH=$PATH" $@
-}

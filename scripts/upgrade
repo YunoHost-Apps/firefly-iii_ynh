@@ -111,7 +111,7 @@ then
 	cp -a "$tmpdir/storage/export/"  "$final_path/storage/export/"
 
 	# Remove temporary directory
-	sudo rm -Rf "$tmpdir"
+	rm -Rf "$tmpdir"
 
 fi
 

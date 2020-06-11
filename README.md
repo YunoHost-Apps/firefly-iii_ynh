@@ -13,7 +13,7 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 ## Screenshots
 
-![](https://camo.githubusercontent.com/e5e5e8e25e7039d15dd75dd132e231263d0b4fb2/68747470733a2f2f7777772e66697265666c792d6969692e6f72672f7374617469632f73637265656e73686f74732f6970686f6e652d636f6d706c6574652e706e67)
+![](index.png)
 
 ## Demo
 

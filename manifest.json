@@ -8,7 +8,7 @@
     },
     "version": "5.2.0",
     "url": "https://firefly-iii.org/",
-    "license": "GPL v3",
+    "license": "GPL-3.0-or-later",
     "maintainer": {
         "name": "Anmol Sharma",
         "email": "anmol@datamol.org",

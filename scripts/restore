@@ -6,12 +6,8 @@
 # IMPORT GENERIC HELPERS
 #=================================================
 
-if [ ! -e _common.sh ]; then
-	# Get the _common.sh file if it's not in the current directory
-	cp ../settings/scripts/_common.sh ./_common.sh
-	chmod a+rx _common.sh
-fi
-source _common.sh
+#Keep this path for calling _common.sh inside the execution's context of backup and restore scripts
+source ../settings/scripts/_common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -24,66 +20,55 @@ ynh_abort_if_errors
 #=================================================
 # LOAD SETTINGS
 #=================================================
+ynh_script_progression --message="Loading settings..."
 
 app=$YNH_APP_INSTANCE_NAME
 
-domain=$(ynh_app_setting_get $app domain)
-path_url=$(ynh_app_setting_get $app path)
-final_path=$(ynh_app_setting_get $app final_path)
-db_name=$(ynh_app_setting_get $app db_name)
+domain=$(ynh_app_setting_get --app=$app --key=domain)
+path_url=$(ynh_app_setting_get --app=$app --key=path)
+final_path=$(ynh_app_setting_get --app=$app --key=final_path)
+db_name=$(ynh_app_setting_get --app=$app --key=db_name)
+db_user=$db_name
+phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 
 #=================================================
 # CHECK IF THE APP CAN BE RESTORED
 #=================================================
+ynh_script_progression --message="Validating restoration parameters..."
 
-ynh_webpath_available $domain $path_url \
-	|| ynh_die "Path not available: ${domain}${path_url}"
+ynh_webpath_available --domain=$domain --path_url=$path_url \
+|| ynh_die --message="Path not available: ${domain}${path_url}"
 test ! -d $final_path \
-	|| ynh_die "There is already a directory: $final_path "
-	
-	
-#=================================================
-# SPECIFIC RESTORATION
-#=================================================
-# REINSTALL DEPENDENCIES
-#=================================================
-
-# Define and install dependencies
-ynh_install_php7
+|| ynh_die --message="There is already a directory: $final_path "
 
 #=================================================
 # STANDARD RESTORATION STEPS
 #=================================================
 # RESTORE THE NGINX CONFIGURATION
 #=================================================
+ynh_script_progression --message="Restoring the nginx configuration..."
 
-ynh_restore_file "/etc/nginx/conf.d/$domain.d/$app.conf"
-
-
-#=================================================
-# RESTORE THE MYSQL DATABASE
-#=================================================
-
-db_pwd=$(ynh_app_setting_get $app mysqlpwd)
-ynh_mysql_setup_db $db_name $db_name $db_pwd
-ynh_mysql_connect_as $db_name $db_pwd $db_name < ./db.sql
+ynh_restore_file --origin_path="/etc/nginx/conf.d/$domain.d/$app.conf"
 
 #=================================================
 # RESTORE THE APP MAIN DIR
 #=================================================
+ynh_script_progression --message="Restoring the app main directory..."
 
-ynh_restore_file "$final_path"
+ynh_restore_file --origin_path="$final_path"
 
 #=================================================
 # RECREATE THE DEDICATED USER
 #=================================================
+ynh_script_progression --message="Recreating the dedicated system user..."
 
 # Create the dedicated user (if not existing)
-ynh_system_user_create $app
+ynh_system_user_create --username=$app
 
 #=================================================
 # RESTORE USER RIGHTS
 #=================================================
+ynh_script_progression --message="Restoring user rights..."
 
 # Restore permissions on app files
 chown -R $app: $final_path
@@ -91,30 +76,51 @@ chown -R $app: $final_path
 #=================================================
 # RESTORE THE PHP-FPM CONFIGURATION
 #=================================================
+ynh_script_progression --message="Restoring PHP-FPM configuration..."
 
-ynh_restore_file "/etc/php/7.2/fpm/pool.d/$app.conf"
+ynh_restore_file --origin_path="/etc/php/$phpversion/fpm/pool.d/$app.conf"
+
+# Recreate a dedicated php-fpm config
+ynh_add_fpm_config --usage=low --footprint=low --package="$extra_php_dependencies"
 
 #=================================================
-# SPECIFIC UPGRADE
+# SPECIFIC RESTORATION
 #=================================================
-init_composer $final_path
-cd $final_path && sudo /usr/bin/php7.2 artisan migrate --env=production --force
-cd $final_path && sudo /usr/bin/php7.2 artisan cache:clear
-cd $final_path && sudo /usr/bin/php7.2 artisan firefly:upgrade-database
-cd $final_path && sudo /usr/bin/php7.2 artisan firefly:verify
-cd $final_path && sudo /usr/bin/php7.2 artisan passport:install
+# REINSTALL DEPENDENCIES
+#=================================================
+ynh_script_progression --message="Reinstalling dependencies..."
+
+# Define and install dependencies
+ynh_install_app_dependencies $pkg_dependencies
+
+#=================================================
+# RESTORE THE MYSQL DATABASE
+#=================================================
+ynh_script_progression --message="Restoring the MySQL database..."
+
+db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
+ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name --db_pwd=$db_pwd
+ynh_mysql_connect_as --user=$db_user --password=$db_pwd --database=$db_name < ./db.sql
+
+#=================================================
+# RESTORE THE LOGROTATE CONFIGURATION
+#=================================================
+ynh_script_progression --message="Restoring the logrotate configuration..."
+
+ynh_restore_file --origin_path="/etc/logrotate.d/$app"
 
 #=================================================
 # GENERIC FINALIZATION
 #=================================================
 # RELOAD NGINX AND PHP-FPM
 #=================================================
+ynh_script_progression --message="Reloading nginx web server and php-fpm..."
 
-systemctl reload php7.2-fpm
-systemctl reload nginx
-# Set default php to php5 or php7.0
-if [ "$(lsb_release --codename --short)" == "jessie" ]; then
-	update-alternatives --set php /usr/bin/php5
-else
-    update-alternatives --set php /usr/bin/php7.0
-fi
+ynh_systemd_action --service_name=php$phpversion-fpm --action=reload
+ynh_systemd_action --service_name=nginx --action=reload
+
+#=================================================
+# END OF SCRIPT
+#=================================================
+
+ynh_script_progression --message="Restoration completed for $app" --last

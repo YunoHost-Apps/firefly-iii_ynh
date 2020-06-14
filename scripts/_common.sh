@@ -5,40 +5,20 @@
 #=================================================
 
 # dependencies used by the app
-phpversion="7.3"
-pkg_dependencies="php${phpversion}-zip php${phpversion}-fpm php${phpversion}-mysql php${phpversion}-xml php${phpversion}-intl php${phpversion}-mbstring php${phpversion}-gd php${phpversion}-curl php${phpversion}-bcmath php${phpversion}-opcache php${phpversion}-ldap"
+pkg_dependencies=""
 
-# ============= FUTURE YUNOHOST HELPER =============
-# Delete a file checksum from the app settings
-#
-# $app should be defined when calling this helper
-#
-# usage: ynh_remove_file_checksum file
-# | arg: file - The file for which the checksum will be deleted
-ynh_delete_file_checksum () {
-	local checksum_setting_name=checksum_${1//[\/ ]/_}	# Replace all '/' and ' ' by '_'
-	ynh_app_setting_delete $app $checksum_setting_name
-}
+YNH_PHP_VERSION="7.3"
 
-# Execute a command as another user
-# usage: exec_as USER COMMAND [ARG ...]
-exec_as() {
-  local USER=$1
-  shift 1
+extra_php_dependencies="php${YNH_PHP_VERSION}-zip php${YNH_PHP_VERSION}-mysql php${YNH_PHP_VERSION}-xml php${YNH_PHP_VERSION}-intl php${YNH_PHP_VERSION}-mbstring php${YNH_PHP_VERSION}-gd php${YNH_PHP_VERSION}-curl php${YNH_PHP_VERSION}-bcmath php${YNH_PHP_VERSION}-opcache php${YNH_PHP_VERSION}-ldap"
 
-  if [[ $USER = $(whoami) ]]; then
-    eval $@
-  else
-    # use sudo twice to be root and be allowed to use another user
-    sudo sudo -u "$USER" $@
-  fi
-}
+#=================================================
+# PERSONAL HELPERS
+#=================================================
 
-#
-# Composer helpers
-#
+#=================================================
+# EXPERIMENTAL HELPERS
+#=================================================
 
-
-sudo_path () {
-	sudo env "PATH=$PATH" $@
-}
+#=================================================
+# FUTURE OFFICIAL HELPERS
+#=================================================

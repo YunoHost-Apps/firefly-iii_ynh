@@ -119,15 +119,24 @@ ynh_exec_warn_less ynh_install_composer --phpversion="$phpversion" --workdir="$f
 ynh_script_progression --message="Modifying a config file..."
 
 config="$final_path/.env"
-cp ../conf/.env "$config"
+cp -f "$final_path/.env.example" "$config"
 
-ynh_replace_string --match_string="random_key" --replace_string="$random_key" --target_file="$config"
-ynh_replace_string --match_string="yunouser" --replace_string="$db_name" --target_file="$config"
-ynh_replace_string --match_string="yunopass" --replace_string="$db_pwd" --target_file="$config"
-ynh_replace_string --match_string="yunobase" --replace_string="$db_name" --target_file="$config"
-ynh_replace_string --match_string="yunomail" --replace_string="$email" --target_file="$config"
-ynh_replace_string --match_string="yunodomain" --replace_string="$domain" --target_file="$config"
-ynh_replace_string --match_string="yunoappurl" --replace_string="$domain$path_url" --target_file="$config"
+ynh_replace_string --match_string="SomeRandomStringOf32CharsExactly" --replace_string="$random_key" --target_file="$config" ADLDAP_BASEDN=""
+ynh_replace_string --match_string="fireflyiiidb" --replace_string="127.0.0.1" --target_file="$config"
+ynh_replace_string --match_string="DB_DATABASE=firefly" --replace_string="DB_DATABASE=$db_name" --target_file="$config"
+ynh_replace_string --match_string="secret_firefly_password" --replace_string="$db_pwd" --target_file="$config"
+ynh_replace_string --match_string="MAIL_MAILER=log" --replace_string="MAIL_MAILER=smtp" --target_file="$config"
+ynh_replace_string --match_string="MAIL_HOST=null" --replace_string="MAIL_HOST=127.0.0.1" --target_file="$config"
+ynh_replace_string --match_string="MAIL_PORT=2525" --replace_string="MAIL_PORT=25" --target_file="$config"
+ynh_replace_string --match_string="mail@example.com" --replace_string="$email" --target_file="$config"
+ynh_replace_string --match_string="changeme@example.com" --replace_string="$app@$domain" --target_file="$config"
+ynh_replace_string --match_string="ADLDAP_CONTROLLERS=" --replace_string="ADLDAP_CONTROLLERS=127.0.0.1" --target_file="$config"
+ynh_replace_string --match_string='ADLDAP_BASEDN=""' --replace_string='ADLDAP_BASEDN="dc=yunohost,dc=org"' --target_file="$config"
+ynh_replace_string --match_string="ADLDAP_ACCOUNT_PREFIX=" --replace_string='ADLDAP_ACCOUNT_PREFIX="uid="' --target_file="$config"
+ynh_replace_string --match_string="ADLDAP_ACCOUNT_SUFFIX=" --replace_string='ADLDAP_ACCOUNT_SUFFIX=",dc=yunohost,dc=org"' --target_file="$config"
+ynh_replace_string --match_string="distinguishedname" --replace_string="uid" --target_file="$config"
+ynh_replace_string --match_string="userprincipalname" --replace_string="uid" --target_file="$config"
+ynh_replace_string --match_string="localhost" --replace_string="$domain$path_url" --target_file="$config"
 
 #=================================================
 # STORE THE CONFIG FILE CHECKSUM
@@ -172,16 +181,11 @@ ynh_use_logrotate
 #=================================================
 ynh_script_progression --message="Configuring SSOwat..."
 
-if [ $is_public -eq 0 ]
-then	# Remove the public access
-    ynh_app_setting_delete --app=$app --key=skipped_uris
-fi
-
 # Make app public if necessary
 if [ $is_public -eq 1 ]
 then
-    # unprotected_uris allows SSO credentials to be passed anyway.
-    ynh_app_setting_set --app=$app --key=unprotected_uris --value="/"
+	# unprotected_uris allows SSO credentials to be passed anyway.
+	ynh_app_setting_set --app=$app --key=unprotected_uris --value="/"
 fi
 
 #=================================================

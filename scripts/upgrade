@@ -164,20 +164,33 @@ ynh_exec_warn_less ynh_install_composer --phpversion="$phpversion" --workdir="$f
 #=================================================
 #ynh_script_progression --message="Modifying a config file..."
 
-#config="$final_path/.env"
-#ynh_backup_if_checksum_is_different --file="$config"
-#cp ../conf/.env "$config"
+config="$final_path/.env"
+ynh_backup_if_checksum_is_different --file="$config"
+cp ../conf/.env "$config"
 
-#ynh_replace_string --match_string="random_key" --replace_string="$random_key" --target_file="$config"
-#ynh_replace_string --match_string="yunouser" --replace_string="$db_name" --target_file="$config"
-#ynh_replace_string --match_string="yunopass" --replace_string="$db_pwd" --target_file="$config"
-#ynh_replace_string --match_string="yunobase" --replace_string="$db_name" --target_file="$config"
-#ynh_replace_string --match_string="yunomail" --replace_string="$email" --target_file="$config"
-#ynh_replace_string --match_string="yunodomain" --replace_string="$domain" --target_file="$config"
-#ynh_replace_string --match_string="yunoappurl" --replace_string="$domain$path_url" --target_file="$config"
+ynh_replace_string --match_string="SomeRandomStringOf32CharsExactly" --replace_string="$random_key" --target_file="$config"
+ynh_replace_string --match_string="fireflyiiidb" --replace_string="127.0.0.1" --target_file="$config"
+ynh_replace_string --match_string="DB_DATABASE=firefly" --replace_string="DB_DATABASE=$db_name" --target_file="$config"
+ynh_replace_string --match_string="DB_USERNAME=firefly" --replace_string="DB_USERNAME=$db_name" --target_file="$config"
+ynh_replace_string --match_string="secret_firefly_password" --replace_string="$db_pwd" --target_file="$config"
+ynh_replace_string --match_string="MAIL_MAILER=log" --replace_string="MAIL_MAILER=smtp" --target_file="$config"
+ynh_replace_string --match_string="MAIL_HOST=null" --replace_string="MAIL_HOST=127.0.0.1" --target_file="$config"
+ynh_replace_string --match_string="MAIL_PORT=2525" --replace_string="MAIL_PORT=25" --target_file="$config"
+ynh_replace_string --match_string="mail@example.com" --replace_string="$email" --target_file="$config"
+ynh_replace_string --match_string="changeme@example.com" --replace_string="$app@$domain" --target_file="$config"
+# These helpers are for reference to impliment remove them once app gets support for LDAP. Put them directly in .env
+
+# ynh_replace_string --match_string="ADLDAP_CONTROLLERS=" --replace_string="ADLDAP_CONTROLLERS=127.0.0.1" --target_file="$config"
+# ynh_replace_string --match_string='ADLDAP_BASEDN=""' --replace_string='ADLDAP_BASEDN="dc=yunohost,dc=org"' --target_file="$config"
+# ynh_replace_string --match_string="ADLDAP_ACCOUNT_PREFIX=" --replace_string='ADLDAP_ACCOUNT_PREFIX="uid="' --target_file="$config"
+# ynh_replace_string --match_string="ADLDAP_ACCOUNT_SUFFIX=" --replace_string='ADLDAP_ACCOUNT_SUFFIX=",dc=yunohost,dc=org"' --target_file="$config"
+# ynh_replace_string --match_string="distinguishedname" --replace_string="uid" --target_file="$config"
+# ynh_replace_string --match_string="userprincipalname" --replace_string="uid" --target_file="$config"
+ynh_replace_string --match_string="localhost" --replace_string="$domain$path_url" --target_file="$config"
+
 
 # Recalculate and store the checksum of the file for the next upgrade.
-#ynh_store_file_checksum --file="$config"
+ynh_store_file_checksum --file="$config"
 
 #=================================================
 # DEPLOYMENT

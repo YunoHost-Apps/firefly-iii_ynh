@@ -102,7 +102,7 @@ then
 	cp -a "$final_path/storage/upload/" "$tmpdir/storage/upload/"
 	cp -a "$final_path/.env" "$tmpdir/.env"
 	cp -a "$final_path/storage/export/" "$tmpdir/storage/export/"
-	rm -Rf "$final_path"
+	ynh_secure_remove --file="$final_path"
 
 	# Download, check integrity, uncompress and patch the source from app.src
 	ynh_setup_source --dest_dir="$final_path"
@@ -112,7 +112,7 @@ then
 	cp -a "$tmpdir/storage/export/"  "$final_path/storage/export/"
 	cp -a  "$tmpdir/.env" "$final_path/.env"
 	# Remove temporary directory
-	rm -Rf "$tmpdir"
+	ynh_secure_remove --file="$tmpdir"
 
 fi
 

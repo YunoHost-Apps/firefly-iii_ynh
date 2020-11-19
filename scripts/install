@@ -119,7 +119,7 @@ ynh_exec_warn_less ynh_install_composer --phpversion="$phpversion" --workdir="$f
 ynh_script_progression --message="Modifying a config file..."
 
 config="$final_path/.env"
-cp -f cp ../conf/.env "$config"
+cp -f ../conf/.env "$config"
 
 ynh_replace_string --match_string="SomeRandomStringOf32CharsExactly" --replace_string="$random_key" --target_file="$config"
 ynh_replace_string --match_string="fireflyiiidb" --replace_string="127.0.0.1" --target_file="$config"

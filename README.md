@@ -1,6 +1,7 @@
 # Firefly III for YunoHost
 
 [![Integration level](https://dash.yunohost.org/integration/firefly-iii.svg)](https://dash.yunohost.org/appci/app/firefly-iii) ![](https://ci-apps.yunohost.org/ci/badges/firefly-iii.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/firefly-iii.maintain.svg)
+
 [![Install Firefly III with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=firefly-iii)
 
 > *This package allows you to install Firefly III quickly and simply on a YunoHost server.

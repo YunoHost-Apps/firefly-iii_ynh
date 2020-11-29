@@ -3,10 +3,10 @@
     "id": "firefly-iii",
     "packaging_format": 1,
     "description": {
-        "en": "A self-hosted financial manager.",
-        "fr": "Un gestionnaire de finances personnelles."
+        "en": "Self-hosted financial manager.",
+        "fr": "Gestionnaire de finances personnelles."
     },
-    "version": "5.2.0~ynh2",
+    "version": "5.4.6~ynh1",
     "url": "https://firefly-iii.org/",
     "license": "GPL-3.0-or-later",
     "maintainer": {

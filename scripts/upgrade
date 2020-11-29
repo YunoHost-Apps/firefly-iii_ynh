@@ -93,34 +93,37 @@ then
 
 	# Create a temporary directory
 	tmpdir="$(mktemp -d)"
-	
+
 	# Backup the config file in the temp dir
 	mkdir -p "$tmpdir/storage/upload"
 	mkdir -p "$tmpdir/storage/export"
 	mkdir -p "$final_path/storage/upload/"
 	mkdir -p "$final_path/storage/export/"
 	cp -a "$final_path/storage/upload/" "$tmpdir/storage/upload/"
+	cp -a "$final_path/.env" "$tmpdir/.env"
 	cp -a "$final_path/storage/export/" "$tmpdir/storage/export/"
-	ynh_secure_remove "$final_path"
+	ynh_secure_remove --file="$final_path"
+
 
 	# Download, check integrity, uncompress and patch the source from app.src
 	ynh_setup_source --dest_dir="$final_path"
-	
+
 	# Restore the config file
 	cp -a "$tmpdir/storage/upload/" "$final_path/storage/upload/"
 	cp -a "$tmpdir/storage/export/"  "$final_path/storage/export/"
-
+	cp -a  "$tmpdir/.env" "$final_path/.env"
 	# Remove temporary directory
-	ynh_secure_remove "$tmpdir"
+	ynh_secure_remove --file="$tmpdir"
+
 
 fi
 
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
-ynh_script_progression --message="Upgrading nginx web server configuration..."
+ynh_script_progression --message="Upgrading NGINX web server configuration..."
 
-# Create a dedicated nginx config
+# Create a dedicated NGINX config
 ynh_add_nginx_config
 
 #=================================================
@@ -141,7 +144,7 @@ ynh_system_user_create --username=$app
 #=================================================
 # PHP-FPM CONFIGURATION
 #=================================================
-ynh_script_progression --message="Upgrading php-fpm configuration..."
+ynh_script_progression --message="Upgrading PHP-FPM configuration..."
 
 # Create a dedicated php-fpm config
 ynh_add_fpm_config --usage=low --footprint=low --package="$extra_php_dependencies"
@@ -152,7 +155,7 @@ phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 #=================================================
 # UPDATE PHP DEPENDENCIES
 #=================================================
-ynh_script_progression --message="Updating php dependencies..."
+ynh_script_progression --message="Updating PHP dependencies..."
 
 chown -R "$app": "$final_path"
 
@@ -167,13 +170,26 @@ config="$final_path/.env"
 ynh_backup_if_checksum_is_different --file="$config"
 cp ../conf/.env "$config"
 
-ynh_replace_string --match_string="random_key" --replace_string="$random_key" --target_file="$config"
-ynh_replace_string --match_string="yunouser" --replace_string="$db_name" --target_file="$config"
-ynh_replace_string --match_string="yunopass" --replace_string="$db_pwd" --target_file="$config"
-ynh_replace_string --match_string="yunobase" --replace_string="$db_name" --target_file="$config"
-ynh_replace_string --match_string="yunomail" --replace_string="$email" --target_file="$config"
-ynh_replace_string --match_string="yunodomain" --replace_string="$domain" --target_file="$config"
-ynh_replace_string --match_string="yunoappurl" --replace_string="$domain$path_url" --target_file="$config"
+ynh_replace_string --match_string="SomeRandomStringOf32CharsExactly" --replace_string="$random_key" --target_file="$config"
+ynh_replace_string --match_string="fireflyiiidb" --replace_string="127.0.0.1" --target_file="$config"
+ynh_replace_string --match_string="DB_DATABASE=firefly" --replace_string="DB_DATABASE=$db_name" --target_file="$config"
+ynh_replace_string --match_string="DB_USERNAME=firefly" --replace_string="DB_USERNAME=$db_name" --target_file="$config"
+ynh_replace_string --match_string="secret_firefly_password" --replace_string="$db_pwd" --target_file="$config"
+ynh_replace_string --match_string="MAIL_MAILER=log" --replace_string="MAIL_MAILER=smtp" --target_file="$config"
+ynh_replace_string --match_string="MAIL_HOST=null" --replace_string="MAIL_HOST=127.0.0.1" --target_file="$config"
+ynh_replace_string --match_string="MAIL_PORT=2525" --replace_string="MAIL_PORT=25" --target_file="$config"
+ynh_replace_string --match_string="mail@example.com" --replace_string="$email" --target_file="$config"
+ynh_replace_string --match_string="changeme@example.com" --replace_string="$app@$domain" --target_file="$config"
+# These helpers are for reference.Remove them once app gets support for LDAP. Put them directly in .env
+
+# ynh_replace_string --match_string="ADLDAP_CONTROLLERS=" --replace_string="ADLDAP_CONTROLLERS=127.0.0.1" --target_file="$config"
+# ynh_replace_string --match_string='ADLDAP_BASEDN=""' --replace_string='ADLDAP_BASEDN="dc=yunohost,dc=org"' --target_file="$config"
+# ynh_replace_string --match_string="ADLDAP_ACCOUNT_PREFIX=" --replace_string='ADLDAP_ACCOUNT_PREFIX="uid="' --target_file="$config"
+# ynh_replace_string --match_string="ADLDAP_ACCOUNT_SUFFIX=" --replace_string='ADLDAP_ACCOUNT_SUFFIX=",dc=yunohost,dc=org"' --target_file="$config"
+# ynh_replace_string --match_string="distinguishedname" --replace_string="uid" --target_file="$config"
+# ynh_replace_string --match_string="userprincipalname" --replace_string="uid" --target_file="$config"
+ynh_replace_string --match_string="localhost" --replace_string="$domain$path_url" --target_file="$config"
+
 
 # Recalculate and store the checksum of the file for the next upgrade.
 ynh_store_file_checksum --file="$config"
@@ -184,9 +200,11 @@ ynh_store_file_checksum --file="$config"
 ynh_script_progression --message="Deploying..."
 
 pushd "$final_path"
+
 	php$phpversion artisan migrate:refresh --seed
 	php$phpversion artisan firefly-iii:upgrade-database
 	php$phpversion artisan passport:install
+	php$phpversion artisan cache:clear
 
 	#rm -rf "$final_path/bootstrap/cache/*"
 
@@ -231,7 +249,7 @@ fi
 #=================================================
 # RELOAD NGINX
 #=================================================
-ynh_script_progression --message="Reloading nginx web server..."
+ynh_script_progression --message="Reloading NGINX web server..."
 
 ynh_systemd_action --service_name=nginx --action=reload
 

@@ -26,8 +26,7 @@ path_url=$YNH_APP_ARG_PATH
 admin=$YNH_APP_ARG_ADMIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
 random_key=$(ynh_string_random --length=32)
-
-email=$(ynh_user_get_info $admin 'mail')
+email=$(ynh_user_get_info --username=$admin --key=mail)
 
 app=$YNH_APP_INSTANCE_NAME
 
@@ -198,8 +197,6 @@ ynh_script_progression --message="Configuring permissions..."
 # Make app public if necessary
 if [ $is_public -eq 1 ]
 then
-	# Everyone can access the app.
-	# The "main" permission is automatically created before the install script.
 	ynh_permission_update --permission="main" --add="visitors"
 fi
 

@@ -60,6 +60,13 @@ if [ -z "$final_path" ]; then
 	ynh_app_setting_set --app=$app --key=final_path --value=$final_path
 fi
 
+# Cleaning legacy permissions
+if ynh_legacy_permissions_exists; then
+	ynh_legacy_permissions_delete_all
+
+	ynh_app_setting_delete --app=$app --key=is_public
+fi
+
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
 #=================================================
@@ -150,7 +157,7 @@ phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 #=================================================
 ynh_script_progression --message="Updating PHP dependencies..."
 
-chown -R "$app": "$final_path"
+chown -R $app: "$final_path"
 
 ynh_exec_warn_less ynh_install_composer --phpversion="$phpversion" --workdir="$final_path"
 
@@ -182,7 +189,6 @@ ynh_replace_string --match_string="changeme@example.com" --replace_string="$app@
 # ynh_replace_string --match_string="distinguishedname" --replace_string="uid" --target_file="$config"
 # ynh_replace_string --match_string="userprincipalname" --replace_string="uid" --target_file="$config"
 ynh_replace_string --match_string="localhost" --replace_string="$domain$path_url" --target_file="$config"
-
 
 # Recalculate and store the checksum of the file for the next upgrade.
 ynh_store_file_checksum --file="$config"
@@ -226,18 +232,6 @@ ynh_script_progression --message="Securing files and directories..."
 # Set permissions on app files
 chown -R $app: $final_path
 chmod -R 775 ${final_path}/storage
-
-#=================================================
-# SETUP SSOWAT
-#=================================================
-ynh_script_progression --message="Upgrading SSOwat configuration..."
-
-# Make app public if necessary
-if [ $is_public -eq 1 ]
-then
-    # unprotected_uris allows SSO credentials to be passed anyway
-    ynh_app_setting_set --app=$app --key=unprotected_uris --value="/"
-fi
 
 #=================================================
 # RELOAD NGINX

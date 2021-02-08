@@ -201,18 +201,14 @@ ynh_script_progression --message="Deploying..."
 
 pushd "$final_path"
 
-	php$phpversion artisan migrate:refresh --seed
+	rm -rf bootstrap/cache/*
+	php$phpversion artisan cache:clear
+	php$phpversion artisan migrate --seed
 	php$phpversion artisan firefly-iii:upgrade-database
 	php$phpversion artisan passport:install
 	php$phpversion artisan cache:clear
 
-	#rm -rf "$final_path/bootstrap/cache/*"
 
-	#php$phpversion artisan cache:clear
-	#php$phpversion artisan migrate --seed
-	#php$phpversion artisan firefly-iii:upgrade-database
-	#php$phpversion artisan passport:install
-	#php$phpversion artisan cache:clear
 popd
 
 #=================================================
@@ -233,6 +229,17 @@ ynh_script_progression --message="Securing files and directories..."
 # Set permissions on app files
 chown -R $app: $final_path
 chmod -R 775 ${final_path}/storage
+
+#=================================================
+# SETUP A CRON
+#=================================================
+ynh_script_progression --message="Setuping a cron..."
+
+cp ../conf/cron /etc/cron.d/$app
+
+ynh_replace_string --match_string="__FINALPATH__" --replace_string="$final_path" --target_file="/etc/cron.d/$app"
+ynh_replace_string --match_string="__APP__" --replace_string="$app" --target_file="/etc/cron.d/$app"
+ynh_replace_string --match_string="__PHPVERSION__" --replace_string="$phpversion" --target_file="/etc/cron.d/$app"
 
 #=================================================
 # SETUP SSOWAT

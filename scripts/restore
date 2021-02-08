@@ -103,6 +103,13 @@ ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name --db_pwd=$db_pwd
 ynh_mysql_connect_as --user=$db_user --password=$db_pwd --database=$db_name < ./db.sql
 
 #=================================================
+# RESTORE THE CRON FILE
+#=================================================
+ynh_script_progression --message="Restoring the cron file..."
+
+ynh_restore_file --origin_path="/etc/cron.d/$app"
+
+#=================================================
 # RESTORE THE LOGROTATE CONFIGURATION
 #=================================================
 ynh_script_progression --message="Restoring the logrotate configuration..."

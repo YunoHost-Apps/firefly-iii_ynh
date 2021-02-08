@@ -1,8 +1,6 @@
 # See here for more informations
 # https://github.com/YunoHost/package_check#syntax-check_process-file
 
-# Move this file from check_process.default to check_process when you have filled it.
-
 ;; Test complet
     ; Manifest
         domain="domain.tld"	(DOMAIN)
@@ -17,14 +15,11 @@
         setup_private=1
         setup_public=1
         upgrade=1
-        upgrade=1	from_commit=66140e9d21f8d9e07074b5bded213265b06819d5
+        upgrade=1	from_commit=231c5e281e9cafabd35d4a6ef3c27fec6f3c470f
         backup_restore=1
         multi_instance=1
         port_already_use=0
         change_url=0
-;;; Levels
-	# If the level 5 (Package linter) is forced to 1. Please add justifications here.
-	Level 5=auto
 ;;; Options
 Email=anmol@datamol.org
 Notification=change

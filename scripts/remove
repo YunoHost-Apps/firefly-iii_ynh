@@ -64,6 +64,16 @@ ynh_script_progression --message="Removing PHP-FPM configuration..."
 ynh_remove_fpm_config
 
 #=================================================
+# SPECIFIC REMOVE
+#=================================================
+# REMOVE THE CRON FILE
+#=================================================
+ynh_script_progression --message="Removing the cron file..."
+
+# Remove a cron file
+ynh_secure_remove --file="/etc/cron.d/$app"
+
+#=================================================
 # REMOVE LOGROTATE CONFIGURATION
 #=================================================
 ynh_script_progression --message="Removing logrotate configuration..."

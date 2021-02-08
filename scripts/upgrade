@@ -200,18 +200,14 @@ ynh_script_progression --message="Deploying..."
 
 pushd "$final_path"
 
-	php$phpversion artisan migrate:refresh --seed
+	rm -rf bootstrap/cache/*
+	php$phpversion artisan cache:clear
+	php$phpversion artisan migrate --seed
 	php$phpversion artisan firefly-iii:upgrade-database
 	php$phpversion artisan passport:install
 	php$phpversion artisan cache:clear
 
-	#rm -rf "$final_path/bootstrap/cache/*"
 
-	#php$phpversion artisan cache:clear
-	#php$phpversion artisan migrate --seed
-	#php$phpversion artisan firefly-iii:upgrade-database
-	#php$phpversion artisan passport:install
-	#php$phpversion artisan cache:clear
 popd
 
 #=================================================

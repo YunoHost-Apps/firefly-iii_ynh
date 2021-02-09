@@ -25,7 +25,7 @@ final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 db_name=$(ynh_app_setting_get --app=$app --key=db_name)
 db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
 random_key=$(ynh_app_setting_get --app=$app --key=random_key)
-email=$(ynh_user_get_info $admin 'mail')
+email=$(ynh_user_get_info --username=$admin --key=mail)
 
 #=================================================
 # CHECK VERSION
@@ -60,6 +60,13 @@ if [ -z "$final_path" ]; then
 	ynh_app_setting_set --app=$app --key=final_path --value=$final_path
 fi
 
+# Cleaning legacy permissions
+if ynh_legacy_permissions_exists; then
+	ynh_legacy_permissions_delete_all
+
+	ynh_app_setting_delete --app=$app --key=is_public
+fi
+
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
 #=================================================
@@ -73,13 +80,6 @@ ynh_clean_setup () {
 }
 # Exit if an error occurs during the execution of the script
 ynh_abort_if_errors
-
-#=================================================
-# CHECK THE PATH
-#=================================================
-
-# Normalize the URL path syntax
-path_url=$(ynh_normalize_url_path --path_url=$path_url)
 
 #=================================================
 # STANDARD UPGRADE STEPS
@@ -104,18 +104,15 @@ then
 	cp -a "$final_path/storage/export/" "$tmpdir/storage/export/"
 	ynh_secure_remove --file="$final_path"
 
-
 	# Download, check integrity, uncompress and patch the source from app.src
 	ynh_setup_source --dest_dir="$final_path"
 
 	# Restore the config file
 	cp -a "$tmpdir/storage/upload/" "$final_path/storage/upload/"
 	cp -a "$tmpdir/storage/export/"  "$final_path/storage/export/"
-	cp -a  "$tmpdir/.env" "$final_path/.env"
+	cp -a "$tmpdir/.env" "$final_path/.env"
 	# Remove temporary directory
 	ynh_secure_remove --file="$tmpdir"
-
-
 fi
 
 #=================================================
@@ -157,7 +154,7 @@ phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 #=================================================
 ynh_script_progression --message="Updating PHP dependencies..."
 
-chown -R "$app": "$final_path"
+chown -R $app: $final_path
 
 ynh_exec_warn_less ynh_install_composer --phpversion="$phpversion" --workdir="$final_path"
 
@@ -190,7 +187,6 @@ ynh_replace_string --match_string="changeme@example.com" --replace_string="$app@
 # ynh_replace_string --match_string="userprincipalname" --replace_string="uid" --target_file="$config"
 ynh_replace_string --match_string="localhost" --replace_string="$domain$path_url" --target_file="$config"
 
-
 # Recalculate and store the checksum of the file for the next upgrade.
 ynh_store_file_checksum --file="$config"
 
@@ -200,15 +196,12 @@ ynh_store_file_checksum --file="$config"
 ynh_script_progression --message="Deploying..."
 
 pushd "$final_path"
-
-	rm -rf bootstrap/cache/*
+	ynh_secure_remove --file="bootstrap/cache/*"
 	php$phpversion artisan cache:clear
 	php$phpversion artisan migrate --seed
 	php$phpversion artisan firefly-iii:upgrade-database
 	php$phpversion artisan passport:install
 	php$phpversion artisan cache:clear
-
-
 popd
 
 #=================================================
@@ -228,7 +221,7 @@ ynh_script_progression --message="Securing files and directories..."
 
 # Set permissions on app files
 chown -R $app: $final_path
-chmod -R 775 ${final_path}/storage
+chmod -R 775 $final_path/storage
 
 #=================================================
 # SETUP A CRON
@@ -240,18 +233,6 @@ cp ../conf/cron /etc/cron.d/$app
 ynh_replace_string --match_string="__FINALPATH__" --replace_string="$final_path" --target_file="/etc/cron.d/$app"
 ynh_replace_string --match_string="__APP__" --replace_string="$app" --target_file="/etc/cron.d/$app"
 ynh_replace_string --match_string="__PHPVERSION__" --replace_string="$phpversion" --target_file="/etc/cron.d/$app"
-
-#=================================================
-# SETUP SSOWAT
-#=================================================
-ynh_script_progression --message="Upgrading SSOwat configuration..."
-
-# Make app public if necessary
-if [ $is_public -eq 1 ]
-then
-    # unprotected_uris allows SSO credentials to be passed anyway
-    ynh_app_setting_set --app=$app --key=unprotected_uris --value="/"
-fi
 
 #=================================================
 # RELOAD NGINX

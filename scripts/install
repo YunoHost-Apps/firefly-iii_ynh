@@ -26,8 +26,7 @@ path_url=$YNH_APP_ARG_PATH
 admin=$YNH_APP_ARG_ADMIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
 random_key=$(ynh_string_random --length=32)
-
-email=$(ynh_user_get_info $admin 'mail')
+email=$(ynh_user_get_info --username=$admin --key=mail)
 
 app=$YNH_APP_INSTANCE_NAME
 
@@ -168,8 +167,8 @@ popd
 ynh_script_progression --message="Securing files and directories..."
 
 # Set right permissions
-chown -R $app:$app $final_path
-chmod -R 775 ${final_path}/storage
+chown -R $app: $final_path
+chmod -R 775 $final_path/storage
 
 #=================================================
 # SETUP A CRON
@@ -193,13 +192,12 @@ ynh_use_logrotate
 #=================================================
 # SETUP SSOWAT
 #=================================================
-ynh_script_progression --message="Configuring SSOwat..."
+ynh_script_progression --message="Configuring permissions..."
 
 # Make app public if necessary
 if [ $is_public -eq 1 ]
 then
-	# unprotected_uris allows SSO credentials to be passed anyway.
-	ynh_app_setting_set --app=$app --key=unprotected_uris --value="/"
+	ynh_permission_update --permission="main" --add="visitors"
 fi
 
 #=================================================

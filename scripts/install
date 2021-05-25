@@ -72,11 +72,11 @@ ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-ynh_script_progression --message="Setting up source files..."
+ynh_script_progression --message="Cloning Firefly-iii..."
 
 ynh_app_setting_set --app=$app --key=final_path --value=$final_path
-# Download, check integrity, uncompress and patch the source from app.src
-ynh_setup_source --dest_dir="$final_path"
+
+git clone https://github.com/firefly-iii/firefly-iii.git $final_path
 
 #=================================================
 # NGINX CONFIGURATION
@@ -130,7 +130,7 @@ ynh_replace_string --match_string="MAIL_HOST=null" --replace_string="MAIL_HOST=1
 ynh_replace_string --match_string="MAIL_PORT=2525" --replace_string="MAIL_PORT=25" --target_file="$config"
 ynh_replace_string --match_string="mail@example.com" --replace_string="$email" --target_file="$config"
 ynh_replace_string --match_string="changeme@example.com" --replace_string="$app@$domain" --target_file="$config"
-# These helpers are for reference to impliment remove them once app gets support for LDAP. Put them directly in .env
+# These helpers are for reference purpose.Uncomment them once app gets support for LDAP. Put them directly in .env
 
 # ynh_replace_string --match_string="ADLDAP_CONTROLLERS=" --replace_string="ADLDAP_CONTROLLERS=127.0.0.1" --target_file="$config"
 # ynh_replace_string --match_string='ADLDAP_BASEDN=""' --replace_string='ADLDAP_BASEDN="dc=yunohost,dc=org"' --target_file="$config"

@@ -15,8 +15,7 @@
         setup_private=1
         setup_public=1
         upgrade=1
-        upgrade=1	from_commit=231c5e281e9cafabd35d4a6ef3c27fec6f3c470f
-        backup_restore=1
+        upgrade=1	from_commit=5ee628f58c4f9ea6b6fd48d843453c47ed3d34e4       backup_restore=1
         multi_instance=1
         port_already_use=0
         change_url=0

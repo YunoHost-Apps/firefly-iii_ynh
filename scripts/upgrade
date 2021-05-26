@@ -114,7 +114,9 @@ then
 	# Download, check integrity, uncompress and patch the source from app.src
 	ynh_setup_source --dest_dir="$final_path"
     ynh_secure_remove  bootstrap/cache/*
-	# Restore the config file
+	# Restore the config file and data
+	mkdir -p "$final_path/storage/upload/"
+	mkdir -p "$final_path/storage/export/"
 	cp -a "$tmpdir/storage/upload/*" "$final_path/storage/upload/."
 	cp -a "$tmpdir/storage/export/*"  "$final_path/storage/export/."
 	cp -a "$tmpdir/.env" "$final_path/.env"

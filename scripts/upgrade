@@ -106,9 +106,9 @@ then
 	mkdir -p "$tmpdir/storage/export"
 	mkdir -p "$final_path/storage/upload/"
 	mkdir -p "$final_path/storage/export/"
-	cp -a "$final_path/storage/upload/*" "$tmpdir/storage/upload/"
+	cp -aT "$final_path/storage/upload" "$tmpdir/storage/upload/$"
 	cp -a "$final_path/.env" "$tmpdir/.env"
-	cp -a "$final_path/storage/export/*" "$tmpdir/storage/export/"
+	cp -aT "$final_path/storage/export" "$tmpdir/storage/export/"
 	ynh_secure_remove --file="$final_path"
 
 	# Download, check integrity, uncompress and patch the source from app.src
@@ -117,8 +117,8 @@ then
 	# Restore the config file and data
 	mkdir -p "$final_path/storage/upload/"
 	mkdir -p "$final_path/storage/export/"
-	cp -a "$tmpdir/storage/upload/*" "$final_path/storage/upload/."
-	cp -a "$tmpdir/storage/export/*"  "$final_path/storage/export/."
+	cp -aT "$tmpdir/storage/upload" "$final_path/storage/upload"
+	cp -aT "$tmpdir/storage/export"  "$final_path/storage/export"
 	cp -a "$tmpdir/.env" "$final_path/.env"
 	# Remove temporary directory
 	ynh_secure_remove --file="$tmpdir"

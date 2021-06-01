@@ -26,6 +26,7 @@ db_name=$(ynh_app_setting_get --app=$app --key=db_name)
 db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
 random_key=$(ynh_app_setting_get --app=$app --key=random_key)
 email=$(ynh_user_get_info --username=$admin --key=mail)
+update=$(ynh_app_setting_get       --app=$app --key=update)
 
 #=================================================
 # CHECK VERSION
@@ -92,7 +93,14 @@ then
   if [ `cd $final_path && git rev-parse --is-inside-work-tree` ];
   then
 	pushd "$final_path"
-      git pull
+      if [ $update -eq 1 ]
+      then
+          git fetch --tags
+          git checkout $latest_tag   
+      else
+          git fetch --tags
+          git checkout $tag
+      fi
       ynh_secure_remove bootstrap/cache/*
       ynh_secure_remove  vendor/
     popd
@@ -112,7 +120,16 @@ then
 	ynh_secure_remove --file="$final_path"
 
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$final_path"
+    if [ $update -eq 1 ]
+    then
+       
+     git clone -b $latest_tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $final_path
+
+    else
+      git clone -b $tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $final_path
+
+    fi
+
     ynh_secure_remove  bootstrap/cache/*
 	# Restore the config file and data
 	mkdir -p "$final_path/storage/upload/"

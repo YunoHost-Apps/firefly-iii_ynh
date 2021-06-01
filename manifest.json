@@ -57,15 +57,7 @@
           "fr": "Est-ce une application publique ?"
         },
         "default": true
-      },
-      {
-        "name": "update",
-        "type": "boolean",
-        "ask": {
-          "en": "Making this option to true will give you an option to force upgrade to new version without the package being updated to that version. WARNING: This can be risky and break your app if specific version have additional steps than noraml upgrade. Keep the option false, if you are not sure."
-        },
-        "default": false
       }
-    ]
+          ]
   }
 }

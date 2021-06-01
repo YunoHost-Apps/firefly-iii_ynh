@@ -27,7 +27,7 @@ admin=$YNH_APP_ARG_ADMIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
 random_key=$(ynh_string_random --length=32)
 email=$(ynh_user_get_info --username=$admin --key=mail)
-update=$YNH_APP_ARG_UPDATE
+update=1
 app=$YNH_APP_INSTANCE_NAME
 
 #=================================================

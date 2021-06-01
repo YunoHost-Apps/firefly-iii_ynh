@@ -26,7 +26,7 @@ db_name=$(ynh_app_setting_get --app=$app --key=db_name)
 db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
 random_key=$(ynh_app_setting_get --app=$app --key=random_key)
 email=$(ynh_user_get_info --username=$admin --key=mail)
-update=$(ynh_app_setting_get       --app=$app --key=update)
+update=$(ynh_app_setting_get --app=$app --key=update)
 
 #=================================================
 # CHECK VERSION
@@ -95,10 +95,10 @@ then
 	pushd "$final_path"
       if [ $update -eq 1 ]
       then
-          git fetch --tags
+          git fetch origin tag $latest_tag --no-tags
           git checkout $latest_tag   
       else
-          git fetch --tags
+          git fetch origin tag $tag --no-tags
           git checkout $tag
       fi
       ynh_secure_remove bootstrap/cache/*

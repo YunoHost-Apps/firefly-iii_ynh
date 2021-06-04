@@ -8,6 +8,13 @@
   },
   "version": "5.5.11~ynh2",
   "url": "https://firefly-iii.org/",
+  "upstream": {
+        "license": "GPL-3.0-or-later",
+        "website": "https://firefly-iii.org/",
+        "demo": "https://demo.firefly-iii.org/login",
+        "admindoc": "https://docs.firefly-iii.org/",
+        "code": "https://github.com/firefly-iii/firefly-iii"
+    },
   "license": "GPL-3.0-or-later",
   "maintainer": {
     "name": "Anmol Sharma",

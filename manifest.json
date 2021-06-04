@@ -25,7 +25,11 @@
     "yunohost": ">= 4.2.0"
   },
   "multi_instance": true,
-  "services": ["nginx", "php7.4-fpm", "mysql"],
+  "services": [
+    "nginx",
+    "php7.4-fpm",
+    "mysql"
+  ],
   "arguments": {
     "install": [
       {
@@ -49,6 +53,6 @@
         "type": "boolean",
         "default": true
       }
-          ]
+    ]
   }
 }

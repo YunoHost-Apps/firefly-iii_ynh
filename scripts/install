@@ -86,6 +86,10 @@ ynh_app_setting_set --app=$app --key=final_path --value=$final_path
 
 git clone -b $tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $final_path
 
+chmod 750 "$final_path"
+chmod -R o-rwx "$final_path"
+chown -R $app:www-data "$final_path"
+
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
@@ -120,7 +124,7 @@ ynh_script_progression --message="Modifying a config file..."
 ynh_add_config --template="../conf/.env" --destination="$final_path/.env"
 
 chmod 400 "$final_path/.env"
-chown $app:$app "$final_path/.env"
+chown $app "$final_path/.env"
 
 #=================================================
 # DEPLOY
@@ -132,17 +136,6 @@ pushd "$final_path"
 	php$phpversion artisan firefly-iii:upgrade-database
 	php$phpversion artisan passport:install
 popd
-
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
-# SECURE FILES AND DIRECTORIES
-#=================================================
-ynh_script_progression --message="Securing files and directories..."
-
-# Set right permissions
-chown -R $app: $final_path
-chmod -R 775 $final_path/storage
 
 #=================================================
 # SETUP A CRON

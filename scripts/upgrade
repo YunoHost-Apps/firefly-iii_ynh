@@ -140,6 +140,10 @@ then
   fi
 fi
 
+chmod 750 "$final_path"
+chmod -R o-rwx "$final_path"
+chown -R $app:www-data "$final_path"
+
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
@@ -171,8 +175,6 @@ phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 #=================================================
 ynh_script_progression --message="Updating PHP dependencies..."
 
-chown -R $app: $final_path
-
 ynh_exec_warn_less ynh_install_composer --phpversion="$phpversion" --workdir="$final_path"
 
 #=================================================
@@ -183,7 +185,7 @@ ynh_script_progression --message="Modifying a config file..."
 ynh_add_config --template="../conf/.env" --destination="$final_path/.env"
 
 chmod 400 "$final_path/.env"
-chown $app:$app "$final_path/.env"
+chown $app "$final_path/.env"
 
 #=================================================
 # DEPLOYMENT
@@ -206,17 +208,6 @@ ynh_script_progression --message="Upgrading logrotate configuration..."
 
 # Use logrotate to manage app-specific logfile(s)
 ynh_use_logrotate --non-append
-
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
-# SECURE FILES AND DIRECTORIES
-#=================================================
-ynh_script_progression --message="Securing files and directories..."
-
-# Set permissions on app files
-chown -R $app: $final_path
-chmod -R 775 $final_path/storage
 
 #=================================================
 # SETUP A CRON

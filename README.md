@@ -21,6 +21,10 @@ Self-hosted financial manager.
 
 
 
+## Screenshots
+
+![](./doc/screenshots/ff2.png)
+
 ## Documentation and resources
 
 * YunoHost documentation for this app: https://yunohost.org/app_firefly-iii

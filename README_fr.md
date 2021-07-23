@@ -17,6 +17,10 @@ Gestionnaire de finances personnelles.
 
 
 
+## Captures d'écran
+
+![](./doc/screenshots/ff2.png)
+
 ## Documentations et ressources
 
 * Documentation YunoHost pour cette app : https://yunohost.org/app_firefly-iii

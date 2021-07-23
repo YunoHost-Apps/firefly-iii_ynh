@@ -15,20 +15,22 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 ## Overview
 
-Self-hosted financial manager.
+Self-hosted financial manager
 
-**Shipped version:** 5.5.11~ynh2
+**Shipped version:** 5.5.12~ynh1
 
 **Demo:** https://demo.firefly-iii.org/login
 
 ## Screenshots
 
 ![](./doc/screenshots/budget.png)
+![](./doc/screenshots/ff2.png)
 
 ## Documentation and resources
 
 * Official app website: https://firefly-iii.org/
-* Official admin documentation: https://docs.firefly-iii.org/
+* Official user documentation: https://yunohost.org/apps
+* Official admin documentation: https://docs.firefly-iii.org/firefly-iii/about-firefly-iii/introduction/
 * Upstream app code repository: https://github.com/firefly-iii/firefly-iii
 * YunoHost documentation for this app: https://yunohost.org/app_firefly-iii
 * Report a bug: https://github.com/YunoHost-Apps/firefly-iii_ynh/issues

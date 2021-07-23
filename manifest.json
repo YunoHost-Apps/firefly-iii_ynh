@@ -1,58 +1,59 @@
 {
-  "name": "Firefly III",
-  "id": "firefly-iii",
-  "packaging_format": 1,
-  "description": {
-    "en": "Self-hosted financial manager.",
-    "fr": "Gestionnaire de finances personnelles."
-  },
-  "version": "5.5.11~ynh2",
-  "url": "https://firefly-iii.org/",
-  "upstream": {
+    "name": "Firefly III",
+    "id": "firefly-iii",
+    "packaging_format": 1,
+    "description": {
+        "en": "Self-hosted financial manager",
+        "fr": "Gestionnaire de finances personnelles"
+    },
+    "version": "5.5.12~ynh1",
+    "url": "https://firefly-iii.org/",
+    "upstream": {
         "license": "GPL-3.0-or-later",
         "website": "https://firefly-iii.org/",
         "demo": "https://demo.firefly-iii.org/login",
-        "admindoc": "https://docs.firefly-iii.org/",
+        "admindoc": "https://docs.firefly-iii.org/firefly-iii/about-firefly-iii/introduction/",
+        "userdoc": "https://yunohost.org/apps",
         "code": "https://github.com/firefly-iii/firefly-iii"
     },
-  "license": "GPL-3.0-or-later",
-  "maintainer": {
-    "name": "Anmol Sharma",
-    "email": "anmol@datamol.org",
-    "url": "https://datamol.org"
-  },
-  "requirements": {
-    "yunohost": ">= 4.2.0"
-  },
-  "multi_instance": true,
-  "services": [
-    "nginx",
-    "php7.4-fpm",
-    "mysql"
-  ],
-  "arguments": {
-    "install": [
-      {
-        "name": "domain",
-        "type": "domain",
-        "example": "example.com"
-      },
-      {
-        "name": "path",
-        "type": "path",
-        "example": "/example",
-        "default": "/firefly"
-      },
-      {
-        "name": "admin",
-        "type": "user",
-        "example": "johndoe"
-      },
-      {
-        "name": "is_public",
-        "type": "boolean",
-        "default": true
-      }
-    ]
-  }
+    "license": "GPL-3.0-or-later",
+    "maintainer": {
+        "name": "Anmol Sharma",
+        "email": "anmol@datamol.org",
+        "url": "https://datamol.org"
+    },
+    "requirements": {
+        "yunohost": ">= 4.2.4"
+    },
+    "multi_instance": true,
+    "services": [
+        "nginx",
+        "php7.4-fpm",
+        "mysql"
+    ],
+    "arguments": {
+        "install" : [
+            {
+                "name": "domain",
+                "type": "domain",
+                "example": "example.com"
+            },
+            {
+                "name": "path",
+                "type": "path",
+                "example": "/example",
+		        "default": "/firefly"
+            },
+            {
+                "name": "admin",
+                "type": "user",
+                "example": "johndoe"
+            },
+            {
+                "name": "is_public",
+                "type": "boolean",
+                "default": true
+            }
+        ]
+    }
 }

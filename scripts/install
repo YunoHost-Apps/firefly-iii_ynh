@@ -45,10 +45,9 @@ ynh_webpath_register --app=$app --domain=$domain --path_url=$path_url
 #=================================================
 ynh_script_progression --message="Storing installation settings..."
 
-ynh_app_setting_set --app=$app --key=domain     --value=$domain
-ynh_app_setting_set --app=$app --key=path       --value=$path_url
-ynh_app_setting_set --app=$app --key=admin      --value=$admin
-ynh_app_setting_set --app=$app --key=is_public  --value=$is_public
+ynh_app_setting_set --app=$app --key=domain --value=$domain
+ynh_app_setting_set --app=$app --key=path --value=$path_url
+ynh_app_setting_set --app=$app --key=admin --value=$admin
 ynh_app_setting_set --app=$app --key=random_key --value=$random_key
 ynh_app_setting_set --app=$app --key=update     --value=$update
 
@@ -58,6 +57,14 @@ ynh_app_setting_set --app=$app --key=update     --value=$update
 ynh_script_progression --message="Installing dependencies..."
 
 ynh_install_app_dependencies $pkg_dependencies
+
+#=================================================
+# CREATE DEDICATED USER
+#=================================================
+ynh_script_progression --message="Configuring system user..."
+
+# Create a system user
+ynh_system_user_create --username=$app --home_dir="$final_path"
 
 #=================================================
 # CREATE A MYSQL DATABASE
@@ -89,6 +96,7 @@ git clone -b $tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $fina
 chmod 750 "$final_path"
 chmod -R o-rwx "$final_path"
 chown -R $app:www-data "$final_path"
+chmod -R 775 $final_path/storage
 
 #=================================================
 # NGINX CONFIGURATION
@@ -122,7 +130,6 @@ ynh_exec_warn_less ynh_install_composer --phpversion="$phpversion" --workdir="$f
 ynh_script_progression --message="Modifying a config file..."
 
 ynh_add_config --template="../conf/.env" --destination="$final_path/.env"
-
 chmod 400 "$final_path/.env"
 chown $app "$final_path/.env"
 
@@ -143,6 +150,8 @@ popd
 ynh_script_progression --message="Setuping a cron..."
 
 ynh_add_config --template="../conf/cron" --destination="/etc/cron.d/$app"
+chown root: "/etc/cron.d/$app"
+chmod 644 "/etc/cron.d/$app"
 
 #=================================================
 # SETUP LOGROTATE

@@ -11,20 +11,22 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 
 ## Vue d'ensemble
 
-Gestionnaire de finances personnelles.
+Gestionnaire de finances personnelles
 
-**Version incluse :** 5.5.11~ynh2
+**Version incluse :** 5.5.12~ynh1
 
 **Démo :** https://demo.firefly-iii.org/login
 
 ## Captures d'écran
 
 ![](./doc/screenshots/budget.png)
+![](./doc/screenshots/ff2.png)
 
 ## Documentations et ressources
 
 * Site officiel de l'app : https://firefly-iii.org/
-* Documentation officielle de l'admin : https://docs.firefly-iii.org/
+* Documentation officielle utilisateur : https://yunohost.org/apps
+* Documentation officielle de l'admin : https://docs.firefly-iii.org/firefly-iii/about-firefly-iii/introduction/
 * Dépôt de code officiel de l'app : https://github.com/firefly-iii/firefly-iii
 * Documentation YunoHost pour cette app : https://yunohost.org/app_firefly-iii
 * Signaler un bug : https://github.com/YunoHost-Apps/firefly-iii_ynh/issues

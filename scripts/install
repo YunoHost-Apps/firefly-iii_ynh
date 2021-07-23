@@ -96,10 +96,6 @@ git clone -b $tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $fina
 chmod 750 "$final_path"
 chmod -R o-rwx "$final_path"
 chown -R $app:www-data "$final_path"
-
-chmod 750 "$final_path"
-chmod -R o-rwx "$final_path"
-chown -R $app:www-data "$final_path"
 chmod -R 775 $final_path/storage
 
 #=================================================

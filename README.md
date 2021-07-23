@@ -23,6 +23,7 @@ Self-hosted financial manager
 
 ## Screenshots
 
+![](./doc/screenshots/budget.png)
 ![](./doc/screenshots/ff2.png)
 
 ## Documentation and resources

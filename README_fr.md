@@ -19,6 +19,7 @@ Gestionnaire de finances personnelles
 
 ## Captures d'écran
 
+![](./doc/screenshots/budget.png)
 ![](./doc/screenshots/ff2.png)
 
 ## Documentations et ressources

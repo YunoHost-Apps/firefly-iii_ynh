@@ -1,12 +1,9 @@
-# See here for more informations
-# https://github.com/YunoHost/package_check#syntax-check_process-file
-
 ;; Test complet
     ; Manifest
-        domain="domain.tld"	(DOMAIN)
-		path="/path"	(PATH)
-        admin="john"	(USER)
-        is_public=1	(PUBLIC|public=1|private=0)
+        domain="domain.tld"
+		path="/path"
+        admin="john"
+        is_public=1
     ; Checks
         pkg_linter=1
 		setup_sub_dir=1
@@ -18,7 +15,6 @@
         upgrade=1	from_commit=231c5e281e9cafabd35d4a6ef3c27fec6f3c470f
         backup_restore=1
         multi_instance=1
-        port_already_use=0
         change_url=0
 ;;; Options
 Email=anmol@datamol.org

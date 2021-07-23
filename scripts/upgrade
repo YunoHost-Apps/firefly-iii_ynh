@@ -80,14 +80,6 @@ ynh_script_progression --message="Making sure dedicated system user exists..."
 ynh_system_user_create --username=$app --home_dir="$final_path"
 
 #=================================================
-# CREATE DEDICATED USER
-#=================================================
-ynh_script_progression --message="Making sure dedicated system user exists..."
-
-# Create a dedicated user (if not existing)
-ynh_system_user_create --username=$app --home_dir="$final_path"
-
-#=================================================
 # STANDARD UPGRADE STEPS
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -95,56 +87,29 @@ ynh_system_user_create --username=$app --home_dir="$final_path"
 
 if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
-  if [ `cd $final_path && git rev-parse --is-inside-work-tree` ];
-  then
-	pushd "$final_path"
-      if [ $update -eq 1 ]
-      then
-          git fetch origin tag $latest_tag --no-tags
-          git checkout $latest_tag   
-      else
-          git fetch origin tag $tag --no-tags
-          git checkout $tag
-      fi
-      ynh_secure_remove bootstrap/cache/*
-      ynh_secure_remove  vendor/
-    popd
-  else
     ynh_script_progression --message="Upgrading source files..."
     # Create a temporary directory
     tmpdir="$(mktemp -d)"
 
     # Backup the config file in the temp dir
-	mkdir -p "$tmpdir/storage/upload"
-	mkdir -p "$tmpdir/storage/export"
-	mkdir -p "$final_path/storage/upload/"
-	mkdir -p "$final_path/storage/export/"
-	cp -aT "$final_path/storage/upload" "$tmpdir/storage/upload/$"
+	mkdir -p "$tmpdir/upload"
+	mkdir -p "$tmpdir/export"
+	cp -aT "$final_path/storage/upload" "$tmpdir/upload"
+	cp -aT "$final_path/storage/export" "$tmpdir/export"
 	cp -a "$final_path/.env" "$tmpdir/.env"
-	cp -aT "$final_path/storage/export" "$tmpdir/storage/export/"
+
 	ynh_secure_remove --file="$final_path"
-
-	# Download, check integrity, uncompress and patch the source from app.src
-    if [ $update -eq 1 ]
-    then
-       
-     git clone -b $latest_tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $final_path
-
-    else
-      git clone -b $tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $final_path
-
-    fi
+	ynh_setup_source --dest_dir="$final_path"
 
     ynh_secure_remove  bootstrap/cache/*
 	# Restore the config file and data
-	mkdir -p "$final_path/storage/upload/"
-	mkdir -p "$final_path/storage/export/"
-	cp -aT "$tmpdir/storage/upload" "$final_path/storage/upload"
-	cp -aT "$tmpdir/storage/export"  "$final_path/storage/export"
+	mkdir -p "$final_path/storage/upload"
+	mkdir -p "$final_path/storage/export"
+	cp -aT "$tmpdir/upload" "$final_path/storage/upload"
+	cp -aT "$tmpdir/export" "$final_path/storage/export"
 	cp -a "$tmpdir/.env" "$final_path/.env"
 	# Remove temporary directory
 	ynh_secure_remove --file="$tmpdir"
-  fi
 fi
 
 chmod 750 "$final_path"
@@ -189,12 +154,12 @@ ynh_exec_warn_less ynh_install_composer --phpversion="$phpversion" --workdir="$f
 #=================================================
 # MODIFY A CONFIG FILE
 #=================================================
-ynh_script_progression --message="Modifying a config file..."
+# ynh_script_progression --message="Modifying a config file..."
 
-ynh_add_config --template="../conf/.env" --destination="$final_path/.env"
+# ynh_add_config --template="../conf/.env" --destination="$final_path/.env"
 
-chmod 400 "$final_path/.env"
-chown $app "$final_path/.env"
+# chmod 400 "$final_path/.env"
+# chown $app "$final_path/.env"
 
 #=================================================
 # DEPLOYMENT

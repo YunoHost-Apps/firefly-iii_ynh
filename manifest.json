@@ -3,11 +3,19 @@
     "id": "firefly-iii",
     "packaging_format": 1,
     "description": {
-        "en": "Self-hosted financial manager.",
-        "fr": "Gestionnaire de finances personnelles."
+        "en": "Self-hosted financial manager",
+        "fr": "Gestionnaire de finances personnelles"
     },
     "version": "5.5.12~ynh1",
     "url": "https://firefly-iii.org/",
+    "upstream": {
+        "license": "GPL-3.0-or-later",
+        "website": "https://firefly-iii.org/",
+        "demo": "https://demo.firefly-iii.org/login",
+        "admindoc": "https://docs.firefly-iii.org/firefly-iii/about-firefly-iii/introduction/",
+        "userdoc": "https://yunohost.org/apps",
+        "code": "https://github.com/firefly-iii/firefly-iii"
+    },
     "license": "GPL-3.0-or-later",
     "maintainer": {
         "name": "Anmol Sharma",
@@ -15,7 +23,7 @@
         "url": "https://datamol.org"
     },
     "requirements": {
-        "yunohost": ">= 4.2.0"
+        "yunohost": ">= 4.2.4"
     },
     "multi_instance": true,
     "services": [

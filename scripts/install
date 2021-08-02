@@ -49,7 +49,7 @@ ynh_app_setting_set --app=$app --key=domain --value=$domain
 ynh_app_setting_set --app=$app --key=path --value=$path_url
 ynh_app_setting_set --app=$app --key=admin --value=$admin
 ynh_app_setting_set --app=$app --key=random_key --value=$random_key
-ynh_app_setting_set --app=$app --key=update     --value=$update
+ynh_app_setting_set --app=$app --key=update --value=$update
 
 #=================================================
 # INSTALL DEPENDENCIES

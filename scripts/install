@@ -7,7 +7,6 @@
 #=================================================
 
 source _common.sh
-source ynh_composer__2
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -27,7 +26,7 @@ admin=$YNH_APP_ARG_ADMIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
 random_key=$(ynh_string_random --length=32)
 email=$(ynh_user_get_info --username=$admin --key=mail)
-
+update=1
 app=$YNH_APP_INSTANCE_NAME
 
 #=================================================
@@ -49,8 +48,8 @@ ynh_script_progression --message="Storing installation settings..."
 ynh_app_setting_set --app=$app --key=domain --value=$domain
 ynh_app_setting_set --app=$app --key=path --value=$path_url
 ynh_app_setting_set --app=$app --key=admin --value=$admin
-ynh_app_setting_set --app=$app --key=is_public --value=$is_public
 ynh_app_setting_set --app=$app --key=random_key --value=$random_key
+ynh_app_setting_set --app=$app --key=update --value=$update
 
 #=================================================
 # INSTALL DEPENDENCIES
@@ -58,6 +57,14 @@ ynh_app_setting_set --app=$app --key=random_key --value=$random_key
 ynh_script_progression --message="Installing dependencies..."
 
 ynh_install_app_dependencies $pkg_dependencies
+
+#=================================================
+# CREATE DEDICATED USER
+#=================================================
+ynh_script_progression --message="Configuring system user..."
+
+# Create a system user
+ynh_system_user_create --username=$app --home_dir="$final_path"
 
 #=================================================
 # CREATE A MYSQL DATABASE
@@ -70,13 +77,26 @@ ynh_app_setting_set --app=$app --key=db_name --value=$db_name
 ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name
 
 #=================================================
+# CREATE DEDICATED USER
+#=================================================
+ynh_script_progression --message="Configuring system user..."
+
+# Create a system user
+ynh_system_user_create --username=$app --home_dir="$final_path"
+
+#=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-ynh_script_progression --message="Setting up source files..."
+ynh_script_progression --message="Cloning Firefly-iii..."
 
 ynh_app_setting_set --app=$app --key=final_path --value=$final_path
-# Download, check integrity, uncompress and patch the source from app.src
-ynh_setup_source --dest_dir="$final_path"
+
+git clone -b $tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $final_path
+
+chmod 750 "$final_path"
+chmod -R o-rwx "$final_path"
+chown -R $app:www-data "$final_path"
+chmod -R 775 $final_path/storage
 
 #=================================================
 # NGINX CONFIGURATION
@@ -85,14 +105,6 @@ ynh_script_progression --message="Configuring NGINX web server..."
 
 # Create a dedicated NGINX config
 ynh_add_nginx_config
-
-#=================================================
-# CREATE DEDICATED USER
-#=================================================
-ynh_script_progression --message="Configuring system user..."
-
-# Create a system user
-ynh_system_user_create --username=$app
 
 #=================================================
 # PHP-FPM CONFIGURATION
@@ -117,36 +129,9 @@ ynh_exec_warn_less ynh_install_composer --phpversion="$phpversion" --workdir="$f
 #=================================================
 ynh_script_progression --message="Modifying a config file..."
 
-config="$final_path/.env"
-cp -f ../conf/.env "$config"
-
-ynh_replace_string --match_string="SomeRandomStringOf32CharsExactly" --replace_string="$random_key" --target_file="$config"
-ynh_replace_string --match_string="fireflyiiidb" --replace_string="127.0.0.1" --target_file="$config"
-ynh_replace_string --match_string="DB_DATABASE=firefly" --replace_string="DB_DATABASE=$db_name" --target_file="$config"
-ynh_replace_string --match_string="DB_USERNAME=firefly" --replace_string="DB_USERNAME=$db_name" --target_file="$config"
-ynh_replace_string --match_string="secret_firefly_password" --replace_string="$db_pwd" --target_file="$config"
-ynh_replace_string --match_string="MAIL_MAILER=log" --replace_string="MAIL_MAILER=smtp" --target_file="$config"
-ynh_replace_string --match_string="MAIL_HOST=null" --replace_string="MAIL_HOST=127.0.0.1" --target_file="$config"
-ynh_replace_string --match_string="MAIL_PORT=2525" --replace_string="MAIL_PORT=25" --target_file="$config"
-ynh_replace_string --match_string="mail@example.com" --replace_string="$email" --target_file="$config"
-ynh_replace_string --match_string="changeme@example.com" --replace_string="$app@$domain" --target_file="$config"
-# These helpers are for reference to impliment remove them once app gets support for LDAP. Put them directly in .env
-
-# ynh_replace_string --match_string="ADLDAP_CONTROLLERS=" --replace_string="ADLDAP_CONTROLLERS=127.0.0.1" --target_file="$config"
-# ynh_replace_string --match_string='ADLDAP_BASEDN=""' --replace_string='ADLDAP_BASEDN="dc=yunohost,dc=org"' --target_file="$config"
-# ynh_replace_string --match_string="ADLDAP_ACCOUNT_PREFIX=" --replace_string='ADLDAP_ACCOUNT_PREFIX="uid="' --target_file="$config"
-# ynh_replace_string --match_string="ADLDAP_ACCOUNT_SUFFIX=" --replace_string='ADLDAP_ACCOUNT_SUFFIX=",dc=yunohost,dc=org"' --target_file="$config"
-# ynh_replace_string --match_string="distinguishedname" --replace_string="uid" --target_file="$config"
-# ynh_replace_string --match_string="userprincipalname" --replace_string="uid" --target_file="$config"
-ynh_replace_string --match_string="localhost" --replace_string="$domain$path_url" --target_file="$config"
-
-#=================================================
-# STORE THE CONFIG FILE CHECKSUM
-#=================================================
-ynh_script_progression --message="Storing the config file checksum..."
-
-# Calculate and store the config file checksum into the app settings
-ynh_store_file_checksum --file="$config"
+ynh_add_config --template="../conf/.env" --destination="$final_path/.env"
+chmod 400 "$final_path/.env"
+chown $app "$final_path/.env"
 
 #=================================================
 # DEPLOY
@@ -160,26 +145,13 @@ pushd "$final_path"
 popd
 
 #=================================================
-# GENERIC FINALIZATION
-#=================================================
-# SECURE FILES AND DIRECTORIES
-#=================================================
-ynh_script_progression --message="Securing files and directories..."
-
-# Set right permissions
-chown -R $app: $final_path
-chmod -R 775 $final_path/storage
-
-#=================================================
 # SETUP A CRON
 #=================================================
 ynh_script_progression --message="Setuping a cron..."
 
-cp ../conf/cron /etc/cron.d/$app
-
-ynh_replace_string --match_string="__FINALPATH__" --replace_string="$final_path" --target_file="/etc/cron.d/$app"
-ynh_replace_string --match_string="__APP__" --replace_string="$app" --target_file="/etc/cron.d/$app"
-ynh_replace_string --match_string="__PHPVERSION__" --replace_string="$phpversion" --target_file="/etc/cron.d/$app"
+ynh_add_config --template="../conf/cron" --destination="/etc/cron.d/$app"
+chown root: "/etc/cron.d/$app"
+chmod 644 "/etc/cron.d/$app"
 
 #=================================================
 # SETUP LOGROTATE

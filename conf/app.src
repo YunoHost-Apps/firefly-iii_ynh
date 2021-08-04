@@ -1,5 +1,5 @@
-SOURCE_URL=https://github.com/firefly-iii/firefly-iii/archive/refs/tags/5.5.12.tar.gz
-SOURCE_SUM=9a7d6bc2654ffb2073edae9545b5eff0755ad8241bf4abfca80ff978e5b02240
+SOURCE_URL=https://github.com/firefly-iii/firefly-iii/archive/refs/tags/5.5.13.tar.gz
+SOURCE_SUM=13deecec37a01029d7b9057dc7941e6e18e42551477d5ad46683247402904828
 SOURCE_SUM_PRG=sha256sum
 SOURCE_FORMAT=tar.gz
 SOURCE_IN_SUBDIR=true

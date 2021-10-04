@@ -74,14 +74,6 @@ ynh_script_progression --message="Removing the cron file..."
 ynh_secure_remove --file="/etc/cron.d/$app"
 
 #=================================================
-# REMOVE LOGROTATE CONFIGURATION
-#=================================================
-ynh_script_progression --message="Removing logrotate configuration..."
-
-# Remove the app-specific logrotate config
-ynh_remove_logrotate
-
-#=================================================
 # GENERIC FINALIZATION
 #=================================================
 # REMOVE DEDICATED USER

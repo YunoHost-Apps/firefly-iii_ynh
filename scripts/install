@@ -52,13 +52,6 @@ ynh_app_setting_set --app=$app --key=random_key --value=$random_key
 ynh_app_setting_set --app=$app --key=update --value=$update
 
 #=================================================
-# INSTALL DEPENDENCIES
-#=================================================
-ynh_script_progression --message="Installing dependencies..."
-
-ynh_install_app_dependencies $pkg_dependencies
-
-#=================================================
 # CREATE DEDICATED USER
 #=================================================
 ynh_script_progression --message="Configuring system user..."

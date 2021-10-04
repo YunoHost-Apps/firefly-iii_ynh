@@ -145,16 +145,6 @@ chown -R $app $final_path
 ynh_exec_warn_less ynh_install_composer --phpversion="$phpversion" --workdir="$final_path"
 
 #=================================================
-# MODIFY A CONFIG FILE
-#=================================================
-# ynh_script_progression --message="Modifying a config file..."
-
-# ynh_add_config --template="../conf/.env" --destination="$final_path/.env"
-
-# chmod 400 "$final_path/.env"
-# chown $app "$final_path/.env"
-
-#=================================================
 # DEPLOYMENT
 #=================================================
 ynh_script_progression --message="Deploying..."

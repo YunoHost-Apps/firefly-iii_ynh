@@ -92,11 +92,11 @@ then
 	pushd "$final_path"
       if [ $update -eq 1 ]
       then
-          git fetch origin tag $latest_tag --no-tags
-          git checkout $latest_tag   
+          git fetch --quiet origin tag $latest_tag --no-tags
+          git checkout --quiet $latest_tag
       else
-          git fetch origin tag $tag --no-tags
-          git checkout $tag
+          git fetch --quiet origin tag $tag --no-tags
+          git checkout --quiet $tag  --quiet
       fi
       ynh_secure_remove bootstrap/cache/*
       ynh_secure_remove  vendor/
@@ -120,10 +120,10 @@ then
     if [ $update -eq 1 ]
     then
        
-     git clone -b $latest_tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $final_path
+     git clone --quiet -b $latest_tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $final_path
 
     else
-      git clone -b $tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $final_path
+      git clone --quiet -b $tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $final_path
 
     fi
 

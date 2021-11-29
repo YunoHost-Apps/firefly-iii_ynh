@@ -25,7 +25,7 @@ db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
 random_key=$(ynh_app_setting_get --app=$app --key=random_key)
 email=$(ynh_user_get_info --username=$admin --key=mail)
 update=$(ynh_app_setting_get --app=$app --key=update)
-phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
+phpversion=$YNH_PHP_VERSION
 
 #=================================================
 # CHECK VERSION

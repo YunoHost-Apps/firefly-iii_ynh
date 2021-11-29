@@ -25,11 +25,11 @@ db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
 random_key=$(ynh_app_setting_get --app=$app --key=random_key)
 email=$(ynh_user_get_info --username=$admin --key=mail)
 update=$(ynh_app_setting_get --app=$app --key=update)
+phpversion=$YNH_PHP_VERSION
 
 #=================================================
 # CHECK VERSION
 #=================================================
-ynh_script_progression --message="Checking version..."
 
 upgrade_type=$(ynh_check_app_version_changed)
 
@@ -92,11 +92,11 @@ then
 	pushd "$final_path"
       if [ $update -eq 1 ]
       then
-          git fetch origin tag $latest_tag --no-tags
-          git checkout $latest_tag   
+          git fetch --quiet origin tag $latest_tag --no-tags
+          git checkout --quiet $latest_tag
       else
-          git fetch origin tag $tag --no-tags
-          git checkout $tag
+          git fetch --quiet origin tag $tag --no-tags
+          git checkout --quiet $tag  --quiet
       fi
       ynh_secure_remove bootstrap/cache/*
       ynh_secure_remove  vendor/
@@ -120,10 +120,10 @@ then
     if [ $update -eq 1 ]
     then
        
-     git clone -b $latest_tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $final_path
+     git clone --quiet -b $latest_tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $final_path
 
     else
-      git clone -b $tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $final_path
+      git clone --quiet -b $tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $final_path
 
     fi
 
@@ -165,8 +165,7 @@ ynh_install_app_dependencies "$pkg_dependencies"
 ynh_script_progression --message="Upgrading PHP-FPM configuration..."
 
 # Create a dedicated php-fpm config
-ynh_add_fpm_config --usage=low --footprint=low --package="$extra_php_dependencies"
-phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
+ynh_add_fpm_config --usage=low --footprint=low
 
 #=================================================
 # SPECIFIC UPGRADE
@@ -201,14 +200,6 @@ pushd "$final_path"
 	php$phpversion artisan passport:install
 	php$phpversion artisan cache:clear
 popd
-
-#=================================================
-# SETUP LOGROTATE
-#=================================================
-ynh_script_progression --message="Upgrading logrotate configuration..."
-
-# Use logrotate to manage app-specific logfile(s)
-ynh_use_logrotate --non-append
 
 #=================================================
 # SETUP A CRON

@@ -26,7 +26,9 @@ admin=$YNH_APP_ARG_ADMIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
 random_key=$(ynh_string_random --length=32)
 email=$(ynh_user_get_info --username=$admin --key=mail)
+phpversion=$YNH_PHP_VERSION
 update=1
+
 app=$YNH_APP_INSTANCE_NAME
 
 #=================================================
@@ -50,6 +52,7 @@ ynh_app_setting_set --app=$app --key=path --value=$path_url
 ynh_app_setting_set --app=$app --key=admin --value=$admin
 ynh_app_setting_set --app=$app --key=random_key --value=$random_key
 ynh_app_setting_set --app=$app --key=update --value=$update
+ynh_app_setting_set --app=$app --key=phpversion --value=$phpversion
 
 #=================================================
 # INSTALL DEPENDENCIES
@@ -91,7 +94,7 @@ ynh_script_progression --message="Cloning Firefly-iii..."
 
 ynh_app_setting_set --app=$app --key=final_path --value=$final_path
 
-git clone -b $tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $final_path
+git clone --quiet -b $tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $final_path
 
 chmod 750 "$final_path"
 chmod -R o-rwx "$final_path"
@@ -112,8 +115,7 @@ ynh_add_nginx_config
 ynh_script_progression --message="Configuring PHP-FPM..."
 
 # Create a dedicated PHP-FPM config
-ynh_add_fpm_config --usage=low --footprint=low --package="$extra_php_dependencies"
-phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
+ynh_add_fpm_config --usage=low --footprint=low
 
 #=================================================
 # SPECIFIC SETUP
@@ -152,14 +154,6 @@ ynh_script_progression --message="Setuping a cron..."
 ynh_add_config --template="../conf/cron" --destination="/etc/cron.d/$app"
 chown root: "/etc/cron.d/$app"
 chmod 644 "/etc/cron.d/$app"
-
-#=================================================
-# SETUP LOGROTATE
-#=================================================
-ynh_script_progression --message="Configuring log rotation..."
-
-# Use logrotate to manage application logfile(s)
-ynh_use_logrotate
 
 #=================================================
 # SETUP SSOWAT

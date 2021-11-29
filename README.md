@@ -29,7 +29,6 @@ Self-hosted financial manager
 ## Documentation and resources
 
 * Official app website: https://firefly-iii.org/
-* Official user documentation: https://yunohost.org/apps
 * Official admin documentation: https://docs.firefly-iii.org/firefly-iii/about-firefly-iii/introduction/
 * Upstream app code repository: https://github.com/firefly-iii/firefly-iii
 * YunoHost documentation for this app: https://yunohost.org/app_firefly-iii

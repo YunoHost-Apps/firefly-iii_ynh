@@ -26,6 +26,7 @@ admin=$YNH_APP_ARG_ADMIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
 random_key=$(ynh_string_random --length=32)
 email=$(ynh_user_get_info --username=$admin --key=mail)
+phpversion=$YNH_PHP_VERSION
 update=1
 
 app=$YNH_APP_INSTANCE_NAME
@@ -51,6 +52,7 @@ ynh_app_setting_set --app=$app --key=path --value=$path_url
 ynh_app_setting_set --app=$app --key=admin --value=$admin
 ynh_app_setting_set --app=$app --key=random_key --value=$random_key
 ynh_app_setting_set --app=$app --key=update --value=$update
+ynh_app_setting_set --app=$app --key=phpversion --value=$phpversion
 
 #=================================================
 # INSTALL DEPENDENCIES
@@ -114,7 +116,6 @@ ynh_script_progression --message="Configuring PHP-FPM..."
 
 # Create a dedicated PHP-FPM config
 ynh_add_fpm_config --usage=low --footprint=low
-phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 
 #=================================================
 # SPECIFIC SETUP

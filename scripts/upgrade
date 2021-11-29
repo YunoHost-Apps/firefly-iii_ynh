@@ -202,14 +202,6 @@ pushd "$final_path"
 popd
 
 #=================================================
-# SETUP LOGROTATE
-#=================================================
-ynh_script_progression --message="Upgrading logrotate configuration..."
-
-# Use logrotate to manage app-specific logfile(s)
-ynh_use_logrotate --non-append
-
-#=================================================
 # SETUP A CRON
 #=================================================
 ynh_script_progression --message="Setuping a cron..."

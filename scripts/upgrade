@@ -98,8 +98,8 @@ then
           git fetch --quiet origin tag $tag --no-tags
           git checkout --quiet $tag  --quiet
       fi
-      ynh_secure_remove bootstrap/cache/*
-      ynh_secure_remove  vendor/
+      ynh_secure_remove --file="$final_path/bootstrap/cache/*"
+      ynh_secure_remove --file="$final_path/vendor/"
     popd
   else
     ynh_script_progression --message="Upgrading source files..."

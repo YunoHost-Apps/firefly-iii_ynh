@@ -25,7 +25,6 @@ Gestionnaire de finances personnelles
 ## Documentations et ressources
 
 * Site officiel de l'app : https://firefly-iii.org/
-* Documentation officielle utilisateur : https://yunohost.org/apps
 * Documentation officielle de l'admin : https://docs.firefly-iii.org/firefly-iii/about-firefly-iii/introduction/
 * Dépôt de code officiel de l'app : https://github.com/firefly-iii/firefly-iii
 * Documentation YunoHost pour cette app : https://yunohost.org/app_firefly-iii

@@ -13,7 +13,6 @@
         "website": "https://firefly-iii.org/",
         "demo": "https://demo.firefly-iii.org/login",
         "admindoc": "https://docs.firefly-iii.org/firefly-iii/about-firefly-iii/introduction/",
-        "userdoc": "https://yunohost.org/apps",
         "code": "https://github.com/firefly-iii/firefly-iii"
     },
     "license": "GPL-3.0-or-later",
@@ -23,7 +22,7 @@
         "url": "https://datamol.org"
     },
     "requirements": {
-        "yunohost": ">= 4.2.4"
+        "yunohost": ">= 4.3.0"
     },
     "multi_instance": true,
     "services": [
@@ -35,8 +34,7 @@
         "install" : [
             {
                 "name": "domain",
-                "type": "domain",
-                "example": "example.com"
+                "type": "domain"
             },
             {
                 "name": "path",
@@ -46,8 +44,7 @@
             },
             {
                 "name": "admin",
-                "type": "user",
-                "example": "johndoe"
+                "type": "user"
             },
             {
                 "name": "is_public",

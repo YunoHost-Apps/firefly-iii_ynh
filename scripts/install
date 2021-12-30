@@ -94,7 +94,7 @@ ynh_script_progression --message="Cloning Firefly-iii..."
 
 ynh_app_setting_set --app=$app --key=final_path --value=$final_path
 
-git clone --quiet -b $tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $final_path
+git clone --quiet -b $latest_tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $final_path
 
 chmod 750 "$final_path"
 chmod -R o-rwx "$final_path"

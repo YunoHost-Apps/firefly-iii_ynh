@@ -119,11 +119,11 @@ then
 	# Download, check integrity, uncompress and patch the source from app.src
     if [ $update -eq 1 ]
     then
-       
-     git clone --quiet -b $latest_tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $final_path
+
+     git clone -c advice.detachedHead=false --quiet -b $latest_tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $final_path
 
     else
-      git clone --quiet -b $tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $final_path
+      git clone -c advice.detachedHead=false --quiet -b $tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $final_path
 
     fi
 

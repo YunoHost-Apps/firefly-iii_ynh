@@ -27,7 +27,6 @@
     "multi_instance": true,
     "services": [
         "nginx",
-        "php7.4-fpm",
         "mysql"
     ],
     "arguments": {
@@ -40,7 +39,7 @@
                 "name": "path",
                 "type": "path",
                 "example": "/firefly",
-		        "default": "/firefly"
+                "default": "/firefly"
             },
             {
                 "name": "admin",
@@ -49,7 +48,10 @@
             {
                 "name": "is_public",
                 "type": "boolean",
-                "default": true
+                "default": true,
+                "help": {
+                    "en": "Should this app be publically accessible?"
+                }
             }
         ]
     }

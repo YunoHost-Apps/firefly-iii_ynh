@@ -90,17 +90,6 @@ then
   if [ `cd $final_path && git rev-parse --is-inside-work-tree` ];
   then
 	pushd "$final_path"
-      if [ $update -eq 1 ]
-      then
-          git fetch --quiet origin tag $latest_tag --no-tags
-          git checkout --quiet $latest_tag
-      else
-          git fetch --quiet origin tag $tag --no-tags
-          git checkout --quiet $tag  --quiet
-      fi
-      ynh_secure_remove --file="$final_path/bootstrap/cache/*"
-      ynh_secure_remove --file="$final_path/vendor/"
-    popd
   else
     ynh_script_progression --message="Upgrading source files..."
     # Create a temporary directory
@@ -116,18 +105,10 @@ then
 	cp -aT "$final_path/storage/export" "$tmpdir/storage/export/"
 	ynh_secure_remove --file="$final_path"
 
-	# Download, check integrity, uncompress and patch the source from app.src
-    if [ $update -eq 1 ]
-    then
-       
-     git clone --quiet -b $latest_tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $final_path
-
-    else
-      git clone --quiet -b $tag --depth 1 https://github.com/firefly-iii/firefly-iii.git $final_path
-
-    fi
-
-    ynh_secure_remove  bootstrap/cache/*
+	# Download, check integrity, uncompress and patch the source from app.src   
+    	ynh_setup_source --dest_dir=$final_path
+    	ynh_secure_remove  bootstrap/cache/*
+	
 	# Restore the config file and data
 	mkdir -p "$final_path/storage/upload/"
 	mkdir -p "$final_path/storage/export/"

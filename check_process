@@ -4,6 +4,7 @@
 		path="/path"
         admin="john"
         is_public=1
+        language="fr"
     ; Checks
         pkg_linter=1
 		setup_sub_dir=1

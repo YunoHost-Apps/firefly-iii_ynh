@@ -196,6 +196,12 @@ chown root: "/etc/cron.d/$app"
 chmod 644 "/etc/cron.d/$app"
 
 #=================================================
+# SECURE FILES AND DIRECTORIES
+#=================================================
+
+set_permissions
+
+#=================================================
 # RELOAD NGINX
 #=================================================
 ynh_script_progression --message="Reloading NGINX web server..."

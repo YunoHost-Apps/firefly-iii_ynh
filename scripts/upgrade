@@ -24,7 +24,7 @@ db_name=$(ynh_app_setting_get --app=$app --key=db_name)
 db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
 random_key=$(ynh_app_setting_get --app=$app --key=random_key)
 email=$(ynh_user_get_info --username=$admin --key=mail)
-phpversion=$YNH_PHP_VERSION
+phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 timezone="$(cat /etc/timezone)"
 
 #=================================================
@@ -117,7 +117,8 @@ ynh_install_app_dependencies "$pkg_dependencies"
 ynh_script_progression --message="Upgrading PHP-FPM configuration..."
 
 # Create a dedicated php-fpm config
-ynh_add_fpm_config --phpversion=$phpversion
+ynh_add_fpm_config
+phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 
 #=================================================
 # SPECIFIC UPGRADE
@@ -126,7 +127,7 @@ ynh_add_fpm_config --phpversion=$phpversion
 #=================================================
 ynh_script_progression --message="Updating PHP dependencies..."
 
-ynh_exec_warn_less ynh_install_composer --phpversion="$phpversion" --workdir="$final_path"
+ynh_exec_warn_less ynh_install_composer
 
 #=================================================
 # MODIFY A CONFIG FILE

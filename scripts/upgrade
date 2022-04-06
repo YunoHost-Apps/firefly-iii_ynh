@@ -150,7 +150,7 @@ ynh_add_nginx_config
 ynh_script_progression --message="Upgrading PHP-FPM configuration..."
 
 # Create a dedicated php-fpm config
-ynh_add_fpm_config --phpversion=$phpversion
+ynh_add_fpm_config --usage=low --footprint=low
 
 #=================================================
 # SPECIFIC UPGRADE
@@ -199,7 +199,10 @@ chmod 644 "/etc/cron.d/$app"
 # SECURE FILES AND DIRECTORIES
 #=================================================
 
-set_permissions
+# Set permissions to app files
+chmod 750 "$final_path"
+chmod -R o-rwx "$final_path"
+chown -R $app:www-data "$final_path"
 
 #=================================================
 # RELOAD NGINX

@@ -160,7 +160,7 @@ ynh_add_fpm_config --usage=low --footprint=low
 ynh_script_progression --message="Updating PHP dependencies..."
 
 chown -R $app $final_path
-ynh_exec_warn_less ynh_install_composer --phpversion="$phpversion" --workdir="$final_path"
+ynh_exec_warn_less ynh_install_composer 
 
 #=================================================
 # MODIFY A CONFIG FILE

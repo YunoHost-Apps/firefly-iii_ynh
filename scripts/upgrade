@@ -25,6 +25,7 @@ db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
 random_key=$(ynh_app_setting_get --app=$app --key=random_key)
 email=$(ynh_user_get_info --username=$admin --key=mail)
 phpversion=$YNH_PHP_VERSION
+timezone="$(cat /etc/timezone)"
 
 #=================================================
 # CHECK VERSION
@@ -86,49 +87,15 @@ ynh_script_progression --message="Making sure dedicated system user exists..."
 ynh_system_user_create --username=$app --home_dir="$final_path"
 
 #=================================================
-# STANDARD UPGRADE STEPS
-#=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 
 if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
-  if [ `cd $final_path && git rev-parse --is-inside-work-tree` ];
-  then
-	pushd "$final_path"
-	ynh_setup_source --dest_dir=$final_path
-	ynh_secure_remove --file="$final_path/bootstrap/cache/*"
-	ynh_secure_remove --file="$final_path/vendor/"
-	popd
+	ynh_script_progression --message="Upgrading source files..."
 
-  else
-    ynh_script_progression --message="Upgrading source files..."
-    # Create a temporary directory
-    tmpdir="$(mktemp -d)"
-
-    # Backup the config file in the temp dir
-	mkdir -p "$tmpdir/storage/upload"
-	mkdir -p "$tmpdir/storage/export"
-	mkdir -p "$final_path/storage/upload/"
-	mkdir -p "$final_path/storage/export/"
-	cp -aT "$final_path/storage/upload" "$tmpdir/storage/upload/$"
-	cp -a "$final_path/.env" "$tmpdir/.env"
-	cp -aT "$final_path/storage/export" "$tmpdir/storage/export/"
-	ynh_secure_remove --file="$final_path"
-
-	# Download, check integrity, uncompress and patch the source from app.src   
-    	ynh_setup_source --dest_dir=$final_path
-    	ynh_secure_remove  bootstrap/cache/*
-	
-	# Restore the config file and data
-	mkdir -p "$final_path/storage/upload/"
-	mkdir -p "$final_path/storage/export/"
-	cp -aT "$tmpdir/storage/upload" "$final_path/storage/upload"
-	cp -aT "$tmpdir/storage/export"  "$final_path/storage/export"
-	cp -a "$tmpdir/.env" "$final_path/.env"
-	# Remove temporary directory
-	ynh_secure_remove --file="$tmpdir"
-  fi
+	# Download, check integrity, uncompress and patch the source from app.src
+	ynh_setup_source --dest_dir="$final_path" --keep="$final_path/.env $final_path/storage/upload $final_path/storage/export" 
 fi
 
 chmod 750 "$final_path"

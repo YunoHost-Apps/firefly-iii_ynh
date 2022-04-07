@@ -22,6 +22,6 @@
 Email=anmol@datamol.org
 Notification=change
 ;;; Upgrade options
-    ; commit=CommitHash
+        commit=5ee628f58c4f9ea6b6fd48d843453c47ed3d34e4 
         name=Name and date of the commit.
         manifest_arg=domain=DOMAIN&path=PATH&admin=USER&is_public=1&password=pass&

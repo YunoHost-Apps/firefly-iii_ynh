@@ -27,7 +27,7 @@
     "multi_instance": true,
     "services": [
         "nginx",
-        "php7.4-fpm",
+        "php8.0-fpm",
         "mysql"
     ],
     "arguments": {
@@ -45,6 +45,16 @@
             {
                 "name": "admin",
                 "type": "user"
+            },
+            {
+                "name": "language",
+                "type": "string",
+                "ask": {
+                    "en": "Choose the application language",
+                    "fr": "Choisissez la langue de l'application"
+                },
+                "choices": ["de", "fr", "en_US"],
+                "default": "fr"
             },
             {
                 "name": "is_public",

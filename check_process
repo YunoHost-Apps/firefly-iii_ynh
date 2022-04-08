@@ -7,10 +7,10 @@
     ; Checks
         pkg_linter=1
 		setup_sub_dir=1
-;        setup_root=1
-;        setup_nourl=0
-;        setup_private=1
-;        setup_public=1
+        setup_root=1
+        setup_nourl=0
+        setup_private=1
+        setup_public=1
         upgrade=1
         upgrade=1	from_commit=5ee628f58c4f9ea6b6fd48d843453c47ed3d34e4 
         backup_restore=1

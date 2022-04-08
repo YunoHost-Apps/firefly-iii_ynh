@@ -20,6 +20,12 @@ pkg_dependencies="php${YNH_PHP_VERSION}-zip php${YNH_PHP_VERSION}-mysql php${YNH
 # PERSONAL HELPERS
 #=================================================
 
+function set_permissions {
+  # Set permissions to app files
+  chown -R $app:www-data $final_path
+  chmod -R g=u,g-w,o-rwx $final_path
+}
+
 #=================================================
 # EXPERIMENTAL HELPERS
 #=================================================

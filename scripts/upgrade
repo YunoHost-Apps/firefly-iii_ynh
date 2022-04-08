@@ -123,10 +123,6 @@ then
   fi
 fi
 
-chmod 750 "$final_path"
-chmod -R o-rwx "$final_path"
-chown -R $app:www-data "$final_path"
-chmod -R 775 $final_path/storage
 
 #=================================================
 # NGINX CONFIGURATION
@@ -193,6 +189,16 @@ ynh_script_progression --message="Setuping a cron..."
 ynh_add_config --template="../conf/cron" --destination="/etc/cron.d/$app"
 chown root: "/etc/cron.d/$app"
 chmod 644 "/etc/cron.d/$app"
+
+#=================================================
+# SECURE FILES AND DIRECTORIES
+#=================================================
+
+chmod 750 "$final_path"
+chmod -R o-rwx "$final_path"
+chown -R $app:www-data "$final_path"
+hmod -R 775 $final_path/storage
+## set_permissions
 
 #=================================================
 # RELOAD NGINX

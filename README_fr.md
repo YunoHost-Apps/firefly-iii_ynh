@@ -13,7 +13,7 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 
 Gestionnaire de finances personnelles
 
-**Version incluse :** 5.6.8~ynh1
+**Version incluse :** 5.7.2~ynh1
 
 **Démo :** https://demo.firefly-iii.org/login
 

@@ -7,7 +7,7 @@
 # dependencies used by the app
 
 latest_tag=$(curl -s https://api.github.com/repos/firefly-iii/firefly-iii/releases/latest | grep 'tag_name' | cut -d\" -f4)
-tag="5.7.2"
+tag="5.7.3"
 
 YNH_PHP_VERSION="8.0"
 

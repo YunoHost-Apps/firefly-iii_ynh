@@ -53,8 +53,8 @@
                     "en": "Choose the application language",
                     "fr": "Choisissez la langue de l'application"
                 },
-                "choices": ["de", "fr", "en_US"],
-                "default": "fr"
+                "choices": ["de", "en_US", "es_ES", "fr_FR", "it_IT", "nl_NL", "pt_PT"],
+                "default": "fr_FR"
             },
             {
                 "name": "is_public",

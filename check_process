@@ -16,7 +16,7 @@
         upgrade=1	from_commit=ce23c03a2f3c1d56a3ba58f7560778208cf73568
         backup_restore=1
         multi_instance=1
-        change_url=0
+        change_url=1
 ;;; Options
 Email=anmol@datamol.org
 Notification=change

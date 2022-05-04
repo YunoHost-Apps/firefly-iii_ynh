@@ -30,7 +30,6 @@ ynh_script_progression --message="Loading installation settings..."
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 
 language=$(ynh_app_setting_get --app=$app --key=language)
-phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 random_key=$(ynh_app_setting_get --app=$app --key=random_key)
 email=$(ynh_user_get_info --username=$admin --key=mail)
 timezone="$(cat /etc/timezone)"

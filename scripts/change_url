@@ -28,7 +28,14 @@ ynh_script_progression --message="Loading installation settings..."
 
 # Needed for helper "ynh_add_nginx_config"
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
-phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
+
+language=$(ynh_app_setting_get --app=$app --key=language)
+random_key=$(ynh_app_setting_get --app=$app --key=random_key)
+email=$(ynh_user_get_info --username=$admin --key=mail)
+timezone="$(cat /etc/timezone)"
+db_name=$(ynh_app_setting_get --app=$app --key=db_name)
+db_user=$db_name
+db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
 
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
@@ -95,6 +102,18 @@ then
     # Store file checksum for the new config file location
     ynh_store_file_checksum --file="/etc/nginx/conf.d/$new_domain.d/$app.conf"
 fi
+
+#=================================================
+# MODIFY A CONFIG FILE
+#=================================================
+ynh_script_progression --message="Modifying a config file..."
+
+domain="$new_domain"
+path="$new_path"
+
+ynh_add_config --template="../conf/.env" --destination="$final_path/.env"
+chmod 400 "$final_path/.env"
+chown $app "$final_path/.env"
 
 #=================================================
 # RELOAD NGINX

@@ -70,9 +70,6 @@ case $asset_url in
   *".tar.gz")
     src="app"
     ;;
-  *"update"*)
-    src="app-upgrade"
-    ;;
   *)
     src=""
     ;;

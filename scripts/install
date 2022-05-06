@@ -27,6 +27,7 @@ is_public=$YNH_APP_ARG_IS_PUBLIC
 language=$YNH_APP_ARG_LANGUAGE
 random_key=$(ynh_string_random --length=32)
 email=$(ynh_user_get_info --username=$admin --key=mail)
+email_password=$(ynh_user_get_info --username=$admin --key=password)
 timezone="$(cat /etc/timezone)"
 phpversion=$YNH_PHP_VERSION
 

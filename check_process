@@ -1,26 +1,27 @@
 ;; Test complet
-    ; Manifest
-        domain="domain.tld"
+	; Manifest
+		domain="domain.tld"
 		path="/path"
-        admin="john"
-        is_public=1
-        language="fr_FR"
-    ; Checks
-        pkg_linter=1
+		is_public=1
+		language="fr_FR"
+		admin="john"
+	; Checks
+		pkg_linter=1
 		setup_sub_dir=1
-        setup_root=1
-        setup_nourl=0
-        setup_private=1
-        setup_public=1
-        upgrade=1
-        upgrade=1	from_commit=ce23c03a2f3c1d56a3ba58f7560778208cf73568
-        backup_restore=1
-        multi_instance=1
-        change_url=1
+		setup_root=1
+		setup_nourl=0
+		setup_private=1
+		setup_public=1
+		upgrade=1
+		upgrade=1	from_commit=ce23c03a2f3c1d56a3ba58f7560778208cf73568
+		backup_restore=1
+		multi_instance=1
+		port_already_use=0
+		change_url=1
 ;;; Options
 Email=anmol@datamol.org
 Notification=change
 ;;; Upgrade options
-    ; commit=ce23c03a2f3c1d56a3ba58f7560778208cf73568
-        name=Merge pull request #66 from YunoHost-Apps/testing
-        manifest_arg=domain=DOMAIN&path=PATH&admin=USER&is_public=1&password=pass&
+	; commit=ce23c03a2f3c1d56a3ba58f7560778208cf73568
+		name=Merge pull request #66 from YunoHost-Apps/testing
+		manifest_arg=domain=DOMAIN&path=PATH&admin=USER&is_public=1&password=pass&

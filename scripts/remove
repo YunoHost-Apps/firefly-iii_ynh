@@ -66,9 +66,9 @@ ynh_remove_app_dependencies
 #=================================================
 # SPECIFIC REMOVE
 #=================================================
-# REMOVE THE CRON FILE
+# REMOVE VARIOUS FILES
 #=================================================
-ynh_script_progression --message="Removing the cron file..."
+ynh_script_progression --message="Removing various files..."
 
 # Remove a cron file
 ynh_secure_remove --file="/etc/cron.d/$app"
@@ -87,4 +87,4 @@ ynh_system_user_delete --username=$app
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Removal of $app completed" --last
+ynh_script_progression --message="Removal of $app completed"

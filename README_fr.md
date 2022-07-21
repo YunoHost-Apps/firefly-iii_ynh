@@ -22,7 +22,7 @@ Firefly III should give you insight into and control over your finances. Money s
 But you get the idea: this is your money. These are your expenses. Stop them from controlling you. I built this tool because I started to dislike money. Having money, not having money, paying bills with money, you get the idea. But no more. I want to feel "safe", whatever my balance is. And I hope this tool can help you. I know it helps me.
 
 
-**Version incluse :** 5.7.9~ynh1
+**Version incluse :** 5.7.9~ynh2
 
 **Démo :** https://demo.firefly-iii.org/login
 

@@ -6,7 +6,7 @@
         "en": "Self-hosted financial manager",
         "fr": "Gestionnaire de finances personnelles"
     },
-    "version": "5.7.9~ynh1",
+    "version": "5.7.9~ynh2",
     "url": "https://firefly-iii.org/",
     "upstream": {
         "license": "GPL-3.0-or-later",
@@ -17,9 +17,8 @@
     },
     "license": "GPL-3.0-or-later",
     "maintainer": {
-        "name": "Anmol Sharma",
-        "email": "anmol@datamol.org",
-        "url": "https://datamol.org"
+        "name": "",
+        "email": ""
     },
     "requirements": {
         "yunohost": ">= 4.3.0"
@@ -31,7 +30,7 @@
         "mysql"
     ],
     "arguments": {
-        "install" : [
+        "install": [
             {
                 "name": "domain",
                 "type": "domain"
@@ -40,11 +39,16 @@
                 "name": "path",
                 "type": "path",
                 "example": "/firefly",
-		        "default": "/firefly"
+                "default": "/firefly"
             },
             {
-                "name": "admin",
-                "type": "user"
+                "name": "is_public",
+                "type": "boolean",
+		"help": {
+                	"en": "If enabled, firefly-iii will be accessible by people who doesn’t have an account. This can be changed later via the webadmin.",
+                    "fr": "Si cette case est cochée, firefly-iii sera accessible aux personnes n’ayant pas de compte. Vous pourrez changer ceci plus tard via la webadmin."
+                },
+                "default": true
             },
             {
                 "name": "language",
@@ -57,13 +61,8 @@
                 "default": "fr_FR"
             },
             {
-                "name": "is_public",
-                "type": "boolean",
-		"help": {
-                	"en": "If enabled, firefly-iii will be accessible by people who doesn’t have an account. This can be changed later via the webadmin.",
-                    "fr": "Si cette case est cochée, firefly-iii sera accessible aux personnes n’ayant pas de compte. Vous pourrez changer ceci plus tard via la webadmin."
-                },
-                "default": true
+                "name": "admin",
+                "type": "user"
             }
         ]
     }

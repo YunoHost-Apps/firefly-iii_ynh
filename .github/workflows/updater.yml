@@ -46,4 +46,5 @@ jobs:
           title: 'Upgrade to version ${{ env.VERSION }}'
           body: |
             Upgrade to v${{ env.VERSION }}
+            [See upstream release page](https://github.com/${{ env.REPO }}/releases/tag/${{ env.VERSION }})
           draft: false

@@ -24,6 +24,7 @@ But you get the idea: this is your money. These are your expenses. Stop them fro
 
 **Shipped version:** 5.7.10~ynh1
 
+
 **Demo:** https://demo.firefly-iii.org/login
 
 ## Screenshots

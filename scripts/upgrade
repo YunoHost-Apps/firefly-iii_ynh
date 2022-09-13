@@ -90,7 +90,7 @@ then
 	ynh_script_progression --message="Upgrading source files..."
 
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$final_path" --keep="$final_path/.env $final_path/storage/upload $final_path/storage/export"
+	ynh_setup_source --dest_dir="$final_path" --keep=".env storage/upload storage/export"
 fi
 
 chmod 750 "$final_path"

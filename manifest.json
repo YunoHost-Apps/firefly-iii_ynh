@@ -6,7 +6,7 @@
         "en": "Self-hosted financial manager",
         "fr": "Gestionnaire de finances personnelles"
     },
-    "version": "5.7.10~ynh1",
+    "version": "5.7.12~ynh1",
     "url": "https://firefly-iii.org/",
     "upstream": {
         "license": "GPL-3.0-or-later",
@@ -21,7 +21,7 @@
         "email": ""
     },
     "requirements": {
-        "yunohost": ">= 4.3.0"
+        "yunohost": ">= 11.0.9"
     },
     "multi_instance": true,
     "services": [

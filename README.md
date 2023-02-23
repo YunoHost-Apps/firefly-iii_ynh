@@ -5,7 +5,8 @@ It shall NOT be edited by hand.
 
 # Firefly III for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/firefly-iii.svg)](https://dash.yunohost.org/appci/app/firefly-iii) ![Working status](https://ci-apps.yunohost.org/ci/badges/firefly-iii.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/firefly-iii.maintain.svg)  
+[![Integration level](https://dash.yunohost.org/integration/firefly-iii.svg)](https://dash.yunohost.org/appci/app/firefly-iii) ![Working status](https://ci-apps.yunohost.org/ci/badges/firefly-iii.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/firefly-iii.maintain.svg)
+
 [![Install Firefly III with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=firefly-iii)
 
 *[Lire ce readme en français.](./README_fr.md)*

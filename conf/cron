@@ -1,2 +1,2 @@
 # cron job for __APP__
-0 3 * * * __APP__ /usr/bin/php__PHPVERSION__ __FINALPATH__/artisan firefly-iii:cron
+0 3 * * * __APP__ /usr/bin/php__PHPVERSION__ __INSTALL_DIR__/artisan firefly-iii:cron

@@ -15,11 +15,9 @@ website = "https://firefly-iii.org/"
 demo = "https://demo.firefly-iii.org/login"
 admindoc = "https://docs.firefly-iii.org/firefly-iii/about-firefly-iii/introduction/"
 code = "https://github.com/firefly-iii/firefly-iii"
-cpe = "???" # FIXME: optional but recommended if relevant, this is meant to contain the Common Platform Enumeration, which is sort of a standard id for applications defined by the NIST. In particular, Yunohost may use this is in the future to easily track CVE (=security reports) related to apps. The CPE may be obtained by searching here: https://nvd.nist.gov/products/cpe/search. For example, for Nextcloud, the CPE is 'cpe:2.3:a:nextcloud:nextcloud' (no need to include the version number)
-fund = "???" # FIXME: optional but recommended (or remove if irrelevant / not applicable). This is meant to be an URL where people can financially support this app, especially when its development is based on volunteers and/or financed by its community. YunoHost may later advertise it in the webadmin.
 
 [integration]
-yunohost = ">= 11.0.9"
+yunohost = ">= 11.1.15"
 architectures = "all" # FIXME: can be replaced by a list of supported archs using the dpkg --print-architecture nomenclature (amd64/i386/armhf/arm64), for example: ["amd64", "i386"]
 multi_instance = true
 ldap = "?" # FIXME: replace with true, false, or "not_relevant". Not to confuse with the "sso" key : the "ldap" key corresponds to wether or not a user *can* login on the app using its YunoHost credentials.
@@ -52,7 +50,6 @@ ram.runtime = "50M" # FIXME: replace with an **estimate** minimum ram requiremen
     default = "fr_FR"
 
     [install.admin]
-    # this is a generic question - ask strings are automatically handled by Yunohost's core
     type = "user"
 
 [resources]
@@ -67,6 +64,9 @@ ram.runtime = "50M" # FIXME: replace with an **estimate** minimum ram requiremen
 
     [resources.permissions]
     main.url = "/"
+
+    [resources.apt]
+    packages = "mariadb-server php8.2-zip php8.2-mysql php8.2-xml php8.2-intl php8.2-mbstring php8.2-gd php8.2-curl php8.2-bcmath php8.2-opcache php8.2-ldap"
 
     [resources.database]
     type = "mysql"

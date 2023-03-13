@@ -1,0 +1,70 @@
+packaging_format = 2
+
+id = "firefly-iii"
+name = "Firefly III"
+description.en = "Self-hosted financial manager"
+description.fr = "Gestionnaire de finances personnelles"
+
+version = "6.0.4~ynh1"
+
+maintainers = []
+
+[upstream]
+license = "GPL-3.0-or-later"
+website = "https://firefly-iii.org/"
+demo = "https://demo.firefly-iii.org/login"
+admindoc = "https://docs.firefly-iii.org/firefly-iii/about-firefly-iii/introduction/"
+code = "https://github.com/firefly-iii/firefly-iii"
+
+[integration]
+yunohost = ">= 11.1.15"
+architectures = "all"
+multi_instance = true
+ldap = false
+sso = false
+disk = "50M"
+ram.build = "50M"
+ram.runtime = "50M"
+
+[install]
+    [install.domain]
+    type = "domain"
+
+    [install.path]
+    type = "path"
+    default = "/firefly"
+
+    [install.init_main_permission]
+    help.en = "If enabled, firefly-iii will be accessible by people who doesn’t have an account. This can be changed later via the webadmin."
+    help.fr = "Si cette case est cochée, firefly-iii sera accessible aux personnes n’ayant pas de compte. Vous pourrez changer ceci plus tard via la webadmin."
+    type = "group"
+    default = "visitors"
+
+    [install.language]
+    ask.en = "Choose the application language"
+    ask.fr = "Choisissez la langue de l'application"
+    type = "string"
+    choices = ["de_DE", "en_US", "es_ES", "fr_FR", "it_IT", "nl_NL", "pt_PT"]
+    default = "fr_FR"
+
+    [install.admin]
+    type = "user"
+
+[resources]
+        [resources.sources.main]
+        url = "https://github.com/firefly-iii/firefly-iii/archive/refs/tags/v6.0.4.tar.gz"
+        sha256 = "4b04ea295313f04bae13534983a6e28310770d7b2ce84034df753127c6bc675d"
+
+
+    [resources.system_user]
+
+    [resources.install_dir]
+
+    [resources.permissions]
+    main.url = "/"
+
+    [resources.apt]
+    packages = "mariadb-server php8.2-zip php8.2-mysql php8.2-xml php8.2-intl php8.2-mbstring php8.2-gd php8.2-curl php8.2-bcmath php8.2-opcache php8.2-ldap"
+
+    [resources.database]
+    type = "mysql"

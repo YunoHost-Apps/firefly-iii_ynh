@@ -2,6 +2,8 @@ test_format = 1.0
 
 [default]
 
-    # ------------
-    # Tests to run
-    # ------------
+    # -------------------------------
+    # Commits to test upgrade from
+    # -------------------------------
+
+    test_upgrade_from.ce23c03a.name = "Upgrade from #66"

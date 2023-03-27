@@ -35,8 +35,8 @@ ram.runtime = "50M"
     default = "/firefly"
 
     [install.init_main_permission]
-    help.en = "If enabled, firefly-iii will be accessible by people who doesn’t have an account. This can be changed later via the webadmin."
-    help.fr = "Si cette case est cochée, firefly-iii sera accessible aux personnes n’ayant pas de compte. Vous pourrez changer ceci plus tard via la webadmin."
+    help.en = "If enabled, firefly-iii will be accessible by people who doesnât have an account. This can be changed later via the webadmin."
+    help.fr = "Si cette case est cochÃ©e, firefly-iii sera accessible aux personnes nâayant pas de compte. Vous pourrez changer ceci plus tard via la webadmin."
     type = "group"
     default = "visitors"
 

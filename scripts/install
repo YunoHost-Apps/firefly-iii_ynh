@@ -15,7 +15,7 @@ source /usr/share/yunohost/helpers
 
 random_key=$(ynh_string_random --length=32)
 email=$(ynh_user_get_info --username=$admin --key=mail)
-timezone="$(cat /etc/timezone)"
+timezone=$(cat /etc/timezone)
 
 fpm_footprint="low"
 fpm_free_footprint=0

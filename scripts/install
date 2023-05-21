@@ -65,9 +65,7 @@ ynh_add_nginx_config
 #=================================================
 ynh_script_progression --message="Installing composer dependencies..."
 
-#ynh_exec_warn_less ynh_install_composer --workdir="$install_dir"
 ynh_exec_warn_less ynh_install_composer --phpversion=$phpversion --workdir=$install_dir
-ynh_exec_warn_less ynh_composer_exec --phpversion=$phpversion --workdir=$install_dir --commands="create-project grumpydictator/firefly-iii --no-dev --prefer-dist firefly-iii 6.0.10"
 
 #=================================================
 # ADD A CONFIGURATION
@@ -84,18 +82,18 @@ chown $app "$install_dir/.env"
 #=================================================
 ynh_script_progression --message="Deploying..."
 
-#pushd "$install_dir"
-#	php$phpversion artisan migrate:refresh --seed
-#	php$phpversion artisan firefly-iii:upgrade-database
-#	php$phpversion artisan passport:install
-#popd
-
 pushd "$install_dir"
+	php$phpversion artisan migrate:refresh --seed
 	php$phpversion artisan firefly-iii:upgrade-database
-	php$phpversion artisan firefly-iii:correct-database
-	php$phpversion artisan firefly-iii:report-integrity
 	php$phpversion artisan passport:install
 popd
+
+#pushd "$install_dir"
+#	php$phpversion artisan firefly-iii:upgrade-database
+#	php$phpversion artisan firefly-iii:correct-database
+#	php$phpversion artisan firefly-iii:report-integrity
+#	php$phpversion artisan passport:install
+#popd
 
 #=================================================
 # SETUP A CRON

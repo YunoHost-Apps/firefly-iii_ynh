@@ -66,7 +66,8 @@ ynh_add_nginx_config
 ynh_script_progression --message="Installing composer dependencies..."
 
 #ynh_exec_warn_less ynh_install_composer --workdir="$install_dir"
-ynh_exec_warn_less ynh_install_composer --install_args="--no-dev --prefer-dist"
+ynh_exec_warn_less ynh_install_composer --phpversion=$phpversion --workdir=$install_dir
+ynh_exec_warn_less ynh_composer_exec --phpversion=$phpversion --workdir=$install_dir --commands="create-project grumpydictator/firefly-iii --no-dev --prefer-dist firefly-iii 6.0.10"
 
 #=================================================
 # ADD A CONFIGURATION

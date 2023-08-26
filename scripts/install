@@ -77,18 +77,18 @@ chown $app "$install_dir/.env"
 #=================================================
 ynh_script_progression --message="Deploying..."
 
-pushd "$install_dir"
-	php$phpversion artisan migrate:refresh --seed
-	php$phpversion artisan firefly-iii:upgrade-database
-	php$phpversion artisan passport:install
-popd
-
 #pushd "$install_dir"
+#	php$phpversion artisan migrate:refresh --seed
 #	php$phpversion artisan firefly-iii:upgrade-database
-#	php$phpversion artisan firefly-iii:correct-database
-#	php$phpversion artisan firefly-iii:report-integrity
 #	php$phpversion artisan passport:install
 #popd
+
+pushd "$install_dir"
+	php$phpversion artisan firefly-iii:upgrade-database
+	php$phpversion artisan firefly-iii:correct-database
+	php$phpversion artisan firefly-iii:report-integrity
+	php$phpversion artisan passport:install
+popd
 
 #=================================================
 # SETUP A CRON

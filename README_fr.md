@@ -32,7 +32,7 @@ Si vous n’avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) po
 * Site officiel de l’app : <https://firefly-iii.org/>
 * Documentation officielle de l’admin : <https://docs.firefly-iii.org/firefly-iii/about-firefly-iii/introduction/>
 * Dépôt de code officiel de l’app : <https://github.com/firefly-iii/firefly-iii>
-* Documentation YunoHost pour cette app : <https://yunohost.org/app_firefly-iii>
+* YunoHost Store: <https://apps.yunohost.org/app/firefly-iii>
 * Signaler un bug : <https://github.com/YunoHost-Apps/firefly-iii_ynh/issues>
 
 ## Informations pour les développeurs

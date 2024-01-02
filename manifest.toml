@@ -52,8 +52,8 @@ ram.runtime = "50M"
 
 [resources]
         [resources.sources.main]
-        url = "https://github.com/firefly-iii/firefly-iii/archive/refs/tags/v6.0.5.tar.gz"
-        sha256 = "2253f00a6f32d12d31908f3d5fde8d67b0f20f9e70cdc186cefe80121cd3868c"
+        url = "https://github.com/firefly-iii/firefly-iii/archive/refs/tags/v6.1.2.tar.gz"
+        sha256 = "8f540782822ec6ccd8a14648a7ce42c24282d2cf334a9818be6fa6e173504b58"
 
     [resources.system_user]
 

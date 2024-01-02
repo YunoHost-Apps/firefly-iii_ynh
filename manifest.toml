@@ -17,7 +17,7 @@ admindoc = "https://docs.firefly-iii.org/firefly-iii/about-firefly-iii/introduct
 code = "https://github.com/firefly-iii/firefly-iii"
 
 [integration]
-yunohost = ">= 11.1.15"
+yunohost = ">= 11.2"
 architectures = "all"
 multi_instance = true
 ldap = false
@@ -54,6 +54,8 @@ ram.runtime = "50M"
         [resources.sources.main]
         url = "https://github.com/firefly-iii/firefly-iii/archive/refs/tags/v6.1.2.tar.gz"
         sha256 = "8f540782822ec6ccd8a14648a7ce42c24282d2cf334a9818be6fa6e173504b58"
+        autoupdate.strategy = "latest_github_tag"
+        autoupdate.asset = "tarball"
 
     [resources.system_user]
 

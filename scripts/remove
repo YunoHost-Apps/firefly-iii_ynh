@@ -14,23 +14,9 @@ source /usr/share/yunohost/helpers
 #=================================================
 ynh_script_progression --message="Removing NGINX web server configuration..."
 
-# Remove the dedicated NGINX config
 ynh_remove_nginx_config
 
-#=================================================
-# REMOVE PHP-FPM CONFIGURATION
-#=================================================
-ynh_script_progression --message="Removing PHP-FPM configuration..."
-
-# Remove the dedicated PHP-FPM config
 ynh_remove_fpm_config
-
-#=================================================
-# SPECIFIC REMOVE
-#=================================================
-# REMOVE VARIOUS FILES
-#=================================================
-ynh_script_progression --message="Removing various files..."
 
 # Remove a cron file
 ynh_secure_remove --file="/etc/cron.d/$app"

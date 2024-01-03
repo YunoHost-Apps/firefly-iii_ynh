@@ -5,7 +5,7 @@ name = "Firefly III"
 description.en = "Self-hosted financial manager"
 description.fr = "Gestionnaire de finances personnelles"
 
-version = "6.0.20~ynh1"
+version = "6.1.4~ynh1"
 
 maintainers = []
 
@@ -20,8 +20,11 @@ code = "https://github.com/firefly-iii/firefly-iii"
 yunohost = ">= 11.2"
 architectures = "all"
 multi_instance = true
+
 ldap = false
+
 sso = false
+
 disk = "50M"
 ram.build = "200M"
 ram.runtime = "50M"
@@ -43,7 +46,7 @@ ram.runtime = "50M"
     [install.language]
     ask.en = "Choose the application language"
     ask.fr = "Choisissez la langue de l'application"
-    type = "string"
+    type = "select"
     choices = ["de_DE", "en_US", "es_ES", "fr_FR", "it_IT", "nl_NL", "pt_PT"]
     default = "fr_FR"
 
@@ -52,8 +55,8 @@ ram.runtime = "50M"
 
 [resources]
         [resources.sources.main]
-        url = "https://github.com/firefly-iii/firefly-iii/archive/refs/tags/v6.0.20.tar.gz"
-        sha256 = "ea21f4c13ab932094a9be9de6b1988d034b802c589418b6dbd325004ab622f31"
+        url = "https://github.com/firefly-iii/firefly-iii/archive/refs/tags/v6.1.4.tar.gz"
+        sha256 = "69df1131e25a1dab67fc8c48097478503f53da6d7011c7c6e913773a5b2c9418"
         autoupdate.strategy = "latest_github_tag"
         autoupdate.asset = "tarball"
 

@@ -53,7 +53,6 @@ if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
 	ynh_script_progression --message="Upgrading source files..."
 
-	# Download, check integrity, uncompress and patch the source from app.src
 	ynh_setup_source --dest_dir="$install_dir" --keep=".env storage/upload storage/export"
 fi
 
@@ -66,15 +65,8 @@ chmod -R 775 $install_dir/storage
 #=================================================
 ynh_script_progression --message="Upgrading PHP-FPM configuration..."
 
-# Create a dedicated PHP-FPM config
-ynh_add_fpm_config --phpversion=$phpversion --usage=$fpm_usage --footprint=$fpm_footprint
+ynh_add_fpm_config --usage=$fpm_usage --footprint=$fpm_footprint
 
-#=================================================
-# NGINX CONFIGURATION
-#=================================================
-ynh_script_progression --message="Upgrading NGINX web server configuration..."
-
-# Create a dedicated NGINX config
 ynh_add_nginx_config
 
 #=================================================
@@ -91,7 +83,7 @@ ynh_exec_warn_less ynh_install_composer
 #=================================================
 # ynh_script_progression --message="Updating a configuration file..."
 
-# ynh_add_config --template="../conf/.env" --destination="$install_dir/.env"
+# ynh_add_config --template=".env" --destination="$install_dir/.env"
 
 # chmod 400 "$install_dir/.env"
 # chown $app "$install_dir/.env"
@@ -115,7 +107,7 @@ popd
 #=================================================
 ynh_script_progression --message="Setuping a cron..."
 
-ynh_add_config --template="../conf/cron" --destination="/etc/cron.d/$app"
+ynh_add_config --template="cron" --destination="/etc/cron.d/$app"
 chown root: "/etc/cron.d/$app"
 chmod 644 "/etc/cron.d/$app"
 

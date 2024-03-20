@@ -95,10 +95,11 @@ ynh_script_progression --message="Deploying..."
 
 pushd "$install_dir"
 	ynh_secure_remove --file="bootstrap/cache/*"
+        php$phpversion artisan migrate --seed
+        php$phpversion artisan firefly-iii:decrypt-all
 	php$phpversion artisan cache:clear
-	php$phpversion artisan migrate --seed
 	php$phpversion artisan firefly-iii:upgrade-database
-	php$phpversion artisan passport:install
+	php$phpversion artisan passport:keys
 	php$phpversion artisan cache:clear
 popd
 

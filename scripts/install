@@ -39,9 +39,6 @@ ynh_setup_source --dest_dir=$install_dir
 
 chmod -R o-rwx "$install_dir"
 chown -R $app:www-data "$install_dir"
-
-ls -al "$install_dir"
-
 chmod -R 775 $install_dir/storage
 
 #=================================================
@@ -56,13 +53,6 @@ ynh_add_nginx_config
 #=================================================
 # SPECIFIC SETUP
 #=================================================
-# INSTALL COMPOSER DEPENDENCIES
-#=================================================
-ynh_script_progression --message="Installing composer dependencies..."
-
-ynh_exec_warn_less ynh_install_composer --phpversion=$phpversion --workdir=$install_dir
-
-#=================================================
 # ADD A CONFIGURATION
 #=================================================
 ynh_script_progression --message="Adding a configuration file..."
@@ -71,6 +61,13 @@ ynh_add_config --template=".env" --destination="$install_dir/.env"
 
 chmod 400 "$install_dir/.env"
 chown $app "$install_dir/.env"
+
+#=================================================
+# INSTALL COMPOSER DEPENDENCIES
+#=================================================
+ynh_script_progression --message="Installing composer dependencies..."
+
+ynh_exec_warn_less ynh_install_composer --phpversion=$phpversion --workdir=$install_dir
 
 #=================================================
 # DEPLOY

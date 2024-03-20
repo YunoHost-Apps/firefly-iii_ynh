@@ -84,7 +84,7 @@ pushd "$install_dir"
 	php$phpversion artisan firefly-iii:upgrade-database
 	php$phpversion artisan firefly-iii:correct-database
 	php$phpversion artisan firefly-iii:report-integrity
-	php$phpversion artisan passport:keys
+	php$phpversion artisan passport:keys || true
 popd
 
 #=================================================

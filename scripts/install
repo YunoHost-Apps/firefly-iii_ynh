@@ -39,6 +39,9 @@ ynh_setup_source --dest_dir=$install_dir
 
 chmod -R o-rwx "$install_dir"
 chown -R $app:www-data "$install_dir"
+
+ls -al "$install_dir"
+
 chmod -R 775 $install_dir/storage
 
 #=================================================

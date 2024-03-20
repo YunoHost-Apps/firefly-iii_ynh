@@ -53,13 +53,6 @@ ynh_add_nginx_config
 #=================================================
 # SPECIFIC SETUP
 #=================================================
-# INSTALL COMPOSER DEPENDENCIES
-#=================================================
-ynh_script_progression --message="Installing composer dependencies..."
-
-ynh_exec_warn_less ynh_install_composer --phpversion=$phpversion --workdir=$install_dir
-
-#=================================================
 # ADD A CONFIGURATION
 #=================================================
 ynh_script_progression --message="Adding a configuration file..."
@@ -68,6 +61,13 @@ ynh_add_config --template=".env" --destination="$install_dir/.env"
 
 chmod 400 "$install_dir/.env"
 chown $app "$install_dir/.env"
+
+#=================================================
+# INSTALL COMPOSER DEPENDENCIES
+#=================================================
+ynh_script_progression --message="Installing composer dependencies..."
+
+ynh_exec_warn_less ynh_install_composer --phpversion=$phpversion --workdir=$install_dir
 
 #=================================================
 # DEPLOY
@@ -84,7 +84,7 @@ pushd "$install_dir"
 	php$phpversion artisan firefly-iii:upgrade-database
 	php$phpversion artisan firefly-iii:correct-database
 	php$phpversion artisan firefly-iii:report-integrity
-	php$phpversion artisan passport:install
+	php$phpversion artisan passport:keys || true
 popd
 
 #=================================================

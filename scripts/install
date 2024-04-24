@@ -1,34 +1,12 @@
 #!/bin/bash
 
-#=================================================
-# GENERIC START
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
-
-#=================================================
-# RETRIEVE ARGUMENTS FROM THE MANIFEST
-#=================================================
 
 random_key=$(ynh_string_random --length=32)
 email=$(ynh_user_get_info --username=$admin --key=mail)
 timezone=$(cat /etc/timezone)
-
-fpm_footprint="low"
-fpm_free_footprint=0
-fpm_usage="low"
-
-#=================================================
-# STORE SETTINGS FROM MANIFEST
-#=================================================
-
 ynh_app_setting_set --app=$app --key=random_key --value=$random_key
-ynh_app_setting_set --app=$app --key=fpm_footprint --value=$fpm_footprint
-ynh_app_setting_set --app=$app --key=fpm_free_footprint --value=$fpm_free_footprint
-ynh_app_setting_set --app=$app --key=fpm_usage --value=$fpm_usage
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -42,11 +20,12 @@ chown -R $app:www-data "$install_dir"
 chmod -R 775 $install_dir/storage
 
 #=================================================
-# PHP-FPM CONFIGURATION
+# SYSTEL CONFIGURATIONS
 #=================================================
-ynh_script_progression --message="Configuring PHP-FPM..."
 
-ynh_add_fpm_config --usage=$fpm_usage --footprint=$fpm_footprint
+ynh_script_progression --message="Add system configurations related to $app..."
+
+ynh_add_fpm_config
 
 ynh_add_nginx_config
 
@@ -55,7 +34,7 @@ ynh_add_nginx_config
 #=================================================
 # ADD A CONFIGURATION
 #=================================================
-ynh_script_progression --message="Adding a configuration file..."
+ynh_script_progression --message="Adding $app configuration..."
 
 ynh_add_config --template=".env" --destination="$install_dir/.env"
 
@@ -73,12 +52,6 @@ ynh_exec_warn_less ynh_install_composer --phpversion=$phpversion --workdir=$inst
 # DEPLOY
 #=================================================
 ynh_script_progression --message="Deploying..."
-
-#pushd "$install_dir"
-#	php$phpversion artisan migrate:refresh --seed
-#	php$phpversion artisan firefly-iii:upgrade-database
-#	php$phpversion artisan passport:install
-#popd
 
 pushd "$install_dir"
 	php$phpversion artisan firefly-iii:upgrade-database

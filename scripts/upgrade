@@ -30,11 +30,6 @@ ynh_add_nginx_config
 #=================================================
 # SPECIFIC UPGRADE
 #=================================================
-# UPDATE PHP DEPENDENCIES
-#=================================================
-ynh_script_progression --message="Updating PHP dependencies..."
-
-ynh_exec_warn_less ynh_install_composer
 
 #=================================================
 # UPDATE A CONFIG FILE

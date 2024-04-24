@@ -42,13 +42,6 @@ chmod 400 "$install_dir/.env"
 chown $app "$install_dir/.env"
 
 #=================================================
-# INSTALL COMPOSER DEPENDENCIES
-#=================================================
-ynh_script_progression --message="Installing composer dependencies..."
-
-ynh_exec_warn_less ynh_install_composer --phpversion=$phpversion --workdir=$install_dir
-
-#=================================================
 # DEPLOY
 #=================================================
 ynh_script_progression --message="Deploying..."

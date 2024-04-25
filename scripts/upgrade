@@ -6,6 +6,11 @@ source /usr/share/yunohost/helpers
 email=$(ynh_user_get_info --username=$admin --key=mail)
 timezone="$(cat /etc/timezone)"
 
+if [ -z "${language:-}" ]; then
+    language="en_US"
+    ynh_app_setting_set --app=$app --key=language --value=$language
+fi
+
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================

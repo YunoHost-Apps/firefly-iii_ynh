@@ -12,7 +12,7 @@ timezone="$(cat /etc/timezone)"
 
 ynh_script_progression --message="Upgrading source files..."
 
-ynh_setup_source --dest_dir="$install_dir" --keep=".env storage/upload storage/export"
+ynh_setup_source --dest_dir="$install_dir" --keep=".env storage"
 
 chmod -R o-rwx "$install_dir"
 chown -R $app:www-data "$install_dir"
@@ -21,7 +21,7 @@ chmod -R 775 $install_dir/storage
 #=================================================
 # PHP-FPM CONFIGURATION
 #=================================================
-ynh_script_progression --message="Upgrading PHP-FPM configuration..."
+ynh_script_progression --message="Upgrading system configurations related to $app..."
 
 ynh_add_fpm_config
 
@@ -34,25 +34,24 @@ ynh_add_nginx_config
 #=================================================
 # UPDATE A CONFIG FILE
 #=================================================
-# ynh_script_progression --message="Updating a configuration file..."
+ynh_script_progression --message="Updating $app configuration..."
 
-# ynh_add_config --template=".env" --destination="$install_dir/.env"
+ynh_add_config --template=".env" --destination="$install_dir/.env"
 
-# chmod 400 "$install_dir/.env"
-# chown $app "$install_dir/.env"
+chmod 400 "$install_dir/.env"
+chown $app "$install_dir/.env"
 
 #=================================================
 # DEPLOYMENT
 #=================================================
-ynh_script_progression --message="Deploying..."
+ynh_script_progression --message="Upgrading database..."
 
 pushd "$install_dir"
-    ynh_secure_remove --file="bootstrap/cache/*"
     php$phpversion artisan migrate --seed
     php$phpversion artisan firefly-iii:decrypt-all
     php$phpversion artisan cache:clear
     php$phpversion artisan firefly-iii:upgrade-database
-    php$phpversion artisan passport:keys || true
+    php$phpversion artisan firefly-iii:laravel-passport-keys
     php$phpversion artisan cache:clear
 popd
 

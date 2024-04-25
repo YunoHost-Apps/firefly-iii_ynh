@@ -51,7 +51,7 @@ pushd "$install_dir"
     php$phpversion artisan firefly-iii:decrypt-all
     php$phpversion artisan cache:clear
     php$phpversion artisan firefly-iii:upgrade-database
-    php$phpversion artisan firefly-iii:laravel-passport-keys
+    php$phpversion artisan passport:keys || true
     php$phpversion artisan cache:clear
 popd
 

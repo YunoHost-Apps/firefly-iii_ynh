@@ -17,7 +17,7 @@ fi
 
 ynh_script_progression --message="Upgrading source files..."
 
-ynh_setup_source --dest_dir="$install_dir" --keep=".env storage"
+ynh_setup_source --dest_dir="$install_dir" --full_replace=1 --keep=".env storage"
 
 chmod -R o-rwx "$install_dir"
 chown -R $app:www-data "$install_dir"

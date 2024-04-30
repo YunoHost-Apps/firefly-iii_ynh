@@ -58,6 +58,7 @@ pushd "$install_dir"
     php$phpversion artisan firefly-iii:upgrade-database
     php$phpversion artisan passport:keys || true
     php$phpversion artisan cache:clear
+    php$phpversion artisan view:clear
 popd
 
 #=================================================

@@ -5,12 +5,12 @@ name = "Firefly III"
 description.en = "Self-hosted financial manager"
 description.fr = "Gestionnaire de finances personnelles"
 
-version = "6.1.11~ynh1"
+version = "6.1.15~ynh1"
 
 maintainers = []
 
 [upstream]
-license = "GPL-3.0-or-later"
+license = "AGPL-3.0-or-later"
 website = "https://firefly-iii.org/"
 demo = "https://demo.firefly-iii.org/login"
 admindoc = "https://docs.firefly-iii.org/firefly-iii/about-firefly-iii/introduction/"
@@ -38,7 +38,7 @@ ram.runtime = "50M"
     default = "/firefly"
 
     [install.init_main_permission]
-    help.en = "If enabled, firefly-iii will be accessible by people who doesn’t have an account. This can be changed later via the webadmin."
+    help.en = "If enabled, firefly-iii will be accessible by people who don't have an account. This can be changed later via the webadmin."
     help.fr = "Si cette case est cochée, firefly-iii sera accessible aux personnes n’ayant pas de compte. Vous pourrez changer ceci plus tard via la webadmin."
     type = "group"
     default = "visitors"
@@ -55,8 +55,8 @@ ram.runtime = "50M"
 
 [resources]
         [resources.sources.main]
-        url = "https://github.com/firefly-iii/firefly-iii/releases/download/v6.1.11/FireflyIII-v6.1.11.zip"
-        sha256 = "f6e3df061c9351daf8b70935e30b5ae6d8650efae27d1cc988e1c2a917d8de87"
+        url = "https://github.com/firefly-iii/firefly-iii/releases/download/v6.1.15/FireflyIII-v6.1.15.zip"
+        sha256 = "5af13d7508254f5cf96d0f09db1e3dcffe9252c2f8e9b9678298e4b6fb155d04"
         in_subdir = false
         autoupdate.strategy = "latest_github_release"
         autoupdate.asset = ".*.zip"

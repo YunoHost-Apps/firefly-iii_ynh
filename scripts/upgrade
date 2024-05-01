@@ -58,12 +58,13 @@ pushd "$install_dir"
     php$phpversion artisan firefly-iii:upgrade-database
     php$phpversion artisan passport:keys || true
     php$phpversion artisan cache:clear
+    php$phpversion artisan view:clear
 popd
 
 #=================================================
 # SETUP A CRON
 #=================================================
-ynh_script_progression --message="Setuping a cron..."
+ynh_script_progression --message="Setting up a cron job ..."
 
 ynh_add_config --template="cron" --destination="/etc/cron.d/$app"
 chown root: "/etc/cron.d/$app"

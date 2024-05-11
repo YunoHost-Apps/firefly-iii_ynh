@@ -3,7 +3,7 @@
 请勿手动编辑。
 -->
 
-# YunoHost 的 Firefly III
+# YunoHost 上的 Firefly III
 
 [![集成程度](https://dash.yunohost.org/integration/firefly-iii.svg)](https://dash.yunohost.org/appci/app/firefly-iii) ![工作状态](https://ci-apps.yunohost.org/ci/badges/firefly-iii.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/firefly-iii.maintain.svg)
 

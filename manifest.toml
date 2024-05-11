@@ -59,7 +59,7 @@ ram.runtime = "50M"
         sha256 = "5af13d7508254f5cf96d0f09db1e3dcffe9252c2f8e9b9678298e4b6fb155d04"
         in_subdir = false
         autoupdate.strategy = "latest_github_release"
-        autoupdate.asset = ".*.zip"
+        autoupdate.asset = "^FireflyIII-v.*.zip$"
 
     [resources.system_user]
 

@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
 source _common.sh
 source /usr/share/yunohost/helpers
 
@@ -23,7 +27,7 @@ ynh_script_progression --message="Modifying a config file..."
 domain="$new_domain"
 path="$new_path"
 
-ynh_add_config --template="../conf/.env" --destination="$install_dir/.env"
+ynh_add_config --template=".env" --destination="$install_dir/.env"
 chmod 400 "$install_dir/.env"
 chown $app "$install_dir/.env"
 

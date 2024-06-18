@@ -1,12 +1,16 @@
 #!/bin/bash
 
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
 source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
 # REMOVE SYSTEM CONFIGURATIONS
 #=================================================
-ynh_script_progression --message="Removing configurations related to $app..."
+ynh_script_progression --message="Removing system configurations related to $app..." --weight=1
 
 ynh_remove_nginx_config
 

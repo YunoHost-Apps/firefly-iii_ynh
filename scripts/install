@@ -11,7 +11,7 @@ ynh_app_setting_set --app=$app --key=random_key --value=$random_key
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-ynh_script_progression --message="Setting up source files..."
+ynh_script_progression --message="Setting up source files..." --weight=1
 
 ynh_setup_source --dest_dir=$install_dir
 
@@ -22,19 +22,22 @@ chmod -R 775 $install_dir/storage
 #=================================================
 # SYSTEL CONFIGURATIONS
 #=================================================
-
-ynh_script_progression --message="Add system configurations related to $app..."
+ynh_script_progression --message="Add system configurations related to $app..." --weight=1
 
 ynh_add_fpm_config
 
 ynh_add_nginx_config
+
+ynh_add_config --template="cron" --destination="/etc/cron.d/$app"
+chown root: "/etc/cron.d/$app"
+chmod 644 "/etc/cron.d/$app"
 
 #=================================================
 # SPECIFIC SETUP
 #=================================================
 # ADD A CONFIGURATION
 #=================================================
-ynh_script_progression --message="Adding $app configuration..."
+ynh_script_progression --message="Adding $app configuration..." --weight=1
 
 ynh_add_config --template=".env" --destination="$install_dir/.env"
 
@@ -44,7 +47,7 @@ chown $app "$install_dir/.env"
 #=================================================
 # DEPLOY
 #=================================================
-ynh_script_progression --message="Deploying..."
+ynh_script_progression --message="Deploying..." --weight=1
 
 pushd "$install_dir"
     php$phpversion artisan firefly-iii:upgrade-database
@@ -52,15 +55,6 @@ pushd "$install_dir"
     php$phpversion artisan firefly-iii:report-integrity
     php$phpversion artisan passport:keys || true
 popd
-
-#=================================================
-# SETUP A CRON
-#=================================================
-ynh_script_progression --message="Setuping a cron..."
-
-ynh_add_config --template="cron" --destination="/etc/cron.d/$app"
-chown root: "/etc/cron.d/$app"
-chmod 644 "/etc/cron.d/$app"
 
 #=================================================
 # END OF SCRIPT

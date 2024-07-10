@@ -56,6 +56,8 @@ pushd "$install_dir"
     php$phpversion artisan passport:keys || true
 popd
 
+chown -R $app:www-data "$install_dir"
+
 #=================================================
 # END OF SCRIPT
 #=================================================

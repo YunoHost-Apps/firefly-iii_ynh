@@ -60,6 +60,8 @@ pushd "$install_dir"
     php$phpversion artisan view:clear
 popd
 
+chown -R $app:www-data "$install_dir"
+
 #=================================================
 # END OF SCRIPT
 #=================================================

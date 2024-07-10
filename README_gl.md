@@ -5,7 +5,7 @@ NON debe editarse manualmente.
 
 # Firefly III para YunoHost
 
-[![Nivel de integración](https://dash.yunohost.org/integration/firefly-iii.svg)](https://dash.yunohost.org/appci/app/firefly-iii) ![Estado de funcionamento](https://ci-apps.yunohost.org/ci/badges/firefly-iii.status.svg) ![Estado de mantemento](https://ci-apps.yunohost.org/ci/badges/firefly-iii.maintain.svg)
+[![Nivel de integración](https://dash.yunohost.org/integration/firefly-iii.svg)](https://ci-apps.yunohost.org/ci/apps/firefly-iii/) ![Estado de funcionamento](https://ci-apps.yunohost.org/ci/badges/firefly-iii.status.svg) ![Estado de mantemento](https://ci-apps.yunohost.org/ci/badges/firefly-iii.maintain.svg)
 
 [![Instalar Firefly III con YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=firefly-iii)
 
@@ -19,7 +19,7 @@ NON debe editarse manualmente.
 Firefly III is a manager for your personal finances. It can help you keep track of your expenses and income, so you can spend less and save more. Firefly III supports the use of budgets, categories and tags. Using external tools, ie [Firefly III Importer](https://github.com/YunoHost-Apps/firefly-iii-di_ynh), you can import data. It also has many neat financial reports available.
 
 
-**Versión proporcionada:** 6.1.18~ynh1
+**Versión proporcionada:** 6.1.18~ynh2
 
 **Demo:** <https://demo.firefly-iii.org/login>
 

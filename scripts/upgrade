@@ -6,64 +6,64 @@ source /usr/share/yunohost/helpers
 email=$(ynh_user_get_info --username=$admin --key=mail)
 timezone="$(cat /etc/timezone)"
 
+# FIXMEhelpers2.1: maybe replace with: ynh_app_setting_set_default --key=language --value="en_US"
 if [ -z "${language:-}" ]; then
     language="en_US"
-    ynh_app_setting_set --app=$app --key=language --value=$language
+    ynh_app_setting_set --key=language --value=$language
 fi
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-ynh_script_progression --message="Upgrading source files..." --weight=1
+ynh_script_progression "Upgrading source files..."
 
-ynh_setup_source --dest_dir="$install_dir" --full_replace=1 --keep=".env storage"
+ynh_setup_source --dest_dir="$install_dir" --full_replace --keep=".env storage"
 
-chmod -R o-rwx "$install_dir"
-chown -R $app:www-data "$install_dir"
+#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod -R o-rwx "$install_dir"
+#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown -R $app:www-data "$install_dir"
 chmod -R 775 $install_dir/storage
 
 #=================================================
 # UPDATE A CONFIG FILE
 #=================================================
-ynh_script_progression --message="Updating $app configuration..." --weight=1
+ynh_script_progression "Updating $app configuration..."
 
-ynh_add_config --template=".env" --destination="$install_dir/.env"
+ynh_config_add --template=".env" --destination="$install_dir/.env"
 
-chmod 400 "$install_dir/.env"
-chown $app "$install_dir/.env"
+#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 400 "$install_dir/.env"
+#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown $app "$install_dir/.env"
 
 #=================================================
 # REAPPLY SYSTEM CONFIGURATIONS
 #=================================================
-ynh_script_progression --message="Upgrading system configurations related to $app..." --weight=1
+ynh_script_progression "Upgrading system configurations related to $app..."
 
-ynh_add_fpm_config
+ynh_config_add_phpfpm
 
-ynh_add_nginx_config
+ynh_config_add_nginx
 
-ynh_add_config --template="cron" --destination="/etc/cron.d/$app"
-chown root: "/etc/cron.d/$app"
-chmod 644 "/etc/cron.d/$app"
+ynh_config_add --template="cron" --destination="/etc/cron.d/$app"
+#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown root: "/etc/cron.d/$app"
+#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 644 "/etc/cron.d/$app"
 
 #=================================================
 # DEPLOYMENT
 #=================================================
-ynh_script_progression --message="Upgrading database..." --weight=4
+ynh_script_progression "Upgrading database..."
 
 pushd "$install_dir"
-    php$phpversion artisan migrate --seed
-    php$phpversion artisan firefly-iii:decrypt-all
-    php$phpversion artisan cache:clear
-    php$phpversion artisan firefly-iii:upgrade-database
-    php$phpversion artisan passport:keys || true
-    php$phpversion artisan cache:clear
-    php$phpversion artisan view:clear
+    php$php_version artisan migrate --seed
+    php$php_version artisan firefly-iii:decrypt-all
+    php$php_version artisan cache:clear
+    php$php_version artisan firefly-iii:upgrade-database
+    php$php_version artisan passport:keys || true
+    php$php_version artisan cache:clear
+    php$php_version artisan view:clear
 popd
 
-chown -R $app:www-data "$install_dir"
-
+#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown -R $app:www-data "$install_dir"
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Upgrade of $app completed"
+ynh_script_progression "Upgrade of $app completed"

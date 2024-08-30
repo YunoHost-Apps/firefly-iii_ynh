@@ -17,7 +17,8 @@ admindoc = "https://docs.firefly-iii.org/firefly-iii/about-firefly-iii/introduct
 code = "https://github.com/firefly-iii/firefly-iii"
 
 [integration]
-yunohost = ">= 11.2"
+yunohost = ">= 11.2.18"
+helpers_version = "2.1"
 architectures = "all"
 multi_instance = true
 
@@ -64,6 +65,7 @@ ram.runtime = "50M"
     [resources.system_user]
 
     [resources.install_dir]
+    group = "www-data:r-x"
 
     [resources.permissions]
     main.url = "/"

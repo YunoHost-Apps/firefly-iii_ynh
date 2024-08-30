@@ -6,60 +6,59 @@ source /usr/share/yunohost/helpers
 random_key=$(ynh_string_random --length=32)
 email=$(ynh_user_get_info --username=$admin --key=mail)
 timezone=$(cat /etc/timezone)
-ynh_app_setting_set --app=$app --key=random_key --value=$random_key
+ynh_app_setting_set --key=random_key --value=$random_key
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-ynh_script_progression --message="Setting up source files..." --weight=1
+ynh_script_progression "Setting up source files..."
 
 ynh_setup_source --dest_dir=$install_dir
 
-chmod -R o-rwx "$install_dir"
-chown -R $app:www-data "$install_dir"
+#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod -R o-rwx "$install_dir"
+#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown -R $app:www-data "$install_dir"
 chmod -R 775 $install_dir/storage
 
 #=================================================
 # SYSTEL CONFIGURATIONS
 #=================================================
-ynh_script_progression --message="Add system configurations related to $app..." --weight=1
+ynh_script_progression "Add system configurations related to $app..."
 
-ynh_add_fpm_config
+ynh_config_add_phpfpm
 
-ynh_add_nginx_config
+ynh_config_add_nginx
 
-ynh_add_config --template="cron" --destination="/etc/cron.d/$app"
-chown root: "/etc/cron.d/$app"
-chmod 644 "/etc/cron.d/$app"
+ynh_config_add --template="cron" --destination="/etc/cron.d/$app"
+#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown root: "/etc/cron.d/$app"
+#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 644 "/etc/cron.d/$app"
 
 #=================================================
 # SPECIFIC SETUP
 #=================================================
 # ADD A CONFIGURATION
 #=================================================
-ynh_script_progression --message="Adding $app configuration..." --weight=1
+ynh_script_progression "Adding $app configuration..."
 
-ynh_add_config --template=".env" --destination="$install_dir/.env"
+ynh_config_add --template=".env" --destination="$install_dir/.env"
 
-chmod 400 "$install_dir/.env"
-chown $app "$install_dir/.env"
+#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 400 "$install_dir/.env"
+#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown $app "$install_dir/.env"
 
 #=================================================
 # DEPLOY
 #=================================================
-ynh_script_progression --message="Deploying..." --weight=1
+ynh_script_progression "Deploying..."
 
 pushd "$install_dir"
-    php$phpversion artisan firefly-iii:upgrade-database
-    php$phpversion artisan firefly-iii:correct-database
-    php$phpversion artisan firefly-iii:report-integrity
-    php$phpversion artisan passport:keys || true
+    php$php_version artisan firefly-iii:upgrade-database
+    php$php_version artisan firefly-iii:correct-database
+    php$php_version artisan firefly-iii:report-integrity
+    php$php_version artisan passport:keys || true
 popd
 
-chown -R $app:www-data "$install_dir"
-
+#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown -R $app:www-data "$install_dir"
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Installation of $app completed"
+ynh_script_progression "Installation of $app completed"

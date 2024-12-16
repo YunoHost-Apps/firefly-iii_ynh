@@ -1,9 +1,5 @@
 #!/bin/bash
 
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
 
@@ -16,7 +12,6 @@ ynh_config_remove_nginx
 
 ynh_config_remove_phpfpm
 
-# Remove a cron file
 ynh_safe_rm "/etc/cron.d/$app"
 
 #=================================================

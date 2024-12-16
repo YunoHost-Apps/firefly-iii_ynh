@@ -1,9 +1,5 @@
 #!/bin/bash
 
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
 
@@ -22,12 +18,10 @@ ynh_config_change_url_nginx
 #=================================================
 ynh_script_progression "Updating configuration..."
 
-domain="$new_domain"
-path="$new_path"
+#domain="$new_domain"
+#path="$new_path"
 
 ynh_config_add --template=".env" --destination="$install_dir/.env"
-#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 400 "$install_dir/.env"
-#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown $app "$install_dir/.env"
 
 #=================================================
 # END OF SCRIPT

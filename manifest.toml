@@ -17,13 +17,12 @@ admindoc = "https://docs.firefly-iii.org/firefly-iii/about-firefly-iii/introduct
 code = "https://github.com/firefly-iii/firefly-iii"
 
 [integration]
-yunohost = ">= 11.2.18"
+yunohost = ">= 12.0.8"
 helpers_version = "2.1"
 architectures = "all"
 multi_instance = true
 
 ldap = false
-
 sso = false
 
 disk = "50M"

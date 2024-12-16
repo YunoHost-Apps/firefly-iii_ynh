@@ -1,9 +1,5 @@
 #!/bin/bash
 
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
 
@@ -11,28 +7,24 @@ email=$(ynh_user_get_info --username=$admin --key=mail)
 timezone="$(cat /etc/timezone)"
 
 #=================================================
-# STANDARD MODIFICATIONS
-#=================================================
 # MODIFY URL IN NGINX CONF
 #=================================================
-ynh_script_progression --message="Updating NGINX web server configuration..."
+ynh_script_progression "Updating NGINX web server configuration..."
 
-ynh_change_url_nginx_config
+ynh_config_change_url_nginx
 
 #=================================================
 # MODIFY A CONFIG FILE
 #=================================================
-ynh_script_progression --message="Modifying a config file..."
+ynh_script_progression "Updating configuration..."
 
-domain="$new_domain"
-path="$new_path"
+#domain="$new_domain"
+#path="$new_path"
 
-ynh_add_config --template=".env" --destination="$install_dir/.env"
-chmod 400 "$install_dir/.env"
-chown $app "$install_dir/.env"
+ynh_config_add --template=".env" --destination="$install_dir/.env"
 
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Change of URL completed for $app"
+ynh_script_progression "Change of URL completed for $app"

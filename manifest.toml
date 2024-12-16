@@ -5,7 +5,7 @@ name = "Firefly III"
 description.en = "Self-hosted financial manager"
 description.fr = "Gestionnaire de finances personnelles"
 
-version = "6.1.24~ynh1"
+version = "6.1.24~ynh2"
 
 maintainers = []
 

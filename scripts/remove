@@ -1,26 +1,21 @@
 #!/bin/bash
 
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
 # REMOVE SYSTEM CONFIGURATIONS
 #=================================================
-ynh_script_progression --message="Removing system configurations related to $app..." --weight=1
+ynh_script_progression "Removing system configurations related to $app..."
 
-ynh_remove_nginx_config
+ynh_config_remove_nginx
 
-ynh_remove_fpm_config
+ynh_config_remove_phpfpm
 
-# Remove a cron file
-ynh_secure_remove --file="/etc/cron.d/$app"
+ynh_safe_rm "/etc/cron.d/$app"
 
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Removal of $app completed"
+ynh_script_progression "Removal of $app completed"

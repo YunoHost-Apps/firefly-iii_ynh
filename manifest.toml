@@ -5,7 +5,7 @@ name = "Firefly III"
 description.en = "Self-hosted financial manager"
 description.fr = "Gestionnaire de finances personnelles"
 
-version = "6.1.24~ynh2"
+version = "6.1.25~ynh1"
 
 maintainers = []
 
@@ -55,8 +55,8 @@ ram.runtime = "50M"
 
 [resources]
         [resources.sources.main]
-        url = "https://github.com/firefly-iii/firefly-iii/releases/download/v6.1.24/FireflyIII-v6.1.24.zip"
-        sha256 = "54d3b6cc362fa73a0822d69db2a0eee917bff58d7141c52c33d6de5ffc136d23"
+        url = "https://github.com/firefly-iii/firefly-iii/releases/download/v6.1.25/FireflyIII-v6.1.25.zip"
+        sha256 = "ef7187597f37b610b6898e2aecce5b71be9f42dc361ae5555cc9b73ffd39b408"
         in_subdir = false
         autoupdate.strategy = "latest_github_release"
         autoupdate.asset = "^FireflyIII-v.*.zip$"
@@ -70,7 +70,7 @@ ram.runtime = "50M"
     main.url = "/"
 
     [resources.apt]
-    packages = "mariadb-server, php8.3-zip, php8.3-mysql, php8.3-xml, php8.3-intl, php8.3-mbstring, php8.3-gd, php8.3-curl, php8.3-bcmath, php8.3-opcache, php8.3-ldap"
+    packages = "mariadb-server, redis-server, php8.3-zip, php8.3-mysql, php8.3-xml, php8.3-intl, php8.3-mbstring, php8.3-gd, php8.3-curl, php8.3-bcmath, php8.3-opcache, php8.3-ldap"
 
     [resources.database]
     type = "mysql"

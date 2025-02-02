@@ -34,6 +34,7 @@ ynh_restore "/etc/cron.d/$app"
 ynh_script_progression "Reloading NGINX web server and $app's service..."
 
 ynh_systemctl --service=php$php_version-fpm --action=reload
+
 ynh_systemctl --service=nginx --action=reload
 
 #=================================================

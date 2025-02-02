@@ -40,7 +40,7 @@ ynh_script_progression "Upgrading database..."
 
 pushd "$install_dir"
     php$php_version artisan migrate --seed
-    php$php_version artisan firefly-iii:decrypt-all
+    php$php_version artisan upgrade:480-decrypt-all
     php$php_version artisan cache:clear
     php$php_version artisan firefly-iii:upgrade-database
     php$php_version artisan passport:keys || true

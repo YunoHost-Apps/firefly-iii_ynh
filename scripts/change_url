@@ -18,9 +18,6 @@ ynh_config_change_url_nginx
 #=================================================
 ynh_script_progression "Updating configuration..."
 
-#domain="$new_domain"
-#path="$new_path"
-
 ynh_config_add --template=".env" --destination="$install_dir/.env"
 
 #=================================================

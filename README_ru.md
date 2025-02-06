@@ -21,7 +21,7 @@
 Firefly III is a manager for your personal finances. It can help you keep track of your expenses and income, so you can spend less and save more. Firefly III supports the use of budgets, categories and tags. Using external tools, ie [Firefly III Importer](https://github.com/YunoHost-Apps/firefly-iii-di_ynh), you can import data. It also has many neat financial reports available.
 
 
-**Поставляемая версия:** 6.2.1~ynh1
+**Поставляемая версия:** 6.2.4~ynh1
 
 **Демо-версия:** <https://demo.firefly-iii.org/login>
 

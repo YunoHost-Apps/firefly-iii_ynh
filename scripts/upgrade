@@ -1,10 +1,9 @@
 #!/bin/bash
 
-source _common.sh
 source /usr/share/yunohost/helpers
 
 email=$(ynh_user_get_info --username=$admin --key=mail)
-timezone="$(cat /etc/timezone)"
+timezone="$(timedatectl show --value --property=Timezone)"
 
 ynh_app_setting_set_default --key=language --value="en_US"
 
@@ -34,18 +33,26 @@ ynh_config_add_nginx
 ynh_config_add --template="cron" --destination="/etc/cron.d/$app"
 
 #=================================================
+# FIXUP OAUTH KEY PERMISSIONS
+#=================================================
+if [ -f "$install_dir/storage/oauth-private.key" ]; then
+  chown $app:$app $install_dir/storage/oauth-{public,private}.key
+fi
+
+
+#=================================================
 # DEPLOYMENT
 #=================================================
 ynh_script_progression "Upgrading database..."
 
 pushd "$install_dir"
-    php$php_version artisan migrate --seed
-    php$php_version artisan firefly-iii:decrypt-all
-    php$php_version artisan cache:clear
-    php$php_version artisan firefly-iii:upgrade-database
-    php$php_version artisan passport:keys || true
-    php$php_version artisan cache:clear
-    php$php_version artisan view:clear
+    ynh_exec_as_app php$php_version artisan migrate --seed
+    ynh_exec_as_app php$php_version artisan upgrade:480-decrypt-all
+    ynh_exec_as_app php$php_version artisan cache:clear
+    ynh_exec_as_app php$php_version artisan firefly-iii:upgrade-database
+    ynh_exec_as_app php$php_version artisan passport:keys || true
+    ynh_exec_as_app php$php_version artisan cache:clear
+    ynh_exec_as_app php$php_version artisan view:clear
 popd
 
 #=================================================

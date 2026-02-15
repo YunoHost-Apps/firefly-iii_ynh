@@ -35,10 +35,10 @@ ynh_config_add --template="cron" --destination="/etc/cron.d/$app"
 #=================================================
 # FIXUP OAUTH KEY PERMISSIONS
 #=================================================
+
 if [ -f "$install_dir/storage/oauth-private.key" ]; then
   chown $app:$app $install_dir/storage/oauth-{public,private}.key
 fi
-
 
 #=================================================
 # DEPLOYMENT

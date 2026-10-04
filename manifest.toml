@@ -5,7 +5,7 @@ name = "Firefly III"
 description.en = "Self-hosted financial manager"
 description.fr = "Gestionnaire de finances personnelles"
 
-version = "6.7.0~ynh1"
+version = "6.7.7~ynh1"
 
 maintainers = []
 
@@ -17,7 +17,7 @@ admindoc = "https://docs.firefly-iii.org/firefly-iii/about-firefly-iii/introduct
 code = "https://github.com/firefly-iii/firefly-iii"
 
 [integration]
-yunohost = ">= 12.1.38"
+yunohost = ">= 12.1.40"
 helpers_version = "2.1"
 architectures = "all"
 multi_instance = true
@@ -55,8 +55,8 @@ ram.runtime = "50M"
 
 [resources]
         [resources.sources.main]
-        url = "https://github.com/firefly-iii/firefly-iii/releases/download/v6.7.0/FireflyIII-v6.7.0.zip"
-        sha256 = "de1d7081661b7b5a3cfa197f98342c339dd11bf6bd610c827a529fbc6e3aba31"
+        url = "https://github.com/firefly-iii/firefly-iii/releases/download/v6.7.7/FireflyIII-v6.7.7.zip"
+        sha256 = "678882048113297e92c2c30935e05bb41f6575bbc02998f8f784507aae722c50"
         in_subdir = false
         autoupdate.strategy = "latest_github_release"
         autoupdate.asset = "^FireflyIII-v.*.zip$"
